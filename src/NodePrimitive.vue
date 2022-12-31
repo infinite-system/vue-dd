@@ -31,7 +31,7 @@
           :class="{'vue-dd-false':!modelValue}">{{ modelValue }}</span>
     <span v-else
           class="vue-dd-false">[unknown_type]{{ modelValue }}</span>
-    <span v-if="shouldComma">,&nbsp;</span>
+    <span class="vue-dd-comma" v-if="shouldComma">,</span>
   </span>
 </template>
 <script>

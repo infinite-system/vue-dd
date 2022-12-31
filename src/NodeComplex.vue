@@ -3,19 +3,19 @@
     <div class="vue-dd-start">
       <!--arrow-->
       <button
-        @click="toggleOpen"
-        class="vue-dd-arrow"
-        :class="{'vue-dd-arrow-collapsed': !open}"
-        v-html="'&#x25BC;'"></button>
+          @click="toggleOpen"
+          class="vue-dd-arrow"
+          :class="{'vue-dd-arrow-collapsed': !open}"
+          v-html="'&#x25BC;'"></button>
 
       <!--name-->
       <span
-        v-if="String(name)"
+          v-if="String(name)"
 
-        @click="toggleOpen"
-        @mousedown="preventSelect($event)"
-        class="vue-dd-name"
-        :class="{'vue-dd-f-name': isFunction}">{{ name }}<span v-if="level !== 0">:</span>
+          @click="toggleOpen"
+          @mousedown="preventSelect($event)"
+          class="vue-dd-name"
+          :class="{'vue-dd-f-name': isFunction}">{{ name }}<span v-if="level !== 0">:</span>
       </span>
 
       <!--R-->
@@ -42,8 +42,7 @@
       <!--function start-->
       <pre v-if="isFunction && open"
            @click="toggleOpen"
-           class="vue-dd-f-start"
-           v-html="functionName"></pre>
+           class="vue-dd-f-start"><span v-html="functionName"></span><span class="vue-dd-comma" v-if="shouldComma && !open">,</span></pre>
 
       <!--{-->
       <span v-if="isIterable && open"
@@ -72,9 +71,9 @@
               'vue-dd-focus-hover':hover,
               'vue-dd-focus-selected':pointer === focus
             }"
-            ></span>
+      ></span>
 
-      <!--promise-->
+      <!--promise closed-->
       <span v-if="isIterable && isPromise && !open"
             class="vue-dd-instance vue-dd-promise-prototype">Promise</span>
 
@@ -82,15 +81,18 @@
       <span v-if="open && level === 0 && save && !cleared"
             @click="askForget=true"
             class="vue-dd-forget vue-dd-forget-q"
-      :class="{'vue-dd-forget-q-ask':askForget}">
+            :class="{'vue-dd-forget-q-ask':askForget}">
         <span v-if="askForget">clear save?</span>
         <span v-else>forget</span>
       </span>
 
+      <!--forget question-->
       <span v-if="askForget">
         <span class="vue-dd-forget vue-dd-forget-yes" @click="forget">yes</span>
-        <span  class="vue-dd-forget vue-dd-forget-no" @click="askForget=false">no</span>
+        <span class="vue-dd-forget vue-dd-forget-no" @click="askForget=false">no</span>
       </span>
+
+      <!--forget cleared-->
       <span class="vue-dd-forget-cleared" v-if="cleared">
         cleared
       </span>
@@ -98,7 +100,7 @@
 
     </div>
     <div
-      :class="{
+        :class="{
       'vue-dd-box': open,
       'vue-dd-box-inline': !open,
       'vue-dd-box-complex': true
@@ -112,15 +114,15 @@
         <span v-if="isIterable && allowPreview && !open && getSize"
               class="vue-dd-size">{{ getSize }}</span>
 
-        <!--promise content-->
+        <!--promise open-->
         <span v-if="isIterable && isPromise" class="vue-dd-promise-content">&lt;pending&gt;</span>
 
         <!--expand button-->
         <button
-          v-if="isIterable && !open && !expanded && !allowPreview"
-          @click="expand"
-          class="vue-dd-expand">...
-        </button>
+            v-if="isIterable && !open && !expanded && !allowPreview"
+            @click="expand"
+            class="vue-dd-expand"
+            v-html="'...'"></button>
 
         <div v-if="isIterable && (open || expanded)">
 
@@ -134,63 +136,63 @@
 
             <!-- string | number | boolean | null | undefined -->
             <node-primitive
-              v-if="isPrimitiveFn(getSpecialType(items[index-1]))"
+                v-if="isPrimitiveFn(getSpecialType(items[index-1]))"
 
-              :root="root"
-              :rootId="rootId"
+                :root="root"
+                :rootId="rootId"
 
-              :modelValue="getModelValue(items[index-1])"
-              :name="getName(items[index-1])"
-              :escapeQuotes="escapeQuotes"
-              :focus="focus"
-              :save="save"
-              :saveFocus="saveFocus"
+                :modelValue="getModelValue(items[index-1])"
+                :name="getName(items[index-1])"
+                :escapeQuotes="escapeQuotes"
+                :focus="focus"
+                :save="save"
+                :saveFocus="saveFocus"
 
-              :pointer="getPointer(items[index-1])"
-              :open="open"
-              :type="getSpecialType(items[index-1])"
-              :size="getSize"
-              :position="index"
+                :pointer="getPointer(items[index-1])"
+                :open="open"
+                :type="getSpecialType(items[index-1])"
+                :size="getSize"
+                :position="index"
 
-              :escapeQuotesFn="escapeQuotesFn"
-              :emitFn="emitFn"
+                :escapeQuotesFn="escapeQuotesFn"
+                :emitFn="emitFn"
 
-              @openParent="openParent"
+                @openParent="openParent"
             />
             <!-- object, array, map, set, function, longtext -->
             <node-complex
-              v-else
+                v-else
 
-              :root="root"
-              :rootId="rootId"
+                :root="root"
+                :rootId="rootId"
 
-              :modelValue="getModelValue(items[index-1])"
-              :name="getName(items[index-1])"
-              :deep="isSet ? false : deep"
-              :watch="watch"
-              :preview="open ? preview : false"
-              :openLevel="useOpenLevel"
-              :openSpecific="useOpenSpecific"
-              :longText="longText"
-              :escapeQuotes="escapeQuotes"
-              :focus="focus"
-              :save="save"
-              :saveFocus="saveFocus"
+                :modelValue="getModelValue(items[index-1])"
+                :name="getName(items[index-1])"
+                :deep="isSet ? false : deep"
+                :watch="watch"
+                :preview="open ? preview : false"
+                :openLevel="useOpenLevel"
+                :openSpecific="useOpenSpecific"
+                :longText="longText"
+                :escapeQuotes="escapeQuotes"
+                :focus="focus"
+                :save="save"
+                :saveFocus="saveFocus"
 
-              :pointer="getPointer(items[index-1])"
-              :type="getSpecialType(items[index-1])"
-              :shared="shared"
-              :level="level+1"
-              :size="getSize"
-              :position="index"
+                :pointer="getPointer(items[index-1])"
+                :type="getSpecialType(items[index-1])"
+                :shared="shared"
+                :level="level+1"
+                :size="getSize"
+                :position="index"
 
-              :escapeQuotesFn="escapeQuotesFn"
-              :getTypeFn="getTypeFn"
-              :isPrimitiveFn="isPrimitiveFn"
-              :unwrapSpecificFn="unwrapSpecificFn"
-              :emitFn="emitFn"
+                :escapeQuotesFn="escapeQuotesFn"
+                :getTypeFn="getTypeFn"
+                :isPrimitiveFn="isPrimitiveFn"
+                :unwrapSpecificFn="unwrapSpecificFn"
+                :emitFn="emitFn"
 
-              @openParent="openParent"
+                @openParent="openParent"
             />
 
           </div>
@@ -200,24 +202,24 @@
         <div v-if="isFunction" class="vue-dd-f-content">
 
           <!--if open and function content exists-->
-          <pre v-if="open && functionContent" v-html="functionContent"></pre>
+          <pre v-if="open && functionContent"><span v-html="functionContent"></span><span class="vue-dd-comma" v-if="shouldComma">,</span></pre>
           <!--if open and function content does not exist-->
           <span v-else-if="open && !functionContent"></span>
           <!--if not open, display inline-->
-          <span @click="toggleOpen" v-else class="vue-dd-f-inline">{{
-              allowPreview ? functionInlinePreview : functionInline
-            }}<span v-if="shouldComma">,&nbsp;</span>
+          <span @click="toggleOpen" v-else class="vue-dd-f-inline"><span
+            v-html="allowPreview ? functionInlinePreview : functionInline"></span><span
+            class="vue-dd-comma" v-if="shouldComma">,</span>
           </span>
         </div>
 
         <!--long text-->
         <div v-if="isLongText" class="vue-dd-string">
-          <span v-if="open">{{ longTextContent }}</span>
-          <span v-else>{{ longTextInline }}</span>
+          <span v-if="open">{{ longTextContent }}<span class="vue-dd-comma" v-if="shouldComma">,</span></span>
+          <span v-else>{{ longTextInline }}<span class="vue-dd-comma" v-if="shouldComma">,</span></span>
         </div>
 
         <span v-if="isIterable" v-html="charClose" />
-        <span v-if="isIterable && shouldComma">,&nbsp;</span>
+        <span v-if="isIterable && shouldComma">,</span>
       </div>
     </div>
   </div>
@@ -238,13 +240,14 @@ export function isObject (item) {
 
 function isPromise (p) {
   return p !== null &&
-    typeof p === 'object' &&
-    typeof p.then === 'function' &&
-    typeof p.catch === 'function';
+      typeof p === 'object' &&
+      typeof p.then === 'function' &&
+      typeof p.catch === 'function';
 }
 
 
 let allPointerCache = {}
+
 // let unwrapCache = {}
 
 function getAllPointer (pointer) {
@@ -313,9 +316,9 @@ export default {
       useOpenLevel: this.openLevel,
       useOpenSpecific: this.openSpecific,
       originalOpenLevel: this.openLevel,
-      askForget:false,
-      cleared:false,
-      hover:false
+      askForget: false,
+      cleared: false,
+      hover: false
     }
   },
   created () {
@@ -331,32 +334,32 @@ export default {
 
   },
   methods: {
-    forget() {
-      this.emitFn(this, 'forget', { askForget: this.askForget})
+    forget () {
+      this.emitFn(this, 'forget', { askForget: this.askForget })
       this.askForget = false
       this.cleared = true
-      setTimeout(() => this.cleared = false,1000)
+      setTimeout(() => this.cleared = false, 1000)
     },
     openParent () {
       if (!this.open) {
         this.toggleOpen(null, true)
       }
     },
-    setFocus() {
-      if (this.save){
+    setFocus () {
+      if (this.save) {
 
       }
     },
     getId () {
       return this.level === 0
-        ? `_${this.rootId}`
-        : `_${this.rootId}.${this.pointer}`
+          ? `_${this.rootId}`
+          : `_${this.rootId}.${this.pointer}`
     },
     watchModelValue: function(deep) {
       return this.$watch('modelValue', () => {
-          this.items = this.makeItems()
-        },
-        { deep: deep })
+            this.items = this.makeItems()
+          },
+          { deep: deep })
     },
     getPointer (index) {
       return this.pointer ? this.pointer + '.' + index : index
@@ -455,8 +458,8 @@ export default {
       // this function is necessary for proper functioning of 'save' mode
       // together with open-specific option
       return (this.$parent.$options.name === 'NodeComplex' && this.$parent.open)
-        // VueDd is the root so no open parent check for it
-        || this.$parent.$options.name === 'VueDd'
+          // VueDd is the root so no open parent check for it
+          || this.$parent.$options.name === 'VueDd'
     },
 
     focusEmit () {
@@ -487,8 +490,8 @@ export default {
       const name = this.isObject
       && 'constructor' in this.modelValue
       && 'name' in this.modelValue.constructor
-        ? this.modelValue.constructor.name
-        : ''
+          ? this.modelValue.constructor.name
+          : ''
       return name === 'Object' ? '' : name
     },
     nextLevel () {
@@ -539,9 +542,8 @@ export default {
         code = code.substring(0, newLinePosition)
       }
       const highlight = hljs.highlight(code, { language: 'javascript' }).value
-      const comma = !this.functionContent && this.shouldComma ? ',' : ''
 
-      return highlight + comma
+      return highlight
     },
     functionContent () {
 
@@ -561,9 +563,7 @@ export default {
 
         const highlight = hljs.highlight(code, { language: 'javascript' }).value
 
-        const comma = code && this.shouldComma ? ',' : ''
-
-        return highlight + comma
+        return highlight
       }
 
       return ''
@@ -577,18 +577,14 @@ export default {
       text = this.escapeQuotesFn(text)
       text = `"${text}..."`
 
-      const comma = this.shouldComma ? ',' : ''
-
-      return text + comma
+      return text
     },
     longTextContent () {
       let text = this.modelValue
       text = this.escapeQuotesFn(text)
       text = `"${text}"`
 
-      const comma = this.shouldComma ? ',' : ''
-
-      return text + comma
+      return text
     },
     isLongText () {
       return this.type === 'longtext'
@@ -649,8 +645,8 @@ export default {
       handler (value) {
 
         if (this.openSpecific.length
-          && typeof this.pointer !== 'undefined'
-          && this.pointer !== null) {
+            && typeof this.pointer !== 'undefined'
+            && this.pointer !== null) {
 
           let allPointer = getAllPointer(this.pointer)
 

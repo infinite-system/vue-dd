@@ -249,39 +249,47 @@ export default {
 
         const oldFocus = this.useFocus
 
-        // save focus
-
-
         if (pointer === oldFocus && pointer !== this.focus) {
+
+          // remove focus from memory
+          delete this.memory.open[pointer]
+
           // unset focus if it's already set to same value
           pointer = null
-          // focusElement.classList.remove('vue-dd-focus')
+
+          // remove focus
           focusElement.classList.remove('vue-dd-focus-selected')
 
 
           // alert(JSON.stringify(focusElement.classList.values()))
         } else {
 
+          // remove old focus from memory
+          delete this.memory.open[oldFocus]
+
+          // quickly unset oldFocus via dom,
+          // instead of waiting for Vue re-render
+          // makes it feel smoother on large sets
           const oldFocusContainerEl = this.getElement(oldFocus)
           if (oldFocusContainerEl) {
             const oldFocusEl = oldFocusContainerEl.querySelector('.vue-dd-focus')
             if (oldFocusEl) {
+              // remove selected class
               oldFocusEl.classList.remove('vue-dd-focus-selected')
-
             }
           }
 
           // add focused class
           focusElement.classList.add('vue-dd-focus-selected')
-
         }
 
-        // setting to null, then reset to the initial this.focus
-        // if it is set to anything
+        // if pointer is null, reset to this.focus prop
         this.memory.focus = pointer === null ? this.focus : pointer
+
+        // save to memory
         this.store().set(this.memory)
 
-        // change prop
+        // change 'focus' prop that is passed to children
         this.useFocus = this.memory.focus
       }
     },
@@ -289,6 +297,7 @@ export default {
       const { open, pointer, level } = setup
 
       if (level === 0) {
+        // add class to main vue-dd container class named 'vue-dd-open'
         this.openClass = open
       }
 
@@ -330,14 +339,14 @@ export default {
           delete this.memory.open[pointer]
 
         }
+
         // save memory state to storage
         this.store().set(this.memory)
-        //console.log('set memory', this.memory, this.useOpenSpecific)
+
+        // console.log('set memory', this.memory, this.useOpenSpecific)
       }
 
       // console.log('toggle', open, 'pointer', pointer, 'level', level)
-
-
       this.$emit('toggle', setup)
     },
 
@@ -351,11 +360,6 @@ export default {
         },
         set: (value) => window[`${this.storage}Storage`].setItem(key, JSON.stringify(value))
       }
-    },
-    hasMemoryOpen () {
-      return isObject(this.memory)
-        && 'open' in this.memory
-        && isObject(this.memory.open)
     },
 
     getTypeFn (value) {
@@ -414,7 +418,7 @@ export default {
           // because if it is computed, it becomes too heavy
           // and does too many renders, this is enough
           if (this.useFocus !== null) {
-            // add focus to elements to be unwrapped
+            // add focus element to elements to be unwrapped
             unwrap[this.useFocus] = true
           }
           // console.log('unwrap', unwrap)
@@ -447,8 +451,8 @@ export default {
 <style>
 @font-face {
   font-family: 'icomoon';
-  src:  url('./assets/fonts/icomoon.eot?3mtojq');
-  src:  url('./assets/fonts/icomoon.eot?3mtojq#iefix') format('embedded-opentype'),
+  src: url('./assets/fonts/icomoon.eot?3mtojq');
+  src: url('./assets/fonts/icomoon.eot?3mtojq#iefix') format('embedded-opentype'),
   url('./assets/fonts/icomoon.ttf?3mtojq') format('truetype'),
   url('./assets/fonts/icomoon.woff?3mtojq') format('woff'),
   url('./assets/fonts/icomoon.svg?3mtojq#icomoon') format('svg');
@@ -472,8 +476,15 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.vue-dd-icon-eye:before {
+.vue-dd-focus.vue-dd-icon-eye:before {
   content: "\e900";
+}
+
+.vue-dd-focus.vue-dd-focus-selected.vue-dd-icon-eye:before {
+  content: "\e901";
+  background: -webkit-linear-gradient(60deg, #00ff95, #116dea 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .vue-dd, .vue-dd pre {
@@ -575,40 +586,44 @@ div.vue-dd-start {
 
 /** focus **/
 
-.vue-dd-start .vue-dd-focus, .vue-dd-primitive .vue-dd-focus {
-  color: #ccc;
-  margin: 0 2px ;
+.vue-dd-start .vue-dd-focus,
+.vue-dd-primitive .vue-dd-focus {
+  color: #ddd;
+  margin: 0 2px 0 0;
   display: inline-block;
   font-size: 150%;
   vertical-align: middle;
   cursor: default;
-  transition: 0.17s
+  transition: 0.1s
 }
 
 
-.vue-dd-start .vue-dd-focus-hover, .vue-dd-primitive .vue-dd-focus-hover {
+.vue-dd-start .vue-dd-focus-hover,
+.vue-dd-primitive .vue-dd-focus-hover {
   color: #555;
 }
 
-.vue-dd-start .vue-dd-focus-selected, .vue-dd-primitive .vue-dd-focus-selected {
-  display: inline-block;
-  transform: rotate(360deg);
+.vue-dd-start .vue-dd-focus-selected,
+.vue-dd-primitive .vue-dd-focus-selected {
   color: #116dea;
 }
 
 /** dark focus **/
 
-.vue-dd-dark .vue-dd-start .vue-dd-focus, .vue-dd-dark .vue-dd-primitive .vue-dd-focus {
-  color: #333;
+.vue-dd-dark .vue-dd-start .vue-dd-focus,
+.vue-dd-dark .vue-dd-primitive .vue-dd-focus {
+  color: #222;
 }
 
 
-.vue-dd-dark .vue-dd-start .vue-dd-focus-hover, .vue-dd-dark .vue-dd-primitive .vue-dd-focus-hover {
-  color: #666;
+.vue-dd-dark .vue-dd-start .vue-dd-focus-hover,
+.vue-dd-dark .vue-dd-primitive .vue-dd-focus-hover {
+  color: #777;
 }
 
 
-.vue-dd-dark .vue-dd-start .vue-dd-focus-selected, .vue-dd-dark .vue-dd-primitive .vue-dd-focus-selected {
+.vue-dd-dark .vue-dd-start .vue-dd-focus-selected,
+.vue-dd-dark .vue-dd-primitive .vue-dd-focus-selected {
   color: #116dea;
 }
 
@@ -817,6 +832,7 @@ button.vue-dd-arrow-collapsed {
 }
 
 .vue-dd-boolean {
+  font-weight: bold;
   color: green;
 }
 
@@ -826,7 +842,12 @@ button.vue-dd-arrow-collapsed {
 }
 
 .vue-dd-string {
-  color: orangered;
+  color: darkorange;
+  word-break: break-word;
+}
+
+.vue-dd-dark .vue-dd-string {
+  color: #ffcc00;
   word-break: break-word;
 }
 
@@ -855,7 +876,7 @@ button.vue-dd-arrow-collapsed {
   border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 2px 5px;
   border-radius: 10px;
-  transition:0.2;
+  transition: 0.2;
   opacity: 0.8;
 }
 
@@ -881,7 +902,7 @@ button.vue-dd-arrow-collapsed {
 
 .vue-dd .vue-dd-forget-no {
   margin-left: 0;
-  background:none;
+  background: none;
 }
 
 .vue-dd-forget-cleared {
@@ -889,18 +910,13 @@ button.vue-dd-arrow-collapsed {
   margin-right: 10px;
   padding: 2px 5px;
 }
+
+.vue-dd-comma {
+  padding-right: 3px;
+}
 </style>
 <style>
 /* highlight.js styles */
-.vue-dd pre code.hljs {
-  display: block;
-  overflow-x: auto;
-  padding: 1em;
-}
-
-.vue-dd code.hljs {
-  padding: 3px 5px;
-}
 
 .vue-dd .hljs {
   color: #abb2bf;

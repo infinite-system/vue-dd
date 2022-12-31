@@ -1,6 +1,6 @@
 ## vue-dd
 
-> Vue component for displaying JavaScript objects, primitives, Vue Refs, Reactive objects (with circular references)
+> Vue component for live display of Vue Refs, Reactive objects, primitives and JavaScript objects (with circular references)
 
 ## About
 Easily display complex JavaScript objects, Vue Reactive and Ref objects, functions, and primitives and monitor their changes in LIVE mode. 

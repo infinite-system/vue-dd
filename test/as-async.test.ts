@@ -1,5 +1,5 @@
 import { flushPromises, mount } from '@vue/test-utils'
-import AsAsync from '../src/components/AsAsync.vue'
+import AsAsync from './components/AsAsync.vue'
 
 test('mount component', async () => {
   expect(AsAsync).toBeTruthy()
