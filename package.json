@@ -1,6 +1,6 @@
 {
   "name": "vue-dd",
-  "version": "0.4.3",
+  "version": "1.0.0",
   "description": "Vue.js component for displaying JavaScript objects with circular references, forked and ported to Vue 3",
   "main": "VueDd.vue",
   "scripts": {
@@ -8,7 +8,7 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "vue": "latest"
+    "vue": ">2.7.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "latest",
@@ -33,6 +33,7 @@
     "vue-dd",
     "dd",
     "object",
+    "reactive",
     "tree",
     "view",
     "json",
