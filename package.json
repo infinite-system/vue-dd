@@ -1,8 +1,8 @@
 {
   "name": "vue-dd",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Vue.js component for displaying JavaScript objects with circular references, forked and ported to Vue 3",
-  "main": "VueDd.vue",
+  "main": "src/VueDd.vue",
   "scripts": {
     "test": "vitest",
     "coverage": "vitest run --coverage"
