@@ -17,9 +17,9 @@ This is a fork of *vue-object-view* project by Emanuel Buzek. Thank's to his ini
 ## Usage
 ```bash
 # Install the component
-npm install --save vue-dd
+npm install vue-dd --save-dev
 # or
-yarn add vue-dd
+yarn add -D vue-dd
 ```
 
 Use it just like any other Vue.js component. The value to display is passed as `v-model` or `:model-value`:
