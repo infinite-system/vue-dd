@@ -1,74 +1,82 @@
 <template>
   <div
-    ref="root"
-    :id="rootId"
-    :class="['vue-dd', {
+      ref="root"
+      :id="rootId"
+      :class="['vue-dd', {
       'vue-dd-inline': inline,
       'vue-dd-open': openClass,
       'vue-dd-dark': dark,
-    }, css]"
-    :style="style">
+    }, $attrs.class]"
+      :style="[cssVars, $attrs.style]">
     <node-primitive
-      v-if="primitive"
+        v-if="primitive"
 
-      :root="$refs.root"
-      :rootId="rootId"
+        :root="$refs.root"
+        :rootId="rootId"
 
-      :modelValue="modelValue"
-      :name="name"
-      :focus="useFocus"
-      :escapeQuotes="escapeQuotes"
-      :save="save"
-      :saveFocus="saveFocus"
+        :modelValue="modelValue"
+        :name="name"
+        :focus="useFocus"
+        :escapeQuotes="escapeQuotes"
+        :save="save"
+        :saveFocus="saveFocus"
 
-      pointer=""
-      :type="type"
+        pointer=""
+        :type="type"
+        :parentOpen="false"
+        parentType=""
 
-      :escapeQuotesFn="escapeQuotesFn"
-      :emitFn="emitFn"
+        :escapeQuotesFn="escapeQuotesFn"
+        :emitFn="emitFn"
 
-      @focus="focusEmit"
+        @focus="focusEmit"
     />
     <node-complex
-      v-else
+        v-else
 
-      :root="$refs.root"
-      :rootId="rootId"
+        :root="$refs.root"
+        :rootId="rootId"
 
-      :modelValue="modelValue"
-      :name="name"
-      :openLevel="openLevel"
-      :openSpecific="useOpenSpecific"
-      :focus="useFocus"
-      :escapeQuotes="escapeQuotes"
-      :longText="longText"
-      :preview="preview"
-      :previewInitial="previewInitial"
-      :deep="isSet ? false : deep"
-      :watch="watch"
-      :save="save"
-      :saveFocus="saveFocus"
+        :modelValue="modelValue"
+        :name="name"
+        :openLevel="useOpenLevel"
+        :openSpecific="useOpenSpecific"
+        :focus="useFocus"
+        :escapeQuotes="escapeQuotes"
+        :longText="longText"
+        :preview="preview"
+        :previewInitial="previewInitial"
+        :deep="isRef ? true : deep"
+        :watch="watch"
+        :save="save"
+        :saveFocus="saveFocus"
+        :arrow="arrow"
+        :delimiter="delimiter"
+        :more="more"
 
-      pointer=""
-      :type="type"
-      :shared="shared"
+        pointer=""
+        :type="type"
+        parentType=""
+        :parentOpen="false"
+        :shared="shared"
 
-      :getTypeFn="getTypeFn"
-      :isPrimitiveFn="isPrimitiveFn"
-      :escapeQuotesFn="escapeQuotesFn"
-      :unwrapSpecificFn="unwrapSpecificFn"
-      :emitFn="emitFn"
+        :getTypeFn="getTypeFn"
+        :isPrimitiveFn="isPrimitiveFn"
+        :escapeQuotesFn="escapeQuotesFn"
+        :unwrapSpecificFn="unwrapSpecificFn"
+        :emitFn="emitFn"
 
-      @toggle="toggle"
-      @open="open"
-      @focus="focusEmit"
-      @forget="forget"
+        @toggle="toggle"
+        @open="open"
+        @focus="focusEmit"
+        @forget="forget"
     />
   </div>
 </template>
 <script>
 import NodeComplex, { isObject } from "./NodeComplex.vue";
 import NodePrimitive from "./NodePrimitive.vue";
+import { isRef } from "vue";
 
 // this is important
 let uniqueId = 1
@@ -77,22 +85,23 @@ let unwrapCache = {}
 export default {
   name: 'VueDd',
   inheritAttrs: false,
-  emits: ['open', 'toggle', 'focus', 'forget'],
+  emits: ['open', 'toggle', 'focus'],
   props: {
     // main options
     modelValue: undefined,
     id: { type: [String, Number], default: '' },
     name: { type: String, default: '' },
-    openLevel: { type: [Number, Array], default: 0 },
+    openLevel: { type: [Number, String, Array], default: 0 },
     openSpecific: { type: Array, default: () => [] },
-    focus: { type: String, default: null },
+    focus: { type: [String, Number], default: null },
     preview: { type: [Number, Boolean], default: 5 },
     previewInitial: { type: Boolean, default: true },
     escapeQuotes: { type: Boolean, default: false },
     longText: { type: Number, default: 50 },
+    delimiter: { type: String, default: '.' },
+    more: { type: String, default: '...' },
     // styling options
-    style: { type: [String, Array, Object], default: '' },
-    class: { type: [String, Array, Object], default: '' },
+    arrow: { type: String, default: '&#x25BC;' },
     inline: { type: Boolean, default: true },
     dark: { type: Boolean, default: true },
     fontFamily: { type: String, default: '"JetBrains Mono", "Courier", serif' },
@@ -104,7 +113,7 @@ export default {
     // save
     save: { type: Boolean, default: false },
     saveFocus: { type: Boolean, default: true },
-    storage: { type: String, default: 'local' }, // session | local
+    storage: { type: String, default: 'session' }, // session | local
     // watch options
     watch: { type: Boolean, default: true },
     deep: { type: Boolean, default: true },
@@ -115,6 +124,8 @@ export default {
       openClass: false,
       css: this.class,
       useOpenSpecific: this.openSpecific,
+      // if openLevel is string, convert to number int
+      useOpenLevel: typeof this.openLevel === 'string' ? parseInt(this.openLevel) : this.openLevel,
       memory: null,
       shared: { hiddenPointers: {} },
       useFocus: null
@@ -135,6 +146,16 @@ export default {
     this.setFocus()
   },
   computed: {
+    cssVars () {
+      return {
+        '--vue-dd-fontFamily': this.fontFamily,
+        '--vue-dd-fontSize': this.fontSize,
+        '--vue-dd-lineHeight': this.lineHeight,
+        '--vue-dd-paddingLeft': this.paddingLeft,
+        '--vue-dd-maxHeight': this.maxHeight,
+        '--vue-dd-maxWidth': this.maxWidth,
+      }
+    },
     unwrapSpecific () {
       return this.unwrapSpecificFn(this.useOpenSpecific)
     },
@@ -147,11 +168,13 @@ export default {
     isSet () {
       return this.type === 'object' && this.modelValue instanceof Set
     },
+    isRef () {
+      return isRef(this.modelValue)
+    },
   },
   methods: {
     forget () {
       if (this.save) {
-        // alert('yes')
         this.memory.open = {}
         this.shared.hiddenPointers = {}
         this.useOpenSpecific = this.baseOpenSpecific()
@@ -165,12 +188,11 @@ export default {
           const pointerEl = this.getElement(this.useFocus)
 
           if (pointerEl) {
-            // console.log('pointerEl.offsetLeft', pointerEl.offsetLeft, pointerEl.offsetLeft - pointerEl.clientWidth)
-            // console.log('pointerEl.offsetTop', pointerEl.offsetTop, pointerEl.offsetTop - pointerEl.clientHeight)
-            this.$refs.root.scrollLeft = pointerEl.offsetLeft - 15
 
+            this.$refs.root.scrollLeft = pointerEl.offsetLeft - 35
             // setting scrollLeft and scrollTop at the same time
             // does not work in browsers right now
+            // console.log('pointerEl', pointerEl.offsetTop)
             setTimeout(() => {
               this.$refs.root.scrollTop = pointerEl.offsetTop - 15
             }, 300)
@@ -187,13 +209,12 @@ export default {
     getFocus () {
       let focus = this.focus
       if (this.saveFocus && 'focus' in this.memory && this.memory.focus !== null) {
-        focus = this.memory.focus
+        focus = String(this.memory.focus)
       }
       return focus
     },
     initMemory () {
-
-      // init memory
+      // init memory for save=true || saveFocus=true prop
       this.memory = this.store().get()
 
       if (!isObject(this.memory)) {
@@ -205,7 +226,7 @@ export default {
         this.memory.open = {}
       }
 
-      // if 'open' is not set create it
+      // if 'focus' is not set create it
       if (!('focus' in this.memory)) {
         this.memory.focus = null
       }
@@ -220,10 +241,10 @@ export default {
 
         let openSpecific = []
         for (let pointer in this.memory.open) {
-          openSpecific.push(pointer)
+          openSpecific.push(String(pointer))
         }
-        //console.log('memopen', this.memory, openSpecific, this.unwrapSpecific)
 
+        //console.log('memopen', this.memory, openSpecific, this.unwrapSpecific)
         return openSpecific
 
       } else {
@@ -232,7 +253,8 @@ export default {
     },
 
     baseOpenSpecific () {
-      return [...this.openSpecific, ...(this.useFocus === null ? [] : [this.useFocus])]
+      // combine with focus pointer if there is one
+      return [...this.openSpecific, ...(this.useFocus === null ? [] : [String(this.useFocus)])]
     },
 
     makeId () {
@@ -244,12 +266,14 @@ export default {
     },
 
     focusEmit (setup) {
+
       let { pointer, focusElement } = setup
+
       if (this.saveFocus) {
 
         const oldFocus = this.useFocus
 
-        if (pointer === oldFocus && pointer !== this.focus) {
+        if (String(pointer) === String(oldFocus) && String(pointer) !== String(this.focus)) {
 
           // remove focus from memory
           delete this.memory.open[pointer]
@@ -260,8 +284,6 @@ export default {
           // remove focus
           focusElement.classList.remove('vue-dd-focus-selected')
 
-
-          // alert(JSON.stringify(focusElement.classList.values()))
         } else {
 
           // remove old focus from memory
@@ -291,6 +313,8 @@ export default {
 
         // change 'focus' prop that is passed to children
         this.useFocus = this.memory.focus
+
+        this.emitFn(this, 'focus', { focus: this.memory.focus, focusElement: focusElement })
       }
     },
     open (setup) {
@@ -300,7 +324,6 @@ export default {
         // add class to main vue-dd container class named 'vue-dd-open'
         this.openClass = open
       }
-
       // console.log('open', open, 'pointer', pointer, 'level', level)
 
       this.$emit('open', setup)
@@ -337,7 +360,6 @@ export default {
 
           // delete from memory
           delete this.memory.open[pointer]
-
         }
 
         // save memory state to storage
@@ -399,10 +421,10 @@ export default {
           return unwrapCache[index]
         } else {
           openSpecific.forEach((el) => {
-            const parts = String(el).split('.')
+            const parts = String(el).split(this.delimiter)
             let pointer = '', i = 0
             for (let k in parts) {
-              pointer += (i > 0 ? '.' : '') + parts[k]
+              pointer += (i > 0 ? this.delimiter : '') + parts[k]
               unwrap[pointer] = true
               i++
             }
@@ -428,13 +450,14 @@ export default {
       }
       return unwrap
     },
-    // recursive emit function
+    // recursive emit
+    // more info: https://stackoverflow.com/a/55650245/1502706
     emitFn (vm, name, ...args) {
       while (vm) {
         // recurse only within VueDd own components
         if (vm.$options.name !== 'VueDd'
-          && vm.$options.name !== 'NodeComplex'
-          && vm.$options.name !== 'NodePrimitive') {
+            && vm.$options.name !== 'NodeComplex'
+            && vm.$options.name !== 'NodePrimitive') {
           break;
         }
         vm.$emit(name, ...args)
@@ -449,522 +472,6 @@ export default {
 }
 </script>
 <style>
-@font-face {
-  font-family: 'icomoon';
-  src: url('./assets/fonts/icomoon.eot?3mtojq');
-  src: url('./assets/fonts/icomoon.eot?3mtojq#iefix') format('embedded-opentype'),
-  url('./assets/fonts/icomoon.ttf?3mtojq') format('truetype'),
-  url('./assets/fonts/icomoon.woff?3mtojq') format('woff'),
-  url('./assets/fonts/icomoon.svg?3mtojq#icomoon') format('svg');
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
-}
-
-[class^="vue-dd-icon-"], [class*=" vue-dd-icon-"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon' !important;
-  speak: never;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.vue-dd-focus.vue-dd-icon-eye:before {
-  content: "\e900";
-}
-
-.vue-dd-focus.vue-dd-focus-selected.vue-dd-icon-eye:before {
-  content: "\e901";
-  background: -webkit-linear-gradient(60deg, #00ff95, #116dea 90%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.vue-dd, .vue-dd pre {
-  font-family: v-bind(fontFamily);
-  font-size: v-bind(fontSize);
-  line-height: v-bind(lineHeight);
-}
-
-.vue-dd {
-  max-height: v-bind(maxHeight);
-  max-width: v-bind(maxWidth);
-
-  position: relative;
-  text-align: left;
-  color: #4e5e6b;
-  padding: 2px 5px 2px 3px;
-  transition: 0.2s;
-  margin-bottom: 2px;
-  background: #f9ffff;
-  border-radius: 3px;
-  border: 1px solid #d2dbe8;
-  overflow-y: auto;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-}
-
-.vue-dd-open {
-
-}
-
-.vue-dd-open.vue-dd-inline {
-  display: block;
-}
-
-.vue-dd-inline:not(.vue-dd-open) {
-  display: inline-block;
-  margin-right: 3px;
-}
-
-.vue-dd.vue-dd-dark {
-  background: #000;
-  border: 1px solid #000
-}
-
-.vue-dd::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.vue-dd::-webkit-scrollbar-corner {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.vue-dd::-webkit-scrollbar-thumb {
-  border-radius: 5px;
-  background: rgba(0, 0, 0, 0.1);
-}
-
-.vue-dd.vue-dd-dark::-webkit-scrollbar {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.vue-dd.vue-dd-dark::-webkit-scrollbar-corner {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.vue-dd.vue-dd-dark::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.vue-dd-box {
-  display: block;
-  overflow: visible;
-  scrollbar-color: #ccc white;
-  scrollbar-width: thin;
-}
-
-.vue-dd-box > div {
-  /*float: left;*/
-  display: block;
-  overflow: visible;
-}
-
-.vue-dd-box > div > div {
-  display: block;
-  padding-left: v-bind(paddingLeft);
-}
-
-.vue-dd-box-inline, .vue-dd-box-inline div, .vue-dd-box-inline div div {
-  display: inline-block;
-  cursor: default;
-  white-space: nowrap;
-}
-
-div.vue-dd-start {
-  display: inline-block;
-}
-
-/** focus **/
-
-.vue-dd-start .vue-dd-focus,
-.vue-dd-primitive .vue-dd-focus {
-  color: #ddd;
-  margin: 0 2px 0 0;
-  display: inline-block;
-  font-size: 150%;
-  vertical-align: middle;
-  cursor: default;
-  transition: 0.1s
-}
-
-
-.vue-dd-start .vue-dd-focus-hover,
-.vue-dd-primitive .vue-dd-focus-hover {
-  color: #555;
-}
-
-.vue-dd-start .vue-dd-focus-selected,
-.vue-dd-primitive .vue-dd-focus-selected {
-  color: #116dea;
-}
-
-/** dark focus **/
-
-.vue-dd-dark .vue-dd-start .vue-dd-focus,
-.vue-dd-dark .vue-dd-primitive .vue-dd-focus {
-  color: #222;
-}
-
-
-.vue-dd-dark .vue-dd-start .vue-dd-focus-hover,
-.vue-dd-dark .vue-dd-primitive .vue-dd-focus-hover {
-  color: #777;
-}
-
-
-.vue-dd-dark .vue-dd-start .vue-dd-focus-selected,
-.vue-dd-dark .vue-dd-primitive .vue-dd-focus-selected {
-  color: #116dea;
-}
-
-
-button.vue-dd-expand {
-  vertical-align: middle;
-  background: none;
-  border: 0;
-  border-radius: 3px;
-  padding: 3px 0 3px 0;
-  line-height: 10px;
-  cursor: default;
-  color: grey;
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-button.vue-dd-expand:hover {
-  background: rgba(50, 50, 50, 0.2);
-  color: #21BA45;
-}
-
-button.vue-dd-expand:active {
-  padding-top: 4px;
-  padding-bottom: 2px !important;
-}
-
-.vue-dd-ref {
-  -webkit-user-select: none;
-  user-select: none;
-  cursor: default;
-  color: grey;
-  font-family: Georgia, 'Courier', serif;
-  font-size: 90%;
-  font-style: italic;
-  letter-spacing: -0.5px;
-  display: inline-block;
-  padding: 0 3px 0 0;
-}
-
-.vue-dd-r {
-  -webkit-user-select: none;
-  user-select: none;
-  cursor: default;
-  color: grey;
-  font-family: Georgia, 'Courier', serif;
-  font-size: 90%;
-  font-style: italic;
-  letter-spacing: -0.5px;
-  display: inline-block;
-  padding: 0 3px 0 0;
-}
-
-.vue-dd-f {
-  -webkit-user-select: none;
-  user-select: none;
-  cursor: default;
-  color: grey;
-  font-style: italic;
-  font-family: Georgia, serif;
-  font-size: 90%;
-  letter-spacing: -1px;
-  display: inline-block;
-  padding: 0 5px 0 3px;
-}
-
-.vue-dd-f-inline {
-  color: #4e5e6b;
-  font-style: italic;
-}
-
-.vue-dd-f-start {
-  display: inline;
-  color: #55606a;
-}
-
-
-.vue-dd-dark pre.vue-dd-f-start {
-  padding: 0;
-  margin: 0;
-  color: #cbeaff;
-}
-
-.vue-dd-dark pre.vue-dd-f-start .hljs-property {
-  color: #6ec3ff;
-}
-
-.vue-dd-f-content {
-  padding: 0;
-}
-
-.vue-dd-f-content pre {
-  padding: 0;
-  margin: 0;
-  color: #333;
-}
-
-.vue-dd-dark .vue-dd-f-content pre .hljs-property {
-  color: #6ec3ff;
-}
-
-.vue-dd-dark .vue-dd-f-content pre {
-  padding: 0;
-  margin: 0;
-  color: #cbeaff;
-}
-
-button.vue-dd-arrow {
-  border: none;
-  display: inline-block;
-  background: none;
-  color: slategrey;
-  cursor: default;
-  -webkit-user-select: none;
-  user-select: none;
-  font-size: 80%;
-  padding: 0 2px 0 2px;
-  transition: 0.2s;
-}
-
-button.vue-dd-arrow:hover {
-  color: darkgrey;
-}
-
-button.vue-dd-arrow-collapsed {
-  padding: 0 2px 0 2px;
-  transform: rotate(-90deg);
-}
-
-.vue-dd-name {
-  padding-right: 3px;
-  cursor: default;
-  color: #1b7ccf;
-}
-
-.vue-dd-dark .vue-dd-name {
-  cursor: default;
-  color: #09BAFF;
-}
-
-.vue-dd-name.vue-dd-f-name {
-  color: #d114d1;
-  font-weight: normal;
-}
-
-.vue-dd-instance {
-  user-select: none;
-  padding-left: 3px;
-  font-style: italic;
-  color: #21BA45;
-  -webkit-user-select: none;
-}
-
-.vue-dd-size {
-  user-select: none;
-  margin-left: 1px;
-  padding: 0 3px;
-  border-radius: 10px;
-  background: #fff;
-  color: #999;
-  font-size: 80%;
-  line-height: 100%;
-}
-
-.vue-dd-dark .vue-dd-size {
-  background: #131313;
-  color: #555;
-}
-
-.vue-dd-promise-prototype {
-  padding-right: 5px;
-  padding-left: 0;
-}
-
-.vue-dd-promise-content {
-  -webkit-user-select: none;
-  user-select: none;
-  padding: 0 4px;
-  font-style: italic;
-}
-
-.vue-dd-highlight {
-  animation: vue-dd-highlight 1s;
-}
-
-.vue-dd-dark .vue-dd-highlight {
-  animation: vue-dd-highlight-on-dark 1s;
-}
-
-@keyframes vue-dd-highlight-on-dark {
-  from {
-    background-color: #0f99cb;
-    border-radius: 5px;
-  }
-}
-
-@keyframes vue-dd-highlight {
-  from {
-    background-color: #83cb0f;
-    border-radius: 5px;
-  }
-}
-
-.vue-dd-null, .vue-dd-undefined {
-  color: slategrey;
-}
-
-.vue-dd-boolean {
-  font-weight: bold;
-  color: green;
-}
-
-.vue-dd-false {
-  cursor: default;
-  color: #f34747;
-}
-
-.vue-dd-string {
-  color: darkorange;
-  word-break: break-word;
-}
-
-.vue-dd-dark .vue-dd-string {
-  color: #ffcc00;
-  word-break: break-word;
-}
-
-.vue-dd-dark .vue-dd-key {
-  color: #c7e5fe;
-}
-
-.vue-dd-key {
-  color: #384e61;
-  padding-left: 1px;
-  padding-right: 2px;
-  font-weight: normal;
-}
-
-
-.vue-dd-box > div > div > div > span > .vue-dd-key {
-  /*padding-left: 9px;*/
-}
-
-.vue-dd-forget {
-  margin-left: 10px;
-  cursor: pointer;
-  font-size: 80%;
-  margin-right: 10px;
-  background: rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 2px 5px;
-  border-radius: 10px;
-  transition: 0.2;
-  opacity: 0.8;
-}
-
-.vue-dd-forget:hover {
-  opacity: 1;
-}
-
-.vue-dd-dark .vue-dd-forget {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.vue-dd .vue-dd-forget-q-ask {
-  border: 0;
-  background: none;
-  padding: 2px 0;
-  cursor: default;
-}
-
-.vue-dd .vue-dd-forget-yes {
-  margin-left: 0;
-}
-
-.vue-dd .vue-dd-forget-no {
-  margin-left: 0;
-  background: none;
-}
-
-.vue-dd-forget-cleared {
-  font-size: 80%;
-  margin-right: 10px;
-  padding: 2px 5px;
-}
-
-.vue-dd-comma {
-  padding-right: 3px;
-}
-</style>
-<style>
-/* highlight.js styles */
-
-.vue-dd .hljs {
-  color: #abb2bf;
-  background: #282c34;
-}
-
-.vue-dd .hljs-comment, .vue-dd .hljs-quote {
-  color: #5c6370;
-  font-style: italic;
-}
-
-.vue-dd .hljs-doctag, .vue-dd .hljs-formula, .vue-dd .hljs-keyword {
-  color: #c678dd;
-}
-
-.vue-dd .hljs-deletion, .vue-dd .hljs-name, .vue-dd .hljs-section, .vue-dd .hljs-selector-tag, .vue-dd .hljs-subst {
-  color: #e06c75;
-}
-
-.vue-dd .hljs-literal {
-  color: #56b6c2;
-}
-
-.vue-dd .hljs-addition, .vue-dd .hljs-attribute, .vue-dd .hljs-meta .hljs-string, .vue-dd .hljs-regexp, .vue-dd .hljs-string {
-  color: #98c379;
-}
-
-.vue-dd .hljs-attr, .vue-dd .hljs-number, .vue-dd .hljs-selector-attr, .vue-dd .hljs-selector-class, .vue-dd .hljs-selector-pseudo, .vue-dd .hljs-template-variable, .vue-dd .hljs-type, .vue-dd .hljs-variable {
-  color: #d19a66;
-}
-
-.vue-dd .hljs-bullet, .vue-dd .hljs-link, .vue-dd .hljs-meta, .vue-dd .hljs-selector-id, .vue-dd .hljs-symbol, .vue-dd .hljs-title {
-  color: #61aeee;
-}
-
-.vue-dd .hljs-built_in, .vue-dd .hljs-class .hljs-title, .vue-dd .hljs-title.class_ {
-  color: #e6c07b;
-}
-
-.vue-dd .hljs-emphasis {
-  font-style: italic;
-}
-
-.vue-dd .hljs-strong {
-  font-weight: 700;
-}
-
-.vue-dd .hljs-link {
-  text-decoration: underline;
-}
+@import 'css/VueDd.css';
+@import 'css/VueDd.code.css';
 </style>

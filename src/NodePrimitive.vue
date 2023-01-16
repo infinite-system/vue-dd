@@ -1,12 +1,15 @@
 <template>
   <span
-    :id="id"
-    class="vue-dd-primitive"
-    @click="$emit('openParent')">
+      :id="id"
+      class="vue-dd-primitive"
+      @click="$emit('openParent')">
     <span
-      v-if="nameString"
-      class="vue-dd-key">{{ name }}:</span><span
-      v-if="nameString && open && saveFocus"
+        v-if="showName"
+        :class="{
+          'vue-dd-key' : true,
+          'vue-dd-key-of-array' : parentIsArray,
+        }">{{ name }}<span class="vue-dd-colon">:</span></span><span
+      v-if="parentOpen && saveFocus"
       ref="focusElement"
       class="vue-dd-focus vue-dd-icon-eye"
       @click="focusEmit"
@@ -15,9 +18,9 @@
       @mouseleave="hover=false"
       :class="{
         'vue-dd-focus-hover':hover,
-        'vue-dd-focus-selected':pointer === focus
+        'vue-dd-focus-selected':isFocused
       }"
-    ></span>
+  ></span>
     <span v-if="type === 'null'"
           class="vue-dd-null">null</span>
     <span v-else-if="type === 'undefined'"
@@ -29,6 +32,8 @@
     <span v-else-if="type === 'boolean'"
           class="vue-dd-boolean"
           :class="{'vue-dd-false':!modelValue}">{{ modelValue }}</span>
+    <span v-else-if="type === 'symbol'"
+          class="vue-dd-symbol">{{ modelValue.toString() }}</span>
     <span v-else
           class="vue-dd-false">[unknown_type]{{ modelValue }}</span>
     <span class="vue-dd-comma" v-if="shouldComma">,</span>
@@ -51,11 +56,13 @@ export default {
     'saveFocus',
     'focus',
     // helpers
-    'open',
+    'parentOpen',
     'pointer',
     'type',
+    'parentType',
     'size',
     'position',
+    'expanded',
     // functions
     'escapeQuotesFn',
     'emitFn'
@@ -78,11 +85,22 @@ export default {
     }
   },
   computed: {
+    parentIsArray () {
+      return this.parentType === 'array'
+    },
     nameString () {
       return String(this.name)
     },
+    showName () {
+      return (!this.parentIsArray && this.nameString)
+          // show array index when the arrays are open
+          || (this.parentIsArray && this.parentOpen)
+    },
     shouldComma () {
       return this.size && this.position && this.position !== this.size
+    },
+    isFocused () {
+      return String(this.pointer) === String(this.focus)
     }
   }
 }
