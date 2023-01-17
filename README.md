@@ -104,6 +104,14 @@ The licence is MIT, so any extension, forking is welcome. Vue-dd is designed to 
 
 All contributions are welcome to improve this package. It is pretty feature rich at this point, but things always can be improved and I am always looking for feedback.
 ## Need More?
-What other emits, props, features would be useful to create a world class debugging tool in Vue? Please, write to me in feature requests.
+What other features, props, emits would be useful to create a world class debugging tool in Vue? Please, write to me in feature requests or submit a PR request with your code.
 
-> This was initially a fork of [vue-object-view](https://github.com/ebuzek/vue-object-view) project by [Emanuel Buzek](https://github.com/ebuzek). Thanks to his initial work back in 2017, I used it to created this hugely expanded version with advanced functionality.
+## Credits & Thanks
+> This was initially a fork of **[vue-object-view](https://github.com/ebuzek/vue-object-view)** project by **[Emanuel Buzek](https://github.com/ebuzek)**. <br />
+> **Huge Thank You to Emanuel Buzek** and his initial work back in 2017, as it was used as the base to create this hugely expanded version with advanced functionality.
+
+> **Highlight.js** is built into vue-dd to provide JavaScript function highlighting.
+
+> Kudos to **VueJS & Evan You** for creating a superb reactive framework that allows this to be built!
+
+> Vue-dd name is inspired by **Laravel's dd()** function, as it used to output objects in PHP Laravel framework, shout out to **Taylor Otwell**, as Laravel is also a truly inspiring work of art in PHP world that also enlivened VueJS Open Source Development to be what it is today!
