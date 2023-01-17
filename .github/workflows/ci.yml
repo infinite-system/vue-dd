@@ -13,11 +13,13 @@ jobs:
         with:
           node-version: 16.x
 
-      - name: Run install
+      - name: yarn install
         uses: borales/actions-yarn@v4
         with:
           cmd: install # will run `yarn install` command
-      - name: Test the app
+          dir: 'vue-dd'
+      - name: vitest vue-dd
         uses: borales/actions-yarn@v4
         with:
           cmd: test # will run `yarn test` command
+          dir: 'vue-dd'
