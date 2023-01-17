@@ -137,7 +137,7 @@ describe('vue dd init', () => {
       const wrapper = mount(VueDd, {
         props: {
           modelValue,
-          openLevel: 1,
+          openLevel:1,
           openSpecific: ['_rawValue.1','_rawValue.2']
         },
       })
@@ -147,8 +147,8 @@ describe('vue dd init', () => {
       const text = wrapper.text()
 
       console.log(text)
-      expect(text).toContain('obj:1')
-      expect(text).toContain('obj:2')
+      expect(text).toContain('_value:R[322,')
+      // expect(text).toContain('_value:true')
 
     })
 

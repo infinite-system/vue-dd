@@ -762,7 +762,7 @@ export default {
     // expand previews
     preview (preview) {
       this.expanded = preview;
-      this.open = this.open && preview;
+      this.open = !!(this.open && preview);
     }
   },
   components: {
