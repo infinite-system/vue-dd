@@ -28,14 +28,15 @@ Use `:model-value` instead of `v-model`
 ```
 
 ## Features
-- Deep live reactive watching of objects, like in developer console
-- Even VueJS' internal refs `deps` can be watched
-- Focus on certain parts of an object
-- Pre-open multiple specific levels of an object
-- Pre-open multiple specific parts of an object
-- Memory mode to remember the focused item and also everything that was previously opened
-- Performance optimized, even large objects like `window` can be viewed
-- Expessive short syntax
+- deep live reactive watching of objects like in developer console but fully reactive
+- even VueJS internal refs *deps* can be watched
+- pre-open multiple levels of an object with `open-level`
+- pre-open multiple specific parts of an object with `open-specific`
+- - `focus` window on certain parts of an object
+- `save` and `save-focus` modes to remember the focused item and also everything that was previously opened
+- performance optimized, even large objects like `window` can be vue-dd
+- expessive short syntax
+- modern reactive `Maps`, `Sets`, `Symbols` are supported
 
 ## Beautiful & Pixel Perfect
   - dark and light modes are built in
@@ -78,8 +79,21 @@ This component does not depend on any other package, except Vue 3, >2.7.5
 | deep            | `true`                               | Boolean                 | Should objects be watched deeply? Watching deeply can be disabled for big data sets. Reactive objects will still be watched by VueJS, refs will still be reactive, but regular objects will lose their reactivity when they contain reactive objects within themselves (this is a useful side-effect that was discovered)                                                                                                                             |
 
 
+
+## Emits
+
+| Emit   | Function           | Args                                                                           | Details                                                         |
+|--------|--------------------|--------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| toggle | `(setup) => {...}` | `{ event, open, pointer, level } = setup`                                      | Emit fired when a user clicks to open or close any element      |
+| open   | `(setup) => {...}` | `{ open, pointer, level } = setup`                                             | On open by vue-dd itself or by a user, this emit will be called |
+| focus  | `(setup) => {...}` | `{ focus: <String>'window.navigator'``, focusElement: <HTMLElement> } = setup` | When element is focused this emit is called                     |
+
 ## Develop Your Own Tools
 - Vue-dd allows you to create advanced debugging tools on top of it as it is very customizable and feature rich
+- There are many things that can be done with this package, for ex. here is what I am doing with it right now:
+    - Create a VueJS based developer console, write a name of an object / primitive and it will output it
+    - Create mobile debugging, by putting this output above all modals, tooltips in your app, track reactive changes, as you browse mobile or desktop versions of your app
+    - All of these features area currently in development in **XRay** component, that will soon be part of **vue-dd**, but feel free to develop your own versions with this package
 
 
 ## Modern JavaScript Support
@@ -89,7 +103,7 @@ This component supports modern javascript features such as Maps, Sets and Symbol
 The licence is MIT, so any extension, forking is welcome. Vue-dd is designed to create a low level, zero dependency tooling for VueJS, that has potential to become a standard for reactivity tracking.
 
 All contributions are welcome to improve this package. It is pretty feature rich at this point, but things always can be improved and I am always looking for feedback.
-
-
+## Need More?
+What other emits would be useful to create a world class debugging? Please, write to me in feature requests.
 
 > This was initially a fork of [vue-object-view](https://github.com/ebuzek/vue-object-view) project by [Emanuel Buzek](https://github.com/ebuzek). Thanks to his initial work back in 2017, I used it to created this hugely expanded version with advanced functionality.
