@@ -32,7 +32,7 @@ Use `:model-value` instead of `v-model`
 - even VueJS internal refs *deps* can be watched
 - pre-open multiple levels of an object with `open-level`
 - pre-open multiple specific parts of an object with `open-specific`
-- - `focus` window on certain parts of an object
+- `focus` window on certain parts of an object
 - `save` and `save-focus` modes to remember the focused item and also everything that was previously opened
 - performance optimized, even large objects like `window` can be vue-dd
 - expessive short syntax
