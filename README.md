@@ -104,6 +104,6 @@ The licence is MIT, so any extension, forking is welcome. Vue-dd is designed to 
 
 All contributions are welcome to improve this package. It is pretty feature rich at this point, but things always can be improved and I am always looking for feedback.
 ## Need More?
-What other emits would be useful to create a world class debugging? Please, write to me in feature requests.
+What other emits, props, features would be useful to create a world class debugging tool in Vue? Please, write to me in feature requests.
 
 > This was initially a fork of [vue-object-view](https://github.com/ebuzek/vue-object-view) project by [Emanuel Buzek](https://github.com/ebuzek). Thanks to his initial work back in 2017, I used it to created this hugely expanded version with advanced functionality.
