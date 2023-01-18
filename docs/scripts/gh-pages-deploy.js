@@ -5,6 +5,7 @@ import { execa } from 'execa'
   try {
     var datetime = new Date();
 
+    // this will save potential changes that might get lost if you didn't commit them
     await execa("git", ["stash", "push", "-m", "before deploy on " + datetime]);
     await execa("git", ["checkout", "--orphan", "gh-pages"]);
 
