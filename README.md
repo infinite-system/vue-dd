@@ -17,11 +17,11 @@ yarn add vue-dd
 
 Use it just like any other Vue.js component. The value to display is passed as `v-model` or `:model-value`:
 
-#### Usage in **Vue 3**
+### Usage in **Vue 3**
 ```html
 <vue-dd v-model="object" />
 ```
-#### Usage in **Vue 2**
+### Usage in **Vue 2**
 Use `:model-value` instead of `v-model`
 ```html
 <vue-dd :model-value="object" />
