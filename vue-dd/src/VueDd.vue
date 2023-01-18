@@ -75,12 +75,12 @@
   </div>
 </template>
 <script>
-import NodeComplex, { isObject } from "./NodeComplex.vue";
+import NodeComplex from "./NodeComplex.vue";
 import NodePrimitive from "./NodePrimitive.vue";
 import { isRef } from "vue";
+import { isObject, makeId } from "./helpers.js";
 
 // this is important
-let uniqueId = 1
 let unwrapCache = {}
 
 export default {
@@ -124,7 +124,7 @@ export default {
   },
   data () {
     return {
-      rootId: this.makeId(),
+      rootId: makeId(this.id, this.name, window),
       openClass: false,
       css: this.class,
       useOpenSpecific: this.openSpecific,
@@ -137,7 +137,6 @@ export default {
   },
 
   created () {
-
     if (this.save || this.saveFocus) {
       // this is very important for save functionality
       this.initMemory();
@@ -261,14 +260,6 @@ export default {
       return [...this.openSpecific, ...(this.useFocus === null ? [] : [String(this.useFocus)])]
     },
 
-    makeId () {
-      if (this.id !== '') {
-        return this.id
-      } else {
-        return `dd_${uniqueId++}`
-      }
-    },
-
     focusEmit (setup) {
 
       let { pointer, focusElement } = setup
@@ -377,7 +368,7 @@ export default {
     },
 
     store () {
-      const key = 'dd.' + this.rootId
+      const key = 'vue-dd.' + this.rootId
       return {
         get: () => {
           try {

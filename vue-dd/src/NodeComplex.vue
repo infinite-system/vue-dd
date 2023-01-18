@@ -249,24 +249,14 @@
 </template>
 
 <script>
-import { isReactive, isRef } from 'vue';
 import NodePrimitive from "./NodePrimitive.vue";
+import { isReactive, isRef } from 'vue';
+import { isPromise } from './helpers.js';
 
 import hljs from './highlight.js/core.min.js';
 import javascript from './highlight.js/javascript.min.js';
 
 hljs.registerLanguage('javascript', javascript);
-
-export function isObject (item) {
-  return (item && typeof item === 'object' && !Array.isArray(item));
-}
-
-function isPromise (p) {
-  return p !== null &&
-      typeof p === 'object' &&
-      typeof p.then === 'function' &&
-      typeof p.catch === 'function';
-}
 
 // this is needed for cache, does not need to be reactive
 let allPointerCache = {}

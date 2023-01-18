@@ -41,7 +41,7 @@ Use `:model-value` instead of `v-model`
 ## Beautiful & Pixel Perfect
   - dark and light modes are built in
   - fully configurable & fully themeable via CSS
-  - functions content are highlighted with highlight.js 
+  - functions code is highlighted with highlight.js 
   - highlight.js is built in to retain 0 dependecy architecture
 
 ## Zero dependencies
