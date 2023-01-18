@@ -55,6 +55,7 @@ export default {
     'save',
     'saveFocus',
     'focus',
+    'delimiter',
     // helpers
     'parentOpen',
     'pointer',
@@ -69,7 +70,7 @@ export default {
   ],
   data () {
     return {
-      id: `_${this.rootId}.${this.pointer}`,
+      id: this.makeId(),
       hover: false,
     }
   },
@@ -82,6 +83,10 @@ export default {
     },
     emit (name, ...args) {
       this.emitFn(this, name, ...args)
+    },
+    makeId () {
+      const pointer = this.pointer !== '' ? `${this.delimiter}${this.pointer}` : ``
+      return `_${this.rootId}${pointer}`
     }
   },
   computed: {

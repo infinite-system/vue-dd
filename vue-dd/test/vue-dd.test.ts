@@ -12,7 +12,6 @@ describe('vue dd init', () => {
 
     test('null', async () => {
 
-
       const modelValue = null
 
       const wrapper = mount(VueDd, {

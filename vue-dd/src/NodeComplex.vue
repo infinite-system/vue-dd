@@ -57,8 +57,7 @@
       <!--function start-->
       <pre v-if="isFunction && open"
            @click="toggleOpen"
-           class="vue-dd-f-start"><span v-html="functionName"></span><span class="vue-dd-comma"
-                                                                           v-if="shouldComma && !open">,</span></pre>
+           class="vue-dd-f-start"><span v-html="functionName"></span><span class="vue-dd-comma" v-if="shouldComma && !open">,</span></pre>
 
       <!--{ | [-->
       <span v-if="isIterable && open"
@@ -154,6 +153,7 @@
                 :focus="focus"
                 :save="save"
                 :saveFocus="saveFocus"
+                :delimiter="delimiter"
 
                 :pointer="getPointer(items[index-1])"
                 :parentOpen="open"
@@ -373,7 +373,7 @@ export default {
     getId () {
       return this.level === 0
           ? `_${this.rootId}`
-          : `_${this.rootId}.${this.pointer}`
+          : `_${this.rootId}${this.delimiter}${this.pointer}`
     },
     watchModelValue (deep) {
       return this.$watch('modelValue', () => {

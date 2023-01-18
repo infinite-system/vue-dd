@@ -20,6 +20,7 @@
         :escapeQuotes="escapeQuotes"
         :save="save"
         :saveFocus="saveFocus"
+        :delimiter="delimiter"
 
         pointer=""
         :type="type"
@@ -94,6 +95,9 @@ export default {
     openLevel: { type: [Number, String, Array], default: 0 },
     openSpecific: { type: Array, default: () => [] },
     focus: { type: [String, Number], default: null },
+    focusOffsetX: { type: Number, default: -35 },
+    focusOffsetY: { type: Number, default: -15 },
+    focusDelay: { type: Number, default: 300 },
     preview: { type: [Number, Boolean], default: 5 },
     previewInitial: { type: Boolean, default: true },
     escapeQuotes: { type: Boolean, default: false },
@@ -189,13 +193,13 @@ export default {
 
           if (pointerEl) {
 
-            this.$refs.root.scrollLeft = pointerEl.offsetLeft - 35
+            this.$refs.root.scrollLeft = pointerEl.offsetLeft + this.focusOffsetX
             // setting scrollLeft and scrollTop at the same time
             // does not work in browsers right now
             // console.log('pointerEl', pointerEl.offsetTop)
             setTimeout(() => {
-              this.$refs.root.scrollTop = pointerEl.offsetTop - 15
-            }, 300)
+              this.$refs.root.scrollTop = pointerEl.offsetTop + this.focusOffsetY
+            }, this.focusDelay)
 
             pointerEl.classList.add('vue-dd-highlight')
           }
@@ -203,7 +207,7 @@ export default {
       }
     },
     getElement (pointer) {
-      pointer = pointer === '' ? '' : `.${pointer}`
+      pointer = pointer === '' ? '' : `${this.delimiter}${pointer}`
       return document.getElementById(`_${this.rootId}${pointer}`)
     },
     getFocus () {

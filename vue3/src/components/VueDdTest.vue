@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance, reactive } from 'vue'
 import BaseCheckbox from './BaseCheckbox.vue'
+const bool = true
 const text = { ref: ref('text') }
 const refObject = { ref: ref({hello:'hello',bye:'bye'}) }
 const refBoolean = { ref: ref({hello:'hello',bye:'bye'}) }
@@ -13,6 +14,7 @@ setInterval(() => {
   refBoolean.ref.value = !refBoolean.ref.value
   // console.log(refObj.ref.value.hello)
 }, 500)
+
 const w = window
 const instance = getCurrentInstance()
 const dark = ref(true)
@@ -22,11 +24,13 @@ const arr2 = ['a','b','c','d','e','f']
 const arr3 = ['a','b','c','d','e','f']
 const reactive_arr = reactive([0,100,200,300,500,1000,2000])
 const openLevel = reactive([0, { test: 'open' },200,300,500,1000,2000])
+
 setInterval(() => reactive_arr[0]--, 200 )
 setInterval(() => reactive_arr[1]++, 300 )
 setInterval(() => reactive_arr[2]++, 500 )
 setInterval(() => reactive_arr[3]--, 10 )
 setInterval(() => reactive_arr[4]--, 50 )
+
 const map = reactive(new Map([
     ['a', 1]
     // ['test', openLevel],
@@ -64,10 +68,11 @@ const set = reactive(new Set(['names', ['Tom','Andrey','Jeremy','Diana','Noelle'
   Window object displayed:
   <br />
   dark: <base-checkbox v-model="dark" /><br />
+  <vue-dd name="test" delimiter="$" :dark="dark" v-model="bool" />
   <vue-dd name="ref" :dark="dark" v-model="text" />
   <vue-dd name="refObject" :dark="dark" v-model="refObject" />
   <vue-dd name="refBoolean" :dark="dark" v-model="refBoolean" />
-  <vue-dd name="window" :dark="dark" v-model="w" :open-specific="['history.state']" />
+  <vue-dd name="window" delimiter="$" :dark="dark" v-model="w" :open-specific="['history.state']" />
   <vue-dd name="window" :dark="dark" v-model="w" padding-left="25px" />
   <vue-dd name="getCurrentInstance" :dark="dark" v-model="instance" :deep="false" />
   <vue-dd name="symbols[preview-initial='false']" :dark="dark" v-model="symbols" :preview-initial="false" />
