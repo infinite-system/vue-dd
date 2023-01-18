@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vitepress dev docs",
     "build": "vitepress build docs",
-    "serve": "vitepress serve docs"
+    "serve": "vitepress serve docs",
+    "deploy": "node scripts/gh-pages-deploy.js"
   },
   "devDependencies": {
     "vue": "3.2.44",
