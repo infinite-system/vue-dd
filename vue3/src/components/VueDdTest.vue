@@ -32,7 +32,7 @@ setInterval(() => reactive_arr[3]--, 10 )
 setInterval(() => reactive_arr[4]--, 50 )
 
 const map = reactive(new Map([
-    ['a', 1]
+    // ['a', 1]
     // ['test', openLevel],
     // ['test2', reactive_arr]
 ]))
@@ -40,49 +40,47 @@ let i = 0;
 setInterval(() => {
   if (i < 30){
     map.set('key_'+i, 'value_'+i)
+    i++
   }
-  i++
-}, 1000)
+}, 1500)
 const obj = reactive({})
 let m = 0;
 setInterval(() => {
-
   if (m < 30) {
-    obj['key_' + i++] = 'value_' + i
+    obj['key_' + m] = 'value_' + m
+    m++
   }
-  m++
-  // console.log(obj)
-},1000)
+},1500)
 
 let k = 0;
-const set = reactive(new Set(['names', ['Tom','Andrey','Jeremy','Diana','Noelle']]))
+const set = reactive(new Set())
   setInterval(() => {
     if (k < 30){
-      set.add(['Harry', ['Styles']])
+      set.add(['Harry '+k, ['Berry']])
+      k++
     }
-    k++
-  }, 1000)
+  }, 1500)
 </script>
 
 <template>
   Window object displayed:
   <br />
   dark: <base-checkbox v-model="dark" /><br />
-  <vue-dd name="test" delimiter="$" :dark="dark" v-model="bool" />
-  <vue-dd name="ref" :dark="dark" v-model="text" />
-  <vue-dd name="refObject" :dark="dark" v-model="refObject" />
-  <vue-dd name="refBoolean" :dark="dark" v-model="refBoolean" />
-  <vue-dd name="window" :dark="dark" v-model="w" :open-specific="['history.state']" />
-  <vue-dd name="window" :dark="dark" :preview-initial="false" v-model="w" padding-left="25px" />
-  <vue-dd name="getCurrentInstance" :dark="dark" v-model="instance" :deep="false" />
-  <vue-dd name="symbols[preview-initial='false']" :dark="dark" v-model="symbols" :preview-initial="false" />
-  <vue-dd name="symbols" :dark="dark" v-model="symbols" />
-  <vue-dd name="arr" :dark="dark" v-model="arr" />
-  <vue-dd name="arr2" :dark="dark" v-model="arr2" />
-  <vue-dd name="arr3" :dark="dark" v-model="arr3" />
-  <vue-dd name="reactive_arr" :dark="dark" v-model="reactive_arr" />
-  <vue-dd name="openLevel[open-level='2']" :dark="dark" v-model="openLevel" open-level="2" />
-  <vue-dd name="map" :dark="dark" v-model="map" />
-  <vue-dd name="obj" :dark="dark" v-model="obj" />
-  <vue-dd name="set" :dark="dark" v-model="set" />
+  <vue-dd name="setupState" :dark="dark" v-model="instance.setupState" max-height="300px" :deep="true" />
+<!--  <vue-dd name="test" delimiter="$" :dark="dark" v-model="bool" />-->
+<!--  <vue-dd name="ref" :dark="dark" v-model="text" />-->
+<!--  <vue-dd name="refObject" :dark="dark" v-model="refObject" />-->
+<!--  <vue-dd name="refBoolean" :dark="dark" v-model="refBoolean" />-->
+<!--  <vue-dd name="window" :dark="dark" v-model="w" :open-specific="['history.state']" />-->
+<!--  <vue-dd name="window" :dark="dark" :preview-initial="false" v-model="w" padding-left="25px" />-->
+<!--  <vue-dd name="symbols[preview-initial='false']" :dark="dark" v-model="symbols" :preview-initial="false" />-->
+<!--  <vue-dd name="symbols" :dark="dark" v-model="symbols" />-->
+<!--  <vue-dd name="arr" :dark="dark" v-model="arr" />-->
+<!--  <vue-dd name="arr2" :dark="dark" v-model="arr2" />-->
+<!--  <vue-dd name="arr3" :dark="dark" v-model="arr3" />-->
+<!--  <vue-dd name="reactive_arr" :dark="dark" v-model="reactive_arr" />-->
+<!--  <vue-dd name="openLevel[open-level='2']" :dark="dark" v-model="openLevel" open-level="2" />-->
+<!--  <vue-dd name="map" :dark="dark" v-model="map" />-->
+<!--  <vue-dd name="obj" :dark="dark" v-model="obj" />-->
+<!--  <vue-dd name="set" :dark="dark" v-model="set" />-->
 </template>
