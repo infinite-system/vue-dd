@@ -2,6 +2,12 @@
 
 > Vue-dd is a component for live display of VueJS refs, reactive objects, primitives and JavaScript objects supporting circular references
 
+
+https://user-images.githubusercontent.com/150185/213546256-4967db87-3d4a-4d71-9c5d-6b38c147ea60.mov
+
+https://user-images.githubusercontent.com/150185/213546280-f6f1d5cd-e4d7-462b-a7a6-59ace5fc011d.mov
+
+
 ## About
 Vue-dd is a Vue 3 & >2.7.5 object viewer for displaying complex JavaScript objects, Vue reactive and ref objects, functions, maps, sets, symbols and primitives in order to monitor their changes **live** with full reactivity. 
 
