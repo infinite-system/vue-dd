@@ -13,7 +13,7 @@ import { getCurrentInstance } from 'vue'
 const instance = getCurrentInstance()
 ```
 ```html
-  <vue-dd name="setupState" v-model="instance.setupState" max-height="300px" />
+<vue-dd name="setupState" v-model="instance.setupState" max-height="300px" />
 ```
 
 ## About
