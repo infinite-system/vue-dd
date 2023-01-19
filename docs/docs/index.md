@@ -1,6 +1,6 @@
 <script setup>
-const  a = 'a'
+const  a = 'Coming soon'
 </script>
-# Coming soon...
+# {{ a }}
 
 
