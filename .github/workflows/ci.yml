@@ -24,7 +24,7 @@ jobs:
           cmd: test # will run `yarn test` command
           dir: 'vue-dd'
   docs-deploy:
-    name: Deploy docs
+    name: deploy docs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
