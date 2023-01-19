@@ -1,4 +1,4 @@
-## Vue-dd
+## vue-dd [![npm](https://img.shields.io/npm/v/vue-dd.svg)](https://www.npmjs.com/package/vue-dd) [![build status](https://github.com/infinite-system/vue-dd/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/vuejs/core/actions/workflows/ci.yml)
 
 > Vue-dd is a component for live display of VueJS refs, reactive objects, primitives and JavaScript objects supporting circular references
 
