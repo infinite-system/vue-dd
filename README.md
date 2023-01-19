@@ -1,6 +1,6 @@
-## vue-dd [![npm](https://img.shields.io/npm/v/vue-dd.svg)](https://www.npmjs.com/package/vue-dd) [![build status](https://github.com/infinite-system/vue-dd/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/infinite-system/vue-dd/actions/workflows/ci.yml)
+## vue-dd &mdash; object viewer &nbsp; &nbsp; [![npm](https://img.shields.io/npm/v/vue-dd.svg)](https://www.npmjs.com/package/vue-dd) [![build status](https://github.com/infinite-system/vue-dd/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/infinite-system/vue-dd/actions/workflows/ci.yml)
 
-> Vue-dd is a component for live display of VueJS refs, reactive objects, primitives and JavaScript objects supporting circular references
+> Vue-dd is a component for live display of VueJS refs, reactive objects, primitives and JavaScript objects supporting circular references. Laravel dd() inspired object viewer for Vue 3 and 2. 
 
 
 https://user-images.githubusercontent.com/150185/213546256-4967db87-3d4a-4d71-9c5d-6b38c147ea60.mov
