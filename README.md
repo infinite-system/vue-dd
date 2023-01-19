@@ -7,6 +7,14 @@ https://user-images.githubusercontent.com/150185/213546256-4967db87-3d4a-4d71-9c
 
 https://user-images.githubusercontent.com/150185/213546280-f6f1d5cd-e4d7-462b-a7a6-59ace5fc011d.mov
 
+Video example code:
+```js
+import { getCurrentInstance } from 'vue'
+const instance = getCurrentInstance()
+```
+```html
+  <vue-dd name="setupState" v-model="instance.setupState" max-height="300px" />
+```
 
 ## About
 Vue-dd is a Vue 3 & >2.7.5 object viewer for displaying complex JavaScript objects, Vue reactive and ref objects, functions, maps, sets, symbols and primitives in order to monitor their changes **live** with full reactivity. 
