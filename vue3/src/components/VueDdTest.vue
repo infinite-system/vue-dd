@@ -72,8 +72,8 @@ const set = reactive(new Set(['names', ['Tom','Andrey','Jeremy','Diana','Noelle'
   <vue-dd name="ref" :dark="dark" v-model="text" />
   <vue-dd name="refObject" :dark="dark" v-model="refObject" />
   <vue-dd name="refBoolean" :dark="dark" v-model="refBoolean" />
-  <vue-dd name="window" delimiter="$" :dark="dark" v-model="w" :open-specific="['history.state']" />
-  <vue-dd name="window" :dark="dark" v-model="w" padding-left="25px" />
+  <vue-dd name="window" :dark="dark" v-model="w" :open-specific="['history.state']" />
+  <vue-dd name="window" :dark="dark" :preview-initial="false" v-model="w" padding-left="25px" />
   <vue-dd name="getCurrentInstance" :dark="dark" v-model="instance" :deep="false" />
   <vue-dd name="symbols[preview-initial='false']" :dark="dark" v-model="symbols" :preview-initial="false" />
   <vue-dd name="symbols" :dark="dark" v-model="symbols" />

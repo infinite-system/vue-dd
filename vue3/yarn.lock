@@ -3426,6 +3426,13 @@ vitest@^0.25.6:
     tinyspy "^1.0.2"
     vite "^3.0.0 || ^4.0.0"
 
+vue-dd@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/vue-dd/-/vue-dd-1.1.4.tgz#f85aacd0ec92b5c063c1222ff0d6835b9942f103"
+  integrity sha512-/GUbqAtmQGXOhPj2VbU/2eRTYEBeqKHmAkDS2P4Z5i7fceo1hMGVtVq8GSil7aaTXfBGVOsHePEY0J5VCA3Osg==
+  dependencies:
+    vue ">2.7.5"
+
 vue-demi@*:
   version "0.13.11"
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.13.11.tgz#7d90369bdae8974d87b1973564ad390182410d99"
@@ -3443,11 +3450,6 @@ vue-eslint-parser@^9.0.0, vue-eslint-parser@^9.0.1:
     esquery "^1.4.0"
     lodash "^4.17.21"
     semver "^7.3.6"
-
-vue-object-view@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/vue-object-view/-/vue-object-view-0.4.2.tgz#2db4b53c29e57481a6cdd7ac3be3f239512cf84f"
-  integrity sha512-XAiu1focMWdA7QhX/cK/30KxYSi1ySJ94mwXNiIPa0h9WYoblN4nMsuJK9h4QlhqgLwsJQeOOnhKRQcdQfAAmQ==
 
 vue-router@^4.1.6:
   version "4.1.6"
@@ -3472,7 +3474,7 @@ vue-tsc@^1.0.12:
     "@volar/vue-language-core" "1.0.24"
     "@volar/vue-typescript" "1.0.24"
 
-vue@^3.2.45:
+vue@>2.7.5, vue@^3.2.45:
   version "3.2.45"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.45.tgz#94a116784447eb7dbd892167784619fef379b3c8"
   integrity sha512-9Nx/Mg2b2xWlXykmCwiTUCWHbWIj53bnkizBxKai1g61f2Xit700A1ljowpTIM11e3uipOeiPcSqnmBg6gyiaA==

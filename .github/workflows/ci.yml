@@ -1,5 +1,5 @@
 name: ci
-on: [push]
+on: [ push ]
 
 jobs:
   build:
@@ -23,3 +23,46 @@ jobs:
         with:
           cmd: test # will run `yarn test` command
           dir: 'vue-dd'
+  docs-deploy:
+    name: Deploy docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: Setup git
+        run: |
+          git config user.name "Evgeny Kalashnikov" && git config user.email "ekalashnikov@gmail.com"
+      - name: yarn install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install # will run `yarn install` command
+          dir: 'docs'
+      - name: deploy docs
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: deploy # will run `yarn deploy` command
+          dir: 'docs'
+#  docs-deploy:
+#    name: Deploying to gh-pages
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Setup Node.js for use with actions
+#        uses: actions/setup-node@v2
+#        with:
+#          version: 12.x
+#      - name: Checkout branch
+#        uses: actions/checkout@v2
+#
+#      - name: Clean install dependencies
+#        run: npm ci
+#
+#      - name: Run deploy script
+#        run: |
+#          git config user.name "Evgeny Kalashnikov" && git config user.email "ekalashnikov@gmail.com"
+#
+#          cmd: deploy
