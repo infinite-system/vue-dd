@@ -2,9 +2,9 @@
 
 > **vue-dd** is a Vue 3 & 2 object viewer for displaying complex JavaScript objects, Vue reactive and ref objects, functions, maps, sets, symbols and primitives in order to monitor their changes **live** with full reactivity. Inspired by the Laravel's **dd()** function. 
 
-![vue-dd-example-2 (1)](https://user-images.githubusercontent.com/150185/213600498-de575b3e-f4fc-4fd7-8bef-9038c7383d19.gif)
+https://user-images.githubusercontent.com/150185/213549880-e6b645bd-11f0-461a-b1a9-29c70c52f2ad.mov
 
-![vue-dd-example-1 (2)](https://user-images.githubusercontent.com/150185/213600515-801ad586-8615-420d-973c-baad5d8dd29b.gif)
+https://user-images.githubusercontent.com/150185/213549905-360698e2-0c6b-4fd1-8023-803e22b68e27.mov
 
 Video example code in Vue 3 `<script setup>` style:
 ```js
