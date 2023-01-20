@@ -66,7 +66,7 @@ const set = reactive(new Set())
   Window object displayed:
   <br />
   dark: <base-checkbox v-model="dark" /><br />
-  <vue-dd name="setupState" :dark="dark" v-model="instance.setupState" max-height="300px" :deep="false" />
+  <vue-dd name="setupState" :dark="dark" v-model="instance.setupState" :deep="false" max-height="300px" />
 <!--  <vue-dd name="test" delimiter="$" :dark="dark" v-model="bool" />-->
 <!--  <vue-dd name="ref" :dark="dark" v-model="text" />-->
 <!--  <vue-dd name="refObject" :dark="dark" v-model="refObject" />-->

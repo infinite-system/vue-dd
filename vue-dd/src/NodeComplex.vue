@@ -587,7 +587,7 @@ export default {
     },
     longTextInline () {
 
-      let text = this.modelValue.substring(0, this.longText)
+      let text = this.modelValue.toString().substring(0, this.longText)
       text = this.escapeQuotesFn(text)
       text = `"${text}..."`
 
