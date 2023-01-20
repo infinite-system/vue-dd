@@ -14,6 +14,7 @@ import { getCurrentInstance } from 'vue'
 // get Vue instance
 const instance = getCurrentInstance()
 ```
+In `<template>` add:
 ```html
 <vue-dd name="setupState" v-model="instance.setupState" max-height="300px" />
 ```
@@ -31,7 +32,7 @@ yarn add vue-dd
 ```
 
 
-Add globally in main.js
+Add globally in `main.js`:
 ```js
 import VueDd from 'vue-dd'
 // create app
@@ -39,7 +40,7 @@ const app = createApp(App)
 // register component
 app.component('VueDd', VueDd)
 ```
-or add locally
+or add locally in component:
 ```js
 import VueDd from 'vue-dd'
 ```
