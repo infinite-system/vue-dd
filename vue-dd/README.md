@@ -6,8 +6,6 @@ https://user-images.githubusercontent.com/150185/213549880-e6b645bd-11f0-461a-b1
 
 https://user-images.githubusercontent.com/150185/213549905-360698e2-0c6b-4fd1-8023-803e22b68e27.mov
 
-Video example code:
-
 Video example code in Vue 3 `<script setup>` style:
 ```js
 import VueDd from 'vue-dd'
@@ -16,10 +14,11 @@ import { getCurrentInstance } from 'vue'
 // get Vue instance
 const instance = getCurrentInstance()
 ```
+In `<template>` add:
 ```html
-<vue-dd name="setupState" v-model="instance.setupState" max-height="300px" />
+<vue-dd name="setupState" v-model="instance.setupState" :deep="false" max-height="300px" />
 ```
-
+> In the example above `:deep="false"` means, disable deep watching. Deep watching is `true` by default, but watching Vue instance or `instance.setupState` deeply can create a flood of Vue.js warnings because we start watching Vue itself. To prevent flooding, set `:deep="false"`, otherwise for simpler objects it can be simply omitted.
 ## About
 The component renders object as a tree that can be expanded to display nested values, very similar to inspecting JavaScript objects using the Developer Tools, but with full reactivity & advanced UI and UX designed specifically for ease of use and joy for the developer.
 
@@ -33,7 +32,7 @@ yarn add vue-dd
 ```
 
 
-Add globally in main.js
+Add globally in `main.js`:
 ```js
 import VueDd from 'vue-dd'
 // create app
@@ -41,12 +40,15 @@ const app = createApp(App)
 // register component
 app.component('VueDd', VueDd)
 ```
-or add locally
+or add locally in component:
 ```js
 import VueDd from 'vue-dd'
 ```
+## Usage
 
-Use it just like any other Vue.js component. The value to display is passed as `v-model` or `:model-value`:
+Use it just like any other Vue.js component.
+
+The value to display is passed as `v-model` or `:model-value`:
 
 ### Usage in **Vue 3**
 ```html
@@ -57,5 +59,3 @@ Use `:model-value` instead of `v-model`
 ```html
 <vue-dd :model-value="object" />
 ```
-
-Read the full README doc: **https://github.com/infinite-system/vue-dd**

@@ -1,61 +1,68 @@
-## vue-dd &mdash; object viewer &nbsp; &nbsp; [![npm](https://img.shields.io/npm/v/vue-dd.svg)](https://www.npmjs.com/package/vue-dd) [![build status](https://github.com/infinite-system/vue-dd/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/infinite-system/vue-dd/actions/workflows/ci.yml)
+# vue3
 
-> **vue-dd** is a Vue 3 & 2 object viewer for displaying complex JavaScript objects, Vue reactive and ref objects, functions, maps, sets, symbols and primitives in order to monitor their changes **live** with full reactivity. Inspired by the Laravel's **dd()** function.
+This template should help get you started developing with Vue 3 in Vite.
 
-https://user-images.githubusercontent.com/150185/213549880-e6b645bd-11f0-461a-b1a9-29c70c52f2ad.mov
+## Recommended IDE Setup
 
-https://user-images.githubusercontent.com/150185/213549905-360698e2-0c6b-4fd1-8023-803e22b68e27.mov
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-Video example code in Vue 3 `<script setup>` style:
-```js
-import VueDd from 'vue-dd'
-import { getCurrentInstance } from 'vue'
+## Type Support for `.vue` Imports in TS
 
-// get Vue instance
-const instance = getCurrentInstance()
-```
-In `<template>` add:
-```html
-<vue-dd name="setupState" v-model="instance.setupState" :deep="false" max-height="300px" />
-```
-> In the example above `:deep="false"` means, disable deep watching. Deep watching is `true` by default, but watching Vue instance or `instance.setupState` deeply can create a flood of Vue.js warnings because we start watching Vue itself. To prevent flooding, set `:deep="false"`, otherwise for simpler objects it can be simply omitted.
-## About
-The component renders object as a tree that can be expanded to display nested values, very similar to inspecting JavaScript objects using the Developer Tools, but with full reactivity & advanced UI and UX designed specifically for ease of use and joy for the developer.
+TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
 
-## Install
-> At the moment vue-dd has no build step, so it supports only SFC based versions of Vue.
-```bash
-# npm
-npm install vue-dd
-# yarn
-yarn add vue-dd
+If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+
+1. Disable the built-in TypeScript Extension
+    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
+    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
+2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+
+## Customize configuration
+
+See [Vite Configuration Reference](https://vitejs.dev/config/).
+
+## Project Setup
+
+```sh
+yarn
 ```
 
+### Compile and Hot-Reload for Development
 
-Add globally in `main.js`:
-```js
-import VueDd from 'vue-dd'
-// create app
-const app = createApp(App)
-// register component
-app.component('VueDd', VueDd)
+```sh
+yarn dev
 ```
-or add locally in component:
-```js
-import VueDd from 'vue-dd'
+
+### Type-Check, Compile and Minify for Production
+
+```sh
+yarn build
 ```
-## Usage
 
-Use it just like any other Vue.js component.
+### Run Unit Tests with [Vitest](https://vitest.dev/)
 
-The value to display is passed as `v-model` or `:model-value`:
-
-### Usage in **Vue 3**
-```html
-<vue-dd v-model="object" />
+```sh
+yarn test:unit
 ```
-### Usage in **Vue 2**
-Use `:model-value` instead of `v-model`
-```html
-<vue-dd :model-value="object" />
+
+### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
+
+```sh
+yarn test:e2e:dev
+```
+
+This runs the end-to-end tests against the Vite development server.
+It is much faster than the production build.
+
+But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
+
+```sh
+yarn build
+yarn test:e2e
+```
+
+### Lint with [ESLint](https://eslint.org/)
+
+```sh
+yarn lint
 ```
