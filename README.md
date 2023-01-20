@@ -7,21 +7,13 @@ https://user-images.githubusercontent.com/150185/213549880-e6b645bd-11f0-461a-b1
 https://user-images.githubusercontent.com/150185/213549905-360698e2-0c6b-4fd1-8023-803e22b68e27.mov
 
 Video example code:
-
-```html
-<script setup>
-```
 ```js
+import VueDd from 'vue-dd'
 import { getCurrentInstance } from 'vue'
 const instance = getCurrentInstance()
 ```
 ```html
-</script>
-```
-```html
-<template>
-  <vue-dd name="setupState" v-model="instance.setupState" max-height="300px" />
-</template>
+<vue-dd name="setupState" v-model="instance.setupState" max-height="300px" />
 ```
 
 ## About
@@ -40,10 +32,12 @@ yarn add vue-dd
 Add globally in main.js
 ```js
 import VueDd from 'vue-dd'
+// create app
 const app = createApp(App)
+// register component
 app.component('VueDd', VueDd)
 ```
-or add locally 
+or add locally
 ```js
 import VueDd from 'vue-dd'
 ```
