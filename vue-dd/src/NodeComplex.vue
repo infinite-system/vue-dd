@@ -708,9 +708,7 @@ export default {
     open: {
       handler (value, oldValue) {
 
-
         if (!value) {
-
 
           const hideEverything = () => {
             this.useOpenLevel = 0

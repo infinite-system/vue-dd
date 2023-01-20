@@ -7,12 +7,21 @@ https://user-images.githubusercontent.com/150185/213549880-e6b645bd-11f0-461a-b1
 https://user-images.githubusercontent.com/150185/213549905-360698e2-0c6b-4fd1-8023-803e22b68e27.mov
 
 Video example code:
+
+```html
+<script setup>
+```
 ```js
 import { getCurrentInstance } from 'vue'
 const instance = getCurrentInstance()
 ```
 ```html
-<vue-dd name="setupState" v-model="instance.setupState" max-height="300px" />
+</script>
+```
+```html
+<template>
+  <vue-dd name="setupState" v-model="instance.setupState" max-height="300px" />
+</template>
 ```
 
 ## About

@@ -260,7 +260,6 @@ button.vue-dd-expand:active {
   color: #55606a;
 }
 
-
 .vue-dd-dark pre.vue-dd-f-start {
   padding: 0;
   margin: 0;
@@ -337,6 +336,11 @@ button.vue-dd-arrow-collapsed {
   color: #21BA45;
   -webkit-user-select: none;
 }
+
+.vue-dd-dark .vue-dd-instance {
+
+}
+
 .vue-dd-instance + .vue-dd-size {
   margin-left: 2px;
 }
@@ -408,8 +412,27 @@ button.vue-dd-arrow-collapsed {
   color: #4067b2;
 }
 
+.vue-dd-bigint {
+  color: #5a38be;
+}
+
+.vue-dd-dark .vue-dd-bigint {
+  color: #7046e8;
+}
+
 .vue-dd-false {
-  cursor: default;
+  color: #f34747;
+}
+
+.vue-dd-dark .vue-dd-false {
+  color: #f34747;
+}
+
+.vue-dd-unknown {
+  color: #f34747;
+}
+
+.vue-dd-dark .vue-dd-unknown {
   color: #f34747;
 }
 
@@ -518,23 +541,28 @@ button.vue-dd-arrow-collapsed {
 }
 
 .vue-dd-comma {
+  color: #999;
   padding-right: 3px;
 }
 
+.vue-dd-dark .vue-dd-comma {
+  color: #333;
+}
+
 .vue-dd-obj-char {
-  color: #2c3e50;
+  color: #7490ab;
   padding: 0 1px;
 }
 
-.vue-dd-dark.vue-dd-obj-char {
+.vue-dd-dark .vue-dd-obj-char {
   color: #555;
 }
 
 .vue-dd-arr-char {
-  color: #2c3e50;
+  color: #7490ab;
   padding: 0 1px;
 }
 
-.vue-dd-dark.vue-dd-arr-char {
+.vue-dd-dark .vue-dd-arr-char {
   color: #555;
 }

@@ -8,6 +8,7 @@ https://user-images.githubusercontent.com/150185/213549905-360698e2-0c6b-4fd1-80
 
 Video example code:
 ```js
+import VueDd from 'vue-dd'
 import { getCurrentInstance } from 'vue'
 const instance = getCurrentInstance()
 ```
@@ -31,7 +32,9 @@ yarn add vue-dd
 Add globally in main.js
 ```js
 import VueDd from 'vue-dd'
+// create app
 const app = createApp(App)
+// register component
 app.component('VueDd', VueDd)
 ```
 or add locally

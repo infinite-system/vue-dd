@@ -6,8 +6,8 @@
     <span
         v-if="showName"
         :class="{
-          'vue-dd-key' : true,
-          'vue-dd-key-of-array' : parentIsArray,
+          'vue-dd-key': true,
+          'vue-dd-key-of-array': parentIsArray,
         }">{{ name }}<span class="vue-dd-colon">:</span></span><span
       v-if="parentOpen && saveFocus"
       ref="focusElement"
@@ -17,8 +17,8 @@
       @mouseup="hover=false"
       @mouseleave="hover=false"
       :class="{
-        'vue-dd-focus-hover':hover,
-        'vue-dd-focus-selected':isFocused
+        'vue-dd-focus-hover': hover,
+        'vue-dd-focus-selected': isFocused
       }"
   ></span>
     <span v-if="type === 'null'"
@@ -27,6 +27,8 @@
           class="vue-dd-undefined">undefined</span>
     <span v-else-if="type === 'number'"
           class="vue-dd-number">{{ modelValue }}</span>
+    <span v-else-if="type === 'bigint'"
+          class="vue-dd-bigint">{{ modelValue }}</span>
     <span v-else-if="type === 'string'"
           class="vue-dd-string">"{{ escapeQuotesFn(modelValue) }}"</span>
     <span v-else-if="type === 'boolean'"
@@ -35,7 +37,7 @@
     <span v-else-if="type === 'symbol'"
           class="vue-dd-symbol">{{ modelValue.toString() }}</span>
     <span v-else
-          class="vue-dd-false">[unknown_type]{{ modelValue }}</span>
+          class="vue-dd-unknown">[unknown_type]{{ modelValue }}</span>
     <span class="vue-dd-comma" v-if="shouldComma">,</span>
   </span>
 </template>
