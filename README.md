@@ -18,7 +18,7 @@ In `<template>` add:
 ```html
 <vue-dd name="setupState" v-model="instance.setupState" :deep="false" max-height="300px" />
 ```
-> In the example above `:deep="false"` means, disable deep watching. Deep watching is `true` by default, but watching Vue instance or `instance.setupState` deeply can create a flood of Vue.js warnings because we start watching Vue itself. To prevent flooding, set `:deep="false"` otherwise that is optional
+> In the example above `:deep="false"` means, disable deep watching. Deep watching is `true` by default, but watching Vue instance or `instance.setupState` deeply can create a flood of Vue.js warnings because we start watching Vue itself. To prevent flooding, set `:deep="false"`, otherwise for simpler objects it can be simply omitted.
 ## About
 The component renders object as a tree that can be expanded to display nested values, very similar to inspecting JavaScript objects using the Developer Tools, but with full reactivity & advanced UI and UX designed specifically for ease of use and joy for the developer.
 
