@@ -6,10 +6,12 @@ https://user-images.githubusercontent.com/150185/213549880-e6b645bd-11f0-461a-b1
 
 https://user-images.githubusercontent.com/150185/213549905-360698e2-0c6b-4fd1-8023-803e22b68e27.mov
 
-Video example code:
+Video example code in Vue 3 `<script setup>` style:
 ```js
 import VueDd from 'vue-dd'
 import { getCurrentInstance } from 'vue'
+
+// get Vue instance
 const instance = getCurrentInstance()
 ```
 ```html
