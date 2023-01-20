@@ -44,8 +44,11 @@ or add locally in component:
 ```js
 import VueDd from 'vue-dd'
 ```
+## Usage
 
-Use it just like any other Vue.js component. The value to display is passed as `v-model` or `:model-value`:
+Use it just like any other Vue.js component. 
+
+The value to display is passed as `v-model` or `:model-value`:
 
 ### Usage in **Vue 3**
 ```html
