@@ -1,6 +1,6 @@
 {
   "name": "vue-dd",
-  "version": "1.2.0-beta.1",
+  "version": "1.2.0-beta.2",
   "description": "Vue.js component for displaying JavaScript objects with circular references, forked and ported to Vue 3",
   "exports": {
     ".": {
@@ -19,7 +19,8 @@
     "build": "vite build"
   },
   "dependencies": {
-    "vue": ">2.7.5"
+    "vue": ">2.7.5",
+    "vue-dd": "^1.2.0-beta.1"
   },
   "devDependencies": {
     "@cypress/vite-dev-server": "^5.0.2",
