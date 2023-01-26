@@ -22,7 +22,7 @@
     "build": "vite build"
   },
   "peerDependencies": {
-    "vue": ">2.7.5"
+    "vue": "^3.0.0"
   },
   "devDependencies": {
     "@cypress/vite-dev-server": "^5.0.2",
@@ -37,6 +37,7 @@
     "vite-plugin-libcss": "^1.0.5",
     "vitest": "^0.27.1",
     "vue": "^3.2.45",
+    "vue-demi": "^0.13.11",
     "vue-router": "^4.1.6"
   },
   "repository": {

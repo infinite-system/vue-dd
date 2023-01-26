@@ -1,6 +1,6 @@
 ## vue-dd &mdash; object viewer &nbsp; &nbsp; [![npm](https://img.shields.io/npm/v/vue-dd.svg)](https://www.npmjs.com/package/vue-dd) [![build status](https://github.com/infinite-system/vue-dd/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/infinite-system/vue-dd/actions/workflows/ci.yml)
 
-> **vue-dd** is a Vue 3 & 2 object viewer for displaying complex JavaScript objects, Vue reactive and ref objects, functions, maps, sets, symbols and primitives in order to monitor their changes **live** with full reactivity. Inspired by the Laravel's **dd()** function. 
+> **vue-dd** is a Vue 3 object viewer for displaying complex JavaScript objects, Vue reactive and ref objects, functions, maps, sets, symbols and primitives in order to monitor their changes **live** with full reactivity. Inspired by the Laravel's **dd()** function. 
 
 https://user-images.githubusercontent.com/150185/213549880-e6b645bd-11f0-461a-b1a9-29c70c52f2ad.mov
 
@@ -8,7 +8,7 @@ https://user-images.githubusercontent.com/150185/213549905-360698e2-0c6b-4fd1-80
 
 Video example code in Vue 3 `<script setup>` style:
 ```js
-import VueDd from 'vue-dd'
+import { VueDd } from 'vue-dd'
 import { getCurrentInstance } from 'vue'
 
 // get Vue instance
@@ -34,7 +34,7 @@ yarn add vue-dd
 
 Add globally in `main.js`:
 ```js
-import VueDd from 'vue-dd'
+import { VueDd } from 'vue-dd'
 // create app
 const app = createApp(App)
 // register component
@@ -78,7 +78,7 @@ Use `:model-value` instead of `v-model`
   - highlight.js is built in to retain 0 dependecy architecture
 
 ## Zero dependencies
-This component does not depend on any other package, except Vue 3, >2.7.5
+This component does not depend on any other package, except Vue 3
 
 ## Props
 

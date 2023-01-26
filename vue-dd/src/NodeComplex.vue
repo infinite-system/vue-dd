@@ -140,6 +140,7 @@
                   : (allowPreview < items.length ? allowPreview : items.length)"
                :key="index">
 
+            <div>
             <!-- string | number | boolean | null | undefined | symbol -->
             <node-primitive
                 v-if="isPrimitiveFn(getSpecialType(items[index-1]))"
@@ -208,7 +209,7 @@
 
                 @openParent="openParent"
             />
-
+            </div>
           </div>
         </div>
 

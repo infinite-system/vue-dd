@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import VueDd from '../../../vue-dd/src/VueDd.vue'
 export default {
   name: 'VueDdTest',
   props: {
@@ -21,9 +20,6 @@ export default {
       w: window.navigator
     }
   },
-  components: {
-    VueDd
-  }
 }
 </script>
 

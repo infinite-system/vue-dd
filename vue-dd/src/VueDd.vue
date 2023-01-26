@@ -74,22 +74,25 @@
     />
   </div>
 </template>
-<script>
+<script lang="ts">
 import NodeComplex from "./NodeComplex.vue";
 import NodePrimitive from "./NodePrimitive.vue";
-import { isRef } from "vue";
+import { isRef, defineComponent } from "vue";
 import { isObject, makeId } from "./helpers.js";
 
 // this is important
 let unwrapCache = {}
 
-export default {
+export default defineComponent({
   name: 'VueDd',
   inheritAttrs: false,
   emits: ['open', 'toggle', 'focus'],
   props: {
     // main options
-    modelValue: undefined,
+    /**
+     * modelValue
+     */
+    modelValue: { type: undefined, required: true },
     id: { type: [String, Number], default: '' },
     name: { type: String, default: '' },
     openLevel: { type: [Number, String, Array], default: 0 },
@@ -464,7 +467,7 @@ export default {
     NodeComplex,
     NodePrimitive
   }
-}
+})
 </script>
 <style>
 @import 'css/VueDd.css';
