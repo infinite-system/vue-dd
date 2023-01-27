@@ -46,19 +46,13 @@ import { VueDd } from 'vue-dd'
 ```
 ## Usage
 
-Use it just like any other Vue.js component. 
-
+Use it just like any other Vue.js component.
 The value to display is passed as `v-model` or `:model-value`:
 
-### Usage in **Vue 3**
 ```html
 <vue-dd v-model="object" />
 ```
-### Usage in **Vue 2**
-Use `:model-value` instead of `v-model`
-```html
-<vue-dd :model-value="object" />
-```
+
 
 ## Features
 - deep live reactive watching of objects like in developer console but fully reactive
