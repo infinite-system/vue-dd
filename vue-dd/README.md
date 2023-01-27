@@ -23,14 +23,12 @@ In `<template>` add:
 The component renders object as a tree that can be expanded to display nested values, very similar to inspecting JavaScript objects using the Developer Tools, but with full reactivity & advanced UI and UX designed specifically for ease of use and joy for the developer.
 
 ## Install
-> At the moment vue-dd has no build step, so it supports only SFC based versions of Vue.
 ```bash
 # npm
 npm install vue-dd
 # yarn
 yarn add vue-dd
 ```
-
 
 Add globally in `main.js`:
 ```js
