@@ -42,7 +42,7 @@ app.component('VueDd', VueDd)
 ```
 or add locally in component:
 ```js
-import VueDd from 'vue-dd'
+import { VueDd } from 'vue-dd'
 ```
 ## Usage
 
@@ -142,6 +142,20 @@ All contributions are welcome to improve this package. It is pretty feature rich
 ## Need More?
 What other features, props, emits would be useful to create a world class debugging tool in Vue? Please, write to me in feature requests or submit a PR request with your code.
 
+## Vue 2 Support
+
+Versions up to **vue-dd@1.1.6** supported **Vue 2.7.5** and above, but import of the package is different from Vue 3. In Vue 2 vue-dd is imported as default and not as a destructured `VueDd`
+```js
+// to install vue-dd with Vue 2 support
+// yarn add vue-dd@1.1.6
+// npm install vue-dd@1.1.6
+// note: 'import VueDd...', and not 'import { VueDd }...'
+import VueDd from 'vue-dd'
+```
+```html
+<vue-dd v-model="obj" />
+```
+> Note that Vue 2 version cannot support large objects like `window`. For some reason, it reaches a stack size limit and breaks. It is a known issue in Vue 2, that's why migrate to Vue 3 ASAP in order to use the full power of **vue-dd**
 ## Credits & Thanks
 > This was initially a fork of **[vue-object-view](https://github.com/ebuzek/vue-object-view)** project by **[Emanuel Buzek](https://github.com/ebuzek)**. <br />
 > **Huge Thank You to Emanuel Buzek** and his initial work back in 2017, as it was used as the base to create this hugely expanded version with advanced functionality.

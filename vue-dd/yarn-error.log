@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/Cellar/node/18.10.0/bin/node /usr/local/Cellar/yarn/1.22.19/libexec/bin/yarn.js publish --tag 1.2.0-dev.0
+  /usr/local/Cellar/node/18.10.0/bin/node /usr/local/Cellar/yarn/1.22.19/libexec/bin/yarn.js publish
 
 PATH: 
   /opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
@@ -29,7 +29,7 @@ Trace:
 npm manifest: 
   {
     "name": "vue-dd",
-    "version": "1.2.0-beta.7",
+    "version": "1.2.0",
     "description": "Vue.js component for displaying JavaScript objects with circular references, forked and ported to Vue 3",
     "exports": {
       ".": {
@@ -51,7 +51,7 @@ npm manifest:
       "build": "vite build"
     },
     "peerDependencies": {
-      "vue": ">2.7.5"
+      "vue": "^3.0.0"
     },
     "devDependencies": {
       "@cypress/vite-dev-server": "^5.0.2",
@@ -66,6 +66,7 @@ npm manifest:
       "vite-plugin-libcss": "^1.0.5",
       "vitest": "^0.27.1",
       "vue": "^3.2.45",
+      "vue-demi": "^0.13.11",
       "vue-router": "^4.1.6"
     },
     "repository": {
@@ -2846,6 +2847,11 @@ Lockfile:
       vite "^3.0.0 || ^4.0.0"
       vite-node "0.27.3"
       why-is-node-running "^2.2.2"
+  
+  vue-demi@^0.13.11:
+    version "0.13.11"
+    resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.13.11.tgz#7d90369bdae8974d87b1973564ad390182410d99"
+    integrity sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==
   
   vue-router@^4.1.6:
     version "4.1.6"
