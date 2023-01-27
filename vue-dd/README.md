@@ -8,7 +8,7 @@ https://user-images.githubusercontent.com/150185/213549905-360698e2-0c6b-4fd1-80
 
 Video example code in Vue 3 `<script setup>` style:
 ```js
-import VueDd from 'vue-dd'
+import { VueDd } from 'vue-dd'
 import { getCurrentInstance } from 'vue'
 
 // get Vue instance
@@ -16,9 +16,9 @@ const instance = getCurrentInstance()
 ```
 In `<template>` add:
 ```html
-<vue-dd name="setupState" v-model="instance.setupState" :deep="false" max-height="300px" />
+<vue-dd name="setupState" v-model="instance.setupState" />
 ```
-> In the example above `:deep="false"` means, disable deep watching. Deep watching is `true` by default, but watching Vue instance or `instance.setupState` deeply can create a flood of Vue.js warnings because we start watching Vue itself. To prevent flooding, set `:deep="false"`, otherwise for simpler objects it can be simply omitted.
+> In the example above we are watching the whole Vue instance, it can be taxing and create Vue warnings, you can set `:deep="false"` to disable deep watching. Deep watching is `true` by default, but watching Vue instance or `instance.setupState` deeply can create a flood of Vue.js warnings because we start watching Vue itself. To prevent flooding, set `:deep="false"`, but note some live reactivity tracking will be lost. In this example it is used to show advanced capability of vue-dd to watch even Vue instance itself. 
 ## About
 The component renders object as a tree that can be expanded to display nested values, very similar to inspecting JavaScript objects using the Developer Tools, but with full reactivity & advanced UI and UX designed specifically for ease of use and joy for the developer.
 
@@ -45,15 +45,8 @@ import { VueDd } from 'vue-dd'
 ## Usage
 
 Use it just like any other Vue.js component.
-
 The value to display is passed as `v-model` or `:model-value`:
 
-### Usage in **Vue 3**
 ```html
 <vue-dd v-model="object" />
-```
-### Usage in **Vue 2**
-Use `:model-value` instead of `v-model`
-```html
-<vue-dd :model-value="object" />
 ```
