@@ -203,7 +203,7 @@ export default defineComponent({
           setTimeout( () => {
 
             const pointerEl = this.getElement(this.useFocus)
-            console.log('useFocus:', this.useFocus)
+
             if (pointerEl) {
 
               this.$refs.root.scrollLeft = pointerEl.offsetLeft + this.focusOffsetX
