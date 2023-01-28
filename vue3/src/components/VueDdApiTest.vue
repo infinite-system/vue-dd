@@ -1,41 +1,45 @@
 <template>
   <br />
-  <strong>My vue-dd plugin in action below:</strong>
+  <strong>My vue-dd plugin is useful for this:</strong>
 
   <pre class="pre">&lt;vue-dd v-model="api" name="api" :open-level="2"&gt;</pre>
   <vue-dd name="api" v-model="api" open-level="2" />
 
-  <div class="url">{{ url }}</div>
+  Basic API Requests:<br />
+  <div class="url"><strong>fetch:</strong> {{ url }}</div>
 
-  <div v-if="!api" class="loading">Loading...</div>
-  <div v-else class="api">
-    <button class="btn btn--previous" v-if="previous" @click="getPrevious">
-      previous
-    </button>
-
-    <button class="btn btn--next" v-if="next" @click="getNext">next</button>
-    <table class="table">
-      <tr class="labels">
-        <td>Name</td>
-        <td>Height</td>
-        <td>Mass</td>
-        <td>Hair color</td>
-        <td>Skin color</td>
-      </tr>
-      <!--
-     * Loop through returned data
-     * Note that I used
-     * :key="index" but it is recommended to have a 100% unique value,
-     * so index won't always work, but for this simple case it's fine
-    -->
-      <tr v-for="(row, index) in api.results" :key="index">
-        <td>{{ row.name }}</td>
-        <td>{{ row.height }}</td>
-        <td>{{ row.mass }}</td>
-        <td>{{ row.hair_color }}</td>
-        <td>{{ row.skin_color }}</td>
-      </tr>
-    </table>
+  <div v-if="loading" class="api loading">Loading...</div>
+  <div v-else-if="!loading && api" class="api">
+    <div class="btns">
+      <button class="btn btn--previous" v-if="previous" @click="getPrevious">
+        previous
+      </button>
+      <button class="btn btn--next" v-if="next" @click="getNext">next</button>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <tr class="labels">
+          <td>Name</td>
+          <td>Height</td>
+          <td>Mass</td>
+          <td>Hair color</td>
+          <td>Skin color</td>
+        </tr>
+        <!--
+        * Loop through returned data
+        * Note that I used
+        * :key="index" but it is recommended to have a 100% unique value,
+        * so index won't always work, but for this simple case it's fine
+        -->
+        <tr v-for="(row, index) in api.results" :key="index">
+          <td>{{ row.name }}</td>
+          <td>{{ row.height }}</td>
+          <td>{{ row.mass }}</td>
+          <td>{{ row.hair_color }}</td>
+          <td>{{ row.skin_color }}</td>
+        </tr>
+      </table>
+    </div>
   </div>
   <br />
   <strong>vue-dd advanced example 1:</strong>
@@ -43,25 +47,22 @@
   <strong>'results.0'</strong> is opened, you can open specific object arguments
   with <strong>:open-specific="['obj.prop','obj.prop2',...]"</strong>
   <pre class="pre">
-&lt;vue-dd v-model="api"
-  max-height="300px"
-  :open-specific="['results.0']" /&gt;</pre
+&lt;vue-dd v-model="api" max-height="400px" :open-specific="['results.0']" /&gt;</pre
   >
-  <vue-dd v-model="api" :open-specific="['results.0']" max-height="300px" />
+  <vue-dd v-model="api" :open-specific="['results.0']" max-height="400px" />
   <br />
   <strong>vue-dd advanced example 2:</strong>
   You can pre-open levels with <strong>:open-level</strong> prop. Example below
   will open 3 levels deep right away, and scroll to the latest
   <strong>'results.9'</strong>,using <strong>focus="results.9"</strong> prop
   <pre class="pre">
-&lt;vue-dd v-model="api" name="api" focus="results.9"
-    max-height="300px" :open-level="3" /&gt;</pre
+&lt;vue-dd v-model="api" name="api" focus="results.9" max-height="400px" :open-level="3" /&gt;</pre
   >
   <vue-dd
       name="api"
       v-model="api"
       focus="results.9"
-      max-height="300px"
+      max-height="400px"
       :open-level="3"
   />
   <br />
@@ -72,17 +73,21 @@
   scrolled it somewhere, try scrolling somewhere, and then click 'next /
   previous' above in the API table.
   <pre class="pre">
-&lt;vue-dd v-model="api" name="api" focus="results.5"
-    :focus-sticky="true" max-height="300px" :open-level="3" /&gt;</pre
+&lt;vue-dd v-model="api" name="api" focus="results.5" :focus-sticky="true" max-height="400px" :open-level="3" /&gt;</pre
   >
   <vue-dd
       name="api"
       v-model="api"
       focus="results.5"
       :focus-sticky="true"
-      max-height="300px"
+      max-height="400px"
       :open-level="3"
   />
+  <br />
+  <strong>vue-dd</strong> sessionStorage like this:
+  <pre class="pre">
+&lt;vue-dd name="session" v-model="sessionStorage" :open-level="1" /&gt;</pre
+  >
   <vue-dd name="session" v-model="sessionStorage" :open-level="1" />
   <br />
   <strong>How to install vue-dd?</strong>
@@ -97,7 +102,7 @@ import { VueDd } from 'vue-dd'
 </pre
 >
 
-  <pre class="pre">&lt;vue-dd name="api" v-model="object" /&gt;</pre>
+  <pre class="pre">&lt;vue-dd v-model="object" /&gt;</pre>
 </template>
 
 <script>
@@ -105,15 +110,15 @@ import { VueDd } from 'vue-dd'
 import { ref } from 'vue';
 
 import hljs from 'highlight.js';
-import 'highlight.js/styles/dark.css';
+import 'highlight.js/styles/github.css';
 
 // import php from 'highlight.js/lib/languages/php';
 // hljs.registerLanguage('php', php);
 hljs.configure({ languages: ['html', 'javascript', 'bash'] });
-// import { VueDd } from 'vue-dd';
+import { VueDd } from 'vue-dd';
 
 export default {
-  // components: { VueDd },
+  components: { VueDd },
   data() {
     return {
       previous: null,
@@ -130,6 +135,8 @@ export default {
     const previous = ref('');
     const next = ref('');
     const url = ref('');
+
+    const loading = ref(false);
     // use async function to await API calls
     // this function can also be called onMount, or before
     // the router changes to this component
@@ -138,9 +145,13 @@ export default {
     async function getApi(url) {
       // get the resource
       // api.value = null;
+      loading.value = true;
       const result = await fetch(url);
       // convert to json
-      return await result.json();
+      const json = await result.json();
+      loading.value = false;
+
+      return json;
     }
 
     async function getNext() {
@@ -160,28 +171,29 @@ export default {
 
     // async closure to be able to use await on the API call
     (async () => {
+      // try & catch if any of the Promised() awaits failed
+      // use refs .value to assign the result
+      setTimeout(async () => {
+        try {
+          loading.value = true;
+          url.value = 'https://swapi.dev/api/people';
+          api.value = await getApi(url.value);
 
-        // try & catch if any of the Promised() awaits failed
-        // use refs .value to assign the result
-        setTimeout(async () => {
-          try {
-        url.value = 'https://swapi.dev/api/people';
-        api.value = await getApi(url.value);
-
-        next.value = api.value.next;
-        previous.value = api.value.previous;
-        console.log(api.value);
-          } catch (e) {
-            // log error if promises failed
-            console.log('error', e);
-          }
-        }, 500)
-
+          next.value = api.value.next;
+          previous.value = api.value.previous;
+          console.log(api.value);
+        } catch (e) {
+          loading.value = false;
+          // log error if promises failed
+          console.log('error', e);
+        }
+      }, 100);
     })();
 
     return {
       // expose api to template
       api,
+      loading,
       previous,
       next,
       url,
@@ -208,6 +220,13 @@ export default {
   border-radius: 3px;
 }
 
+.btns {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-between;
+}
 .btn {
   border: 0;
   background: #eeeeff;
@@ -215,12 +234,17 @@ export default {
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
+  border: 3px solid grey;
+  background: #333;
+  color: #fff;
 }
 
 .btn--next {
-  float: right;
-  border: 0;
-  background: #eeeeff;
+  margin-left: auto;
+}
+
+.btn:hover {
+  background: #000;
 }
 
 .loading {
@@ -237,7 +261,10 @@ export default {
 .table tr.labels {
   font-weight: bold;
 }
-
+table tr td {
+  margin: 0;
+  border-bottom: 1px solid #e1e1e1;
+}
 .pre {
   white-space: pre-wrap; /* css-3 */
   white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
@@ -248,5 +275,12 @@ export default {
   margin-bottom: 3px;
   line-height: 18px;
   padding: 2px 5px;
+}
+.table-wrap {
+  padding: 15px;
+  border: 1px solid #e3e3e3;
+  margin-top: 10px;
+  border-radius: 5px;
+  background: #eaeaea;
 }
 </style>

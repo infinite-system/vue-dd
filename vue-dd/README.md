@@ -1,6 +1,6 @@
 ## vue-dd &mdash; object viewer &nbsp; &nbsp; [![npm](https://img.shields.io/npm/v/vue-dd.svg)](https://www.npmjs.com/package/vue-dd) [![build status](https://github.com/infinite-system/vue-dd/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/infinite-system/vue-dd/actions/workflows/ci.yml)
 
-> **vue-dd** is a Vue 3 object viewer for displaying complex JavaScript objects, Vue reactive and ref objects, functions, maps, sets, symbols and primitives in order to monitor their changes **live** with full reactivity. Inspired by the Laravel's **dd()** function.
+**vue-dd** &mdash; pronouned *vúed* &mdash;  is a Vue 3 object viewer for displaying complex JavaScript objects, Vue Reactive and Ref objects, Functions, Maps, Sets, Symbols and all JavaScript Primitives in order to monitor their changes **live** with full reactivity. Inspired by the Laravels **dd()** debugging function.
 
 https://user-images.githubusercontent.com/150185/213549880-e6b645bd-11f0-461a-b1a9-29c70c52f2ad.mov
 
