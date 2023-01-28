@@ -103,7 +103,7 @@ export default defineComponent({
     focusSticky: { type: Boolean, default: false },
     focusOffsetX: { type: Number, default: -35 },
     focusOffsetY: { type: Number, default: -15 },
-    focusDelay: { type: Number, default: 30 },
+    focusDelay: { type: Number, default: 150 },
     preview: { type: [Number, Boolean], default: 5 },
     previewInitial: { type: Boolean, default: true },
     escapeQuotes: { type: Boolean, default: false },
@@ -203,6 +203,7 @@ export default defineComponent({
           setTimeout( () => {
 
             const pointerEl = this.getElement(this.useFocus)
+            console.log('useFocus:', this.useFocus)
             if (pointerEl) {
 
               this.$refs.root.scrollLeft = pointerEl.offsetLeft + this.focusOffsetX
@@ -336,7 +337,7 @@ export default defineComponent({
 
       this.emitFn(this, 'show', setup)
 
-      // console.log('show', pointer)
+      // console.log('show', 'this.useFocus', this.useFocus, 'pointer', pointer)
       if (this.saveFocus && this.useFocus === pointer) {
         this.setFocus()
       }
