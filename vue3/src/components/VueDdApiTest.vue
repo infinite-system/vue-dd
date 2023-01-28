@@ -55,10 +55,10 @@
 // import the ref
 import { ref } from 'vue';
 
-// import { VueDd } from 'vue-dd';
+import { VueDd } from 'vue-dd';
 
 export default {
-  // components: { VueDd },
+  components: { VueDd },
   data() {
     return {
       previous: null,

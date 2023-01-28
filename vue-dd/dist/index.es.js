@@ -1979,7 +1979,7 @@ const mn = Ke({
     },
     showEmit(e) {
       let { type: t, pointer: i, focusElement: o } = e;
-      this.emitFn(this, "show", e), console.log("show", i), this.saveFocus && this.useFocus === i && this.setFocus();
+      this.emitFn(this, "show", e), this.saveFocus && this.useFocus === i && this.setFocus();
     },
     open(e) {
       const { open: t, pointer: i, level: o, user: s } = e;

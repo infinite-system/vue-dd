@@ -336,7 +336,7 @@ export default defineComponent({
 
       this.emitFn(this, 'show', setup)
 
-        console.log('show', pointer)
+      // console.log('show', pointer)
       if (this.saveFocus && this.useFocus === pointer) {
         this.setFocus()
       }
