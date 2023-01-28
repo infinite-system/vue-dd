@@ -16,7 +16,7 @@
   "dependencies": {
     "pinia": "^2.0.28",
     "vue": "^3.2.45",
-    "vue-dd": "^1.2.0-beta.7",
+    "vue-dd": "^1.2.2",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {

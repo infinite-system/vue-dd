@@ -9,9 +9,10 @@
     "deploy": "node scripts/gh-pages-deploy.js"
   },
   "devDependencies": {
-    "vue": "3.2.44",
+    "cpy-cli": "^4.2.0",
+    "execa": "latest",
     "vitepress": "1.0.0-alpha.28",
-    "execa": "latest"
+    "vue": "3.2.44"
   },
   "pnpm": {
     "peerDependencyRules": {

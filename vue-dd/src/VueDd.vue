@@ -31,6 +31,7 @@
         :emitFn="emitFn"
 
         @focus="focusEmit"
+        @show="showEmit"
     />
     <node-complex
         v-else
@@ -67,6 +68,7 @@
         :unwrapSpecificFn="unwrapSpecificFn"
         :emitFn="emitFn"
 
+        @show="showEmit"
         @toggle="toggle"
         @open="open"
         @focus="focusEmit"
@@ -86,7 +88,7 @@ let unwrapCache = {}
 export default defineComponent({
   name: 'VueDd',
   inheritAttrs: false,
-  emits: ['open', 'toggle', 'focus'],
+  emits: ['open', 'toggle', 'focus', 'show'],
   props: {
     // main options
     /**
@@ -98,9 +100,10 @@ export default defineComponent({
     openLevel: { type: [Number, String, Array], default: 0 },
     openSpecific: { type: Array, default: () => [] },
     focus: { type: [String, Number], default: null },
+    focusSticky: { type: Boolean, default: false },
     focusOffsetX: { type: Number, default: -35 },
     focusOffsetY: { type: Number, default: -15 },
-    focusDelay: { type: Number, default: 300 },
+    focusDelay: { type: Number, default: 30 },
     preview: { type: [Number, Boolean], default: 5 },
     previewInitial: { type: Boolean, default: true },
     escapeQuotes: { type: Boolean, default: false },
@@ -134,7 +137,10 @@ export default defineComponent({
       // if openLevel is string, convert to number int
       useOpenLevel: typeof this.openLevel === 'string' ? parseInt(this.openLevel) : this.openLevel,
       memory: null,
-      shared: { hiddenPointers: {} },
+      shared: {
+        hiddenPointers: {} // must be defined as empty
+      },
+      setFocusAlready: false,
       useFocus: null
     }
   },
@@ -148,9 +154,7 @@ export default defineComponent({
     this.useFocus = this.getFocus()
     this.useOpenSpecific = this.getOpenSpecific()
   },
-  mounted () {
-    this.setFocus()
-  },
+  mounted () {},
   computed: {
     cssVars () {
       return {
@@ -180,7 +184,7 @@ export default defineComponent({
   },
   methods: {
     forget () {
-      if (this.save) {
+      if (this.save && typeof this.memory === 'object') {
         this.memory.open = {}
         this.shared.hiddenPointers = {}
         this.useOpenSpecific = this.baseOpenSpecific()
@@ -188,35 +192,45 @@ export default defineComponent({
       }
     },
     setFocus () {
-      if (this.useFocus !== '') {
-        setTimeout(() => {
+      if (this.saveFocus && this.useFocus !== null) {
 
-          const pointerEl = this.getElement(this.useFocus)
+        let focus = true;
+        if (this.setFocusAlready) focus = false
+        if (this.focusSticky) focus = true
 
-          if (pointerEl) {
+        if (focus) {
 
-            this.$refs.root.scrollLeft = pointerEl.offsetLeft + this.focusOffsetX
-            // setting scrollLeft and scrollTop at the same time
-            // does not work in browsers right now
-            // console.log('pointerEl', pointerEl.offsetTop)
-            setTimeout(() => {
+          setTimeout( () => {
+
+            const pointerEl = this.getElement(this.useFocus)
+            if (pointerEl) {
+
+              this.$refs.root.scrollLeft = pointerEl.offsetLeft + this.focusOffsetX
+              // setting scrollLeft and scrollTop at the same time
+              // does not work in browsers right now
+              // console.log('pointerEl', pointerEl.offsetTop)
               this.$refs.root.scrollTop = pointerEl.offsetTop + this.focusOffsetY
-            }, this.focusDelay)
 
-            pointerEl.classList.add('vue-dd-highlight')
-          }
-        }, 0)
+              pointerEl.classList.add('vue-dd-highlight')
+
+              this.setFocusAlready = true
+            }
+          }, this.focusDelay)
+        }
       }
     },
     getElement (pointer) {
       pointer = pointer === '' ? '' : `${this.delimiter}${pointer}`
-      return document.getElementById(`_${this.rootId}${pointer}`)
+      const elId = `_${this.rootId}${pointer}`
+      // console.log('elId', elId, document.getElementById(elId))
+      return document.getElementById(elId)
     },
     getFocus () {
       let focus = this.focus
       if (this.saveFocus && 'focus' in this.memory && this.memory.focus !== null) {
         focus = String(this.memory.focus)
       }
+
       return focus
     },
     initMemory () {
@@ -315,8 +329,20 @@ export default defineComponent({
         this.emitFn(this, 'focus', { focus: this.memory.focus, focusElement: focusElement })
       }
     },
+
+    showEmit (setup) {
+
+      let { type, pointer, focusElement } = setup
+
+      this.emitFn(this, 'show', setup)
+
+        console.log('show', pointer)
+      if (this.saveFocus && this.useFocus === pointer) {
+        this.setFocus()
+      }
+    },
     open (setup) {
-      const { open, pointer, level } = setup
+      const { open, pointer, level, user } = setup
 
       if (level === 0) {
         // add class to main vue-dd container class named 'vue-dd-open'
@@ -460,6 +486,17 @@ export default defineComponent({
         }
         vm.$emit(name, ...args)
         vm = vm.$parent
+      }
+    }
+  },
+  watch: {
+    modelValue: {
+      handler (newValue, previousValue) {
+
+        // when value changes, focusSticky will follow the new value
+        if (this.focusSticky && newValue !== previousValue) {
+          this.setFocus()
+        }
       }
     }
   },

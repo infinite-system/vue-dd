@@ -168,6 +168,7 @@
                 :emitFn="emitFn"
 
                 @openParent="openParent"
+
             />
             <!-- object, array, map, set, function, longtext -->
             <node-complex
@@ -206,7 +207,6 @@
                 :isPrimitiveFn="isPrimitiveFn"
                 :unwrapSpecificFn="unwrapSpecificFn"
                 :emitFn="emitFn"
-
                 @openParent="openParent"
             />
             </div>
@@ -265,7 +265,7 @@ let allPointerCache = {}
 export default {
   name: 'NodeComplex',
   inheritAttrs: false,
-  emits: ['open', 'toggle', 'focus', 'openParent', 'forget'],
+  emits: ['show', 'open', 'toggle', 'focus', 'openParent', 'forget'],
   props: {
     // ref
     root: undefined,
@@ -321,6 +321,9 @@ export default {
       unwatch: () => {}
     }
   },
+  mounted () {
+    this.showEmit()
+  },
   created () {
     this.expanded = this.allowPreview
 
@@ -332,6 +335,14 @@ export default {
     this.useOpenSpecific = this.openSpecific
   },
   methods: {
+    showEmit () {
+      this.emit('show', {
+        pointer: this.pointer,
+        focusElement: this.$refs.focusElement,
+        type: 'complex'
+      })
+      return true
+    },
     getAllPointer (pointer) {
       let allPointer = '*'
       pointer = String(pointer)
@@ -412,7 +423,9 @@ export default {
     },
     toggleOpen (event, value) {
 
-      this.open = value === undefined ? !this.open : value
+      const openValue = value === undefined ? !this.open : value
+      this.setOpen(openValue, { user: true })
+
       this.expanded = this.allowPreview
 
       if (this.open) {
@@ -475,6 +488,16 @@ export default {
       this.emit('focus', {
         pointer: this.pointer,
         focusElement: this.$refs.focusElement
+      })
+    },
+
+    setOpen(value, { user }) {
+      this.open = value
+      this.emit('open', {
+        open: this.open,
+        level: this.level,
+        pointer: this.pointer,
+        user: user
       })
     }
 
@@ -649,7 +672,7 @@ export default {
         // open levels up to this one
         if (typeof this.openLevel === 'number') {
           if (this.level < this.openLevel) {
-            this.open = true
+            this.setOpen(true, { user: false })
           }
         }
 
@@ -657,7 +680,7 @@ export default {
         if (this.getTypeFn(this.openLevel) === 'array') {
           for (let i = 0; i < this.openLevel.length; i++) {
             if (this.level === parseInt(this.openLevel[i])) {
-              this.open = true
+              this.setOpen(true, { user: false })
             }
           }
         }
@@ -695,7 +718,7 @@ export default {
             // $nextTick is necessary here!
             this.$nextTick(() => {
               if (this.parentIsOpen()) {
-                this.open = true
+                this.setOpen(true, { user: false })
               }
             })
 
@@ -738,11 +761,6 @@ export default {
           this.useOpenSpecific = this.openSpecific
         }
 
-        this.emit('open', {
-          open: this.open,
-          level: this.level,
-          pointer: this.pointer
-        })
 
       },
       immediate: true
@@ -751,7 +769,7 @@ export default {
     // expand previews
     preview (preview) {
       this.expanded = preview;
-      this.open = !!(this.open && preview);
+      this.setOpen(!!(this.open && preview), { user: false });
     }
   },
   components: {

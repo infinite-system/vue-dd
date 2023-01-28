@@ -26,6 +26,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: (StringConstructor | NumberConstructor)[];
         default: null;
     };
+    focusSticky: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
     focusOffsetX: {
         type: NumberConstructor;
         default: number;
@@ -128,6 +132,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     shared: {
         hiddenPointers: {};
     };
+    setFocusAlready: boolean;
     useFocus: null;
 }, {
     cssVars(): {
@@ -152,6 +157,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     getOpenSpecific(): unknown[];
     baseOpenSpecific(): unknown[];
     focusEmit(setup: any): void;
+    showEmit(setup: any): void;
     open(setup: any): void;
     toggle(setup: any): void;
     store(): {
@@ -163,7 +169,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     escapeQuotesFn(text: any): any;
     unwrapSpecificFn(openSpecific: any): any;
     emitFn(vm: any, name: any, ...args: any[]): void;
-}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("open" | "toggle" | "focus")[], "open" | "toggle" | "focus", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("open" | "toggle" | "focus" | "show")[], "open" | "toggle" | "focus" | "show", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     /**
      * modelValue
      */
@@ -190,6 +196,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
     focus: {
         type: (StringConstructor | NumberConstructor)[];
         default: null;
+    };
+    focusSticky: {
+        type: BooleanConstructor;
+        default: boolean;
     };
     focusOffsetX: {
         type: NumberConstructor;
@@ -287,8 +297,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
     onOpen?: ((...args: any[]) => any) | undefined;
     onToggle?: ((...args: any[]) => any) | undefined;
     onFocus?: ((...args: any[]) => any) | undefined;
+    onShow?: ((...args: any[]) => any) | undefined;
 }, {
     focus: string | number;
+    watch: boolean;
     name: string;
     escapeQuotes: boolean;
     save: boolean;
@@ -299,8 +311,8 @@ declare const _sfc_main: import("vue").DefineComponent<{
     previewInitial: boolean;
     preview: number | boolean;
     longText: number;
-    watch: boolean;
     id: string | number;
+    focusSticky: boolean;
     focusOffsetX: number;
     focusOffsetY: number;
     focusDelay: number;

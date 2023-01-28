@@ -8,7 +8,7 @@ const ge = (e, t) => {
 }, Xe = {
   name: "NodePrimitive",
   inheritAttrs: !1,
-  emits: ["openParent", "focus"],
+  emits: ["openParent", "show", "focus"],
   props: [
     // ref
     "root",
@@ -40,6 +40,13 @@ const ge = (e, t) => {
     };
   },
   methods: {
+    showEmit() {
+      return this.emit("show", {
+        pointer: this.pointer,
+        pointerElement: this.$refs.focusElement,
+        type: "primitive"
+      }), !0;
+    },
     focusEmit() {
       this.emit("focus", {
         pointer: this.pointer,
@@ -53,6 +60,9 @@ const ge = (e, t) => {
       const e = this.pointer !== "" ? `${this.delimiter}${this.pointer}` : "";
       return `_${this.rootId}${e}`;
     }
+  },
+  mounted() {
+    this.showEmit();
   },
   computed: {
     parentIsArray() {
@@ -171,18 +181,18 @@ function dt(e) {
   (c) 2006-2022 undefined and other contributors
   License: BSD-3-Clause
  */
-var we = { exports: {} };
-function ke(e) {
+var Se = { exports: {} };
+function Ee(e) {
   return e instanceof Map ? e.clear = e.delete = e.set = () => {
     throw Error("map is read-only");
   } : e instanceof Set && (e.add = e.clear = e.delete = () => {
     throw Error("set is read-only");
   }), Object.freeze(e), Object.getOwnPropertyNames(e).forEach((t) => {
     var i = e[t];
-    typeof i != "object" || Object.isFrozen(i) || ke(i);
+    typeof i != "object" || Object.isFrozen(i) || Ee(i);
   }), e;
 }
-we.exports = ke, we.exports.default = ke;
+Se.exports = Ee, Se.exports.default = Ee;
 class Ie {
   constructor(t) {
     t.data === void 0 && (t.data = {}), this.data = t.data, this.isMatchIgnored = !1;
@@ -203,7 +213,7 @@ function Q(e, ...t) {
       i[s] = o[s];
   }), i;
 }
-const xe = (e) => !!e.scope || e.sublanguage && e.language;
+const Ae = (e) => !!e.scope || e.sublanguage && e.language;
 class ht {
   constructor(t, i) {
     this.buffer = "", this.classPrefix = i.classPrefix, t.walk(this);
@@ -212,7 +222,7 @@ class ht {
     this.buffer += Ve(t);
   }
   openNode(t) {
-    if (!xe(t))
+    if (!Ae(t))
       return;
     let i = "";
     i = t.sublanguage ? "language-" + t.language : ((o, { prefix: s }) => {
@@ -224,7 +234,7 @@ class ht {
     })(t.scope, { prefix: this.classPrefix }), this.span(i);
   }
   closeNode(t) {
-    xe(t) && (this.buffer += "</span>");
+    Ae(t) && (this.buffer += "</span>");
   }
   value() {
     return this.buffer;
@@ -233,13 +243,13 @@ class ht {
     this.buffer += `<span class="${t}">`;
   }
 }
-const Ae = (e = {}) => {
+const xe = (e = {}) => {
   const t = { children: [] };
   return Object.assign(t, e), t;
 };
-class _e {
+class Fe {
   constructor() {
-    this.rootNode = Ae(), this.stack = [this.rootNode];
+    this.rootNode = xe(), this.stack = [this.rootNode];
   }
   get top() {
     return this.stack[this.stack.length - 1];
@@ -251,7 +261,7 @@ class _e {
     this.top.children.push(t);
   }
   openNode(t) {
-    const i = Ae({ scope: t });
+    const i = xe({ scope: t });
     this.add(i), this.stack.push(i);
   }
   closeNode() {
@@ -273,11 +283,11 @@ class _e {
   }
   static _collapse(t) {
     typeof t != "string" && t.children && (t.children.every((i) => typeof i == "string") ? t.children = [t.children.join("")] : t.children.forEach((i) => {
-      _e._collapse(i);
+      Fe._collapse(i);
     }));
   }
 }
-class gt extends _e {
+class gt extends Fe {
   constructor(t) {
     super(), this.options = t;
   }
@@ -313,7 +323,7 @@ function ft(e) {
 function J(...e) {
   return e.map((t) => re(t)).join("");
 }
-function Fe(...e) {
+function _e(...e) {
   return "(" + (((i) => {
     const o = i[i.length - 1];
     return typeof o == "object" && o.constructor === Object ? (i.splice(i.length - 1, 1), o) : {};
@@ -323,7 +333,7 @@ function He(e) {
   return RegExp(e.toString() + "|").exec("").length - 1;
 }
 const mt = /\[(?:[^\\\]]|\\.)*\]|\(\??|\\([1-9][0-9]*)|\\./;
-function Ee(e, { joinWith: t }) {
+function ke(e, { joinWith: t }) {
   let i = 0;
   return e.map((o) => {
     i += 1;
@@ -369,9 +379,9 @@ const Te = "(-?)(\\b0[xX][a-fA-F0-9]+|(\\b\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)
     excludeBegin: !0,
     relevance: 0
   });
-  const s = Fe("I", "a", "is", "so", "us", "to", "at", "if", "in", "it", "on", /[A-Za-z]+['](d|ve|re|ll|t|s|n)/, /[A-Za-z]+[-][a-z]+/, /[A-Za-z][a-z]{2,}/);
+  const s = _e("I", "a", "is", "so", "us", "to", "at", "if", "in", "it", "on", /[A-Za-z]+['](d|ve|re|ll|t|s|n)/, /[A-Za-z]+[-][a-z]+/, /[A-Za-z][a-z]{2,}/);
   return o.contains.push({ begin: J(/[ ]+/, "(", s, /[.]?[:]?([.][ ]|[ ])/, "){3}") }), o;
-}, bt = pe("//", "$"), St = pe("/\\*", "\\*/"), wt = pe("#", "$");
+}, bt = pe("//", "$"), wt = pe("/\\*", "\\*/"), St = pe("#", "$");
 var le = Object.freeze({
   __proto__: null,
   MATCH_NOTHING_RE: /\b\B/,
@@ -401,8 +411,8 @@ var le = Object.freeze({
   },
   COMMENT: pe,
   C_LINE_COMMENT_MODE: bt,
-  C_BLOCK_COMMENT_MODE: St,
-  HASH_COMMENT_MODE: wt,
+  C_BLOCK_COMMENT_MODE: wt,
+  HASH_COMMENT_MODE: St,
   NUMBER_MODE: { scope: "number", begin: "\\b\\d+(\\.\\d+)?", relevance: 0 },
   C_NUMBER_MODE: { scope: "number", begin: Te, relevance: 0 },
   BINARY_NUMBER_MODE: {
@@ -429,19 +439,19 @@ var le = Object.freeze({
     i.data._beginMatch !== t[1] && i.ignoreMatch();
   } })
 });
-function kt(e, t) {
+function Et(e, t) {
   e.input[e.index - 1] === "." && t.ignoreMatch();
 }
-function Et(e, t) {
+function kt(e, t) {
   e.className !== void 0 && (e.scope = e.className, delete e.className);
 }
 function Ot(e, t) {
-  t && e.beginKeywords && (e.begin = "\\b(" + e.beginKeywords.split(" ").join("|") + ")(?!\\.)(?=\\b|\\s)", e.__beforeBegin = kt, e.keywords = e.keywords || e.beginKeywords, delete e.beginKeywords, e.relevance === void 0 && (e.relevance = 0));
-}
-function _t(e, t) {
-  Array.isArray(e.illegal) && (e.illegal = Fe(...e.illegal));
+  t && e.beginKeywords && (e.begin = "\\b(" + e.beginKeywords.split(" ").join("|") + ")(?!\\.)(?=\\b|\\s)", e.__beforeBegin = Et, e.keywords = e.keywords || e.beginKeywords, delete e.beginKeywords, e.relevance === void 0 && (e.relevance = 0));
 }
 function Ft(e, t) {
+  Array.isArray(e.illegal) && (e.illegal = _e(...e.illegal));
+}
+function _t(e, t) {
   if (e.match) {
     if (e.begin || e.end)
       throw Error("begin & end are not supported with match");
@@ -463,7 +473,7 @@ const It = (e, t) => {
     relevance: 0,
     contains: [Object.assign(i, { endsParent: !0 })]
   }, e.relevance = 0, delete i.beforeMatch;
-}, xt = ["of", "and", "for", "in", "not", "or", "if", "then", "parent", "list", "value"];
+}, At = ["of", "and", "for", "in", "not", "or", "if", "then", "parent", "list", "value"];
 function De(e, t, i = "keyword") {
   const o = /* @__PURE__ */ Object.create(null);
   return typeof e == "string" ? s(i, e.split(" ")) : Array.isArray(e) ? s(i, e) : Object.keys(e).forEach((n) => {
@@ -472,12 +482,12 @@ function De(e, t, i = "keyword") {
   function s(n, l) {
     t && (l = l.map((a) => a.toLowerCase())), l.forEach((a) => {
       const r = a.split("|");
-      o[r[0]] = [n, At(r[0], r[1])];
+      o[r[0]] = [n, xt(r[0], r[1])];
     });
   }
 }
-function At(e, t) {
-  return t ? Number(t) : ((i) => xt.includes(i.toLowerCase()))(e) ? 0 : 1;
+function xt(e, t) {
+  return t ? Number(t) : ((i) => At.includes(i.toLowerCase()))(e) ? 0 : 1;
 }
 const Me = {}, q = (e) => {
   console.error(e);
@@ -506,7 +516,7 @@ function Tt(e) {
         throw q("skip, excludeBegin, returnBegin not compatible with beginScope: {}"), ce;
       if (typeof t.beginScope != "object" || t.beginScope === null)
         throw q("beginScope must be object"), ce;
-      Re(t, t.begin, { key: "beginScope" }), t.begin = Ee(t.begin, { joinWith: "" });
+      Re(t, t.begin, { key: "beginScope" }), t.begin = ke(t.begin, { joinWith: "" });
     }
   })(e), ((t) => {
     if (Array.isArray(t.end)) {
@@ -514,7 +524,7 @@ function Tt(e) {
         throw q("skip, excludeEnd, returnEnd not compatible with endScope: {}"), ce;
       if (typeof t.endScope != "object" || t.endScope === null)
         throw q("endScope must be object"), ce;
-      Re(t, t.end, { key: "endScope" }), t.end = Ee(t.end, { joinWith: "" });
+      Re(t, t.end, { key: "endScope" }), t.end = ke(t.end, { joinWith: "" });
     }
   })(e);
 }
@@ -532,7 +542,7 @@ function Mt(e) {
     compile() {
       this.regexes.length === 0 && (this.exec = () => null);
       const n = this.regexes.map((l) => l[1]);
-      this.matcherRe = t(Ee(n, {
+      this.matcherRe = t(ke(n, {
         joinWith: "|"
       }), !0), this.lastIndex = 0;
     }
@@ -581,7 +591,7 @@ function Mt(e) {
     const a = n;
     if (n.isCompiled)
       return a;
-    [Et, Ft, Tt, It].forEach((v) => v(n, l)), e.compilerExtensions.forEach((v) => v(n, l)), n.__beforeBegin = null, [Ot, _t, Nt].forEach((v) => v(n, l)), n.isCompiled = !0;
+    [kt, _t, Tt, It].forEach((v) => v(n, l)), e.compilerExtensions.forEach((v) => v(n, l)), n.__beforeBegin = null, [Ot, Ft, Nt].forEach((v) => v(n, l)), n.isCompiled = !0;
     let r = null;
     return typeof n.keywords == "object" && n.keywords.$pattern && (n.keywords = Object.assign({}, n.keywords), r = n.keywords.$pattern, delete n.keywords.$pattern), r = r || /\w+/, n.keywords && (n.keywords = De(n.keywords, e.case_insensitive)), a.keywordPatternRe = t(r, !0), l && (n.begin || (n.begin = /\B|\b/), a.beginRe = t(a.begin), n.end || n.endsWithParent || (n.end = /\B|\b/), n.end && (a.endRe = t(a.end)), a.terminatorEnd = re(a.end) || "", n.endsWithParent && l.terminatorEnd && (a.terminatorEnd += (n.end ? "|" : "") + l.terminatorEnd)), n.illegal && (a.illegalRe = t(n.illegal)), n.contains || (n.contains = []), n.contains = [].concat(...n.contains.map((v) => ((m) => (m.variants && !m.cachedVariants && (m.cachedVariants = m.variants.map((M) => Q(m, {
       variants: null
@@ -631,138 +641,138 @@ var Oe = ((e) => {
     return a.noHighlightRe.test(c);
   }
   function v(c, f, y) {
-    let I = "", _ = "";
-    typeof f == "object" ? (I = c, y = f.ignoreIllegals, _ = f.language) : (ee("10.7.0", "highlight(lang, code, ...args) has been deprecated."), ee("10.7.0", `Please use highlight(code, options) instead.
-https://github.com/highlightjs/highlight.js/issues/2277`), _ = c, I = f), y === void 0 && (y = !0);
-    const E = { code: I, language: _ };
-    W("before:highlight", E);
-    const x = E.result ? E.result : m(E.language, E.code, y);
-    return x.code = E.code, W("after:highlight", x), x;
+    let I = "", F = "";
+    typeof f == "object" ? (I = c, y = f.ignoreIllegals, F = f.language) : (ee("10.7.0", "highlight(lang, code, ...args) has been deprecated."), ee("10.7.0", `Please use highlight(code, options) instead.
+https://github.com/highlightjs/highlight.js/issues/2277`), F = c, I = f), y === void 0 && (y = !0);
+    const k = { code: I, language: F };
+    W("before:highlight", k);
+    const A = k.result ? k.result : m(k.language, k.code, y);
+    return A.code = k.code, W("after:highlight", A), A;
   }
   function m(c, f, y, I) {
-    const _ = /* @__PURE__ */ Object.create(null);
-    function E() {
+    const F = /* @__PURE__ */ Object.create(null);
+    function k() {
       if (!g.keywords)
-        return void N.addText(S);
+        return void N.addText(w);
       let u = 0;
       g.keywordPatternRe.lastIndex = 0;
-      let p = g.keywordPatternRe.exec(S), k = "";
+      let p = g.keywordPatternRe.exec(w), E = "";
       for (; p; ) {
-        k += S.substring(u, p.index);
-        const O = V.case_insensitive ? p[0].toLowerCase() : p[0], A = (w = O, g.keywords[w]);
-        if (A) {
-          const [H, ye] = A;
-          if (N.addText(k), k = "", _[O] = (_[O] || 0) + 1, _[O] <= 7 && (X += ye), H.startsWith("_"))
-            k += p[0];
+        E += w.substring(u, p.index);
+        const O = V.case_insensitive ? p[0].toLowerCase() : p[0], x = (S = O, g.keywords[S]);
+        if (x) {
+          const [H, ye] = x;
+          if (N.addText(E), E = "", F[O] = (F[O] || 0) + 1, F[O] <= 7 && (X += ye), H.startsWith("_"))
+            E += p[0];
           else {
             const ae = V.classNameAliases[H] || H;
             N.addKeyword(p[0], ae);
           }
         } else
-          k += p[0];
-        u = g.keywordPatternRe.lastIndex, p = g.keywordPatternRe.exec(S);
+          E += p[0];
+        u = g.keywordPatternRe.lastIndex, p = g.keywordPatternRe.exec(w);
       }
-      var w;
-      k += S.substring(u), N.addText(k);
+      var S;
+      E += w.substring(u), N.addText(E);
     }
-    function x() {
+    function A() {
       g.subLanguage != null ? (() => {
-        if (S === "")
+        if (w === "")
           return;
         let u = null;
         if (typeof g.subLanguage == "string") {
           if (!t[g.subLanguage])
-            return void N.addText(S);
-          u = m(g.subLanguage, S, !0, $[g.subLanguage]), $[g.subLanguage] = u._top;
+            return void N.addText(w);
+          u = m(g.subLanguage, w, !0, $[g.subLanguage]), $[g.subLanguage] = u._top;
         } else
-          u = M(S, g.subLanguage.length ? g.subLanguage : null);
+          u = M(w, g.subLanguage.length ? g.subLanguage : null);
         g.relevance > 0 && (X += u.relevance), N.addSublanguage(u._emitter, u.language);
-      })() : E(), S = "";
+      })() : k(), w = "";
     }
     function T(u, p) {
-      let k = 1;
-      const w = p.length - 1;
-      for (; k <= w; ) {
-        if (!u._emit[k]) {
-          k++;
+      let E = 1;
+      const S = p.length - 1;
+      for (; E <= S; ) {
+        if (!u._emit[E]) {
+          E++;
           continue;
         }
-        const O = V.classNameAliases[u[k]] || u[k], A = p[k];
-        O ? N.addKeyword(A, O) : (S = A, E(), S = ""), k++;
+        const O = V.classNameAliases[u[E]] || u[E], x = p[E];
+        O ? N.addKeyword(x, O) : (w = x, k(), w = ""), E++;
       }
     }
-    function F(u, p) {
-      return u.scope && typeof u.scope == "string" && N.openNode(V.classNameAliases[u.scope] || u.scope), u.beginScope && (u.beginScope._wrap ? (N.addKeyword(S, V.classNameAliases[u.beginScope._wrap] || u.beginScope._wrap), S = "") : u.beginScope._multi && (T(u.beginScope, p), S = "")), g = Object.create(u, { parent: {
+    function _(u, p) {
+      return u.scope && typeof u.scope == "string" && N.openNode(V.classNameAliases[u.scope] || u.scope), u.beginScope && (u.beginScope._wrap ? (N.addKeyword(w, V.classNameAliases[u.beginScope._wrap] || u.beginScope._wrap), w = "") : u.beginScope._multi && (T(u.beginScope, p), w = "")), g = Object.create(u, { parent: {
         value: g
       } }), g;
     }
-    function L(u, p, k) {
-      let w = ((O, A) => {
-        const H = O && O.exec(A);
+    function L(u, p, E) {
+      let S = ((O, x) => {
+        const H = O && O.exec(x);
         return H && H.index === 0;
-      })(u.endRe, k);
-      if (w) {
+      })(u.endRe, E);
+      if (S) {
         if (u["on:end"]) {
           const O = new Ie(u);
-          u["on:end"](p, O), O.isMatchIgnored && (w = !1);
+          u["on:end"](p, O), O.isMatchIgnored && (S = !1);
         }
-        if (w) {
+        if (S) {
           for (; u.endsParent && u.parent; )
             u = u.parent;
           return u;
         }
       }
       if (u.endsWithParent)
-        return L(u.parent, p, k);
+        return L(u.parent, p, E);
     }
     function oe(u) {
-      return g.matcher.regexIndex === 0 ? (S += u[0], 1) : (me = !0, 0);
+      return g.matcher.regexIndex === 0 ? (w += u[0], 1) : (me = !0, 0);
     }
     function fe(u) {
-      const p = u[0], k = f.substring(u.index), w = L(g, u, k);
-      if (!w)
+      const p = u[0], E = f.substring(u.index), S = L(g, u, E);
+      if (!S)
         return Pe;
       const O = g;
-      g.endScope && g.endScope._wrap ? (x(), N.addKeyword(p, g.endScope._wrap)) : g.endScope && g.endScope._multi ? (x(), T(g.endScope, u)) : O.skip ? S += p : (O.returnEnd || O.excludeEnd || (S += p), x(), O.excludeEnd && (S = p));
+      g.endScope && g.endScope._wrap ? (A(), N.addKeyword(p, g.endScope._wrap)) : g.endScope && g.endScope._multi ? (A(), T(g.endScope, u)) : O.skip ? w += p : (O.returnEnd || O.excludeEnd || (w += p), A(), O.excludeEnd && (w = p));
       do
         g.scope && N.closeNode(), g.skip || g.subLanguage || (X += g.relevance), g = g.parent;
-      while (g !== w.parent);
-      return w.starts && F(w.starts, u), O.returnEnd ? 0 : p.length;
+      while (g !== S.parent);
+      return S.starts && _(S.starts, u), O.returnEnd ? 0 : p.length;
     }
     let Y = {};
     function ne(u, p) {
-      const k = p && p[0];
-      if (S += u, k == null)
-        return x(), 0;
-      if (Y.type === "begin" && p.type === "end" && Y.index === p.index && k === "") {
-        if (S += f.slice(p.index, p.index + 1), !s) {
-          const w = Error(`0 width match regex (${c})`);
-          throw w.languageName = c, w.badRule = Y.rule, w;
+      const E = p && p[0];
+      if (w += u, E == null)
+        return A(), 0;
+      if (Y.type === "begin" && p.type === "end" && Y.index === p.index && E === "") {
+        if (w += f.slice(p.index, p.index + 1), !s) {
+          const S = Error(`0 width match regex (${c})`);
+          throw S.languageName = c, S.badRule = Y.rule, S;
         }
         return 1;
       }
       if (Y = p, p.type === "begin")
-        return ((w) => {
-          const O = w[0], A = w.rule, H = new Ie(A), ye = [A.__beforeBegin, A["on:begin"]];
+        return ((S) => {
+          const O = S[0], x = S.rule, H = new Ie(x), ye = [x.__beforeBegin, x["on:begin"]];
           for (const ae of ye)
-            if (ae && (ae(w, H), H.isMatchIgnored))
+            if (ae && (ae(S, H), H.isMatchIgnored))
               return oe(O);
-          return A.skip ? S += O : (A.excludeBegin && (S += O), x(), A.returnBegin || A.excludeBegin || (S = O)), F(A, w), A.returnBegin ? 0 : O.length;
+          return x.skip ? w += O : (x.excludeBegin && (w += O), A(), x.returnBegin || x.excludeBegin || (w = O)), _(x, S), x.returnBegin ? 0 : O.length;
         })(p);
       if (p.type === "illegal" && !y) {
-        const w = Error('Illegal lexeme "' + k + '" for mode "' + (g.scope || "<unnamed>") + '"');
-        throw w.mode = g, w;
+        const S = Error('Illegal lexeme "' + E + '" for mode "' + (g.scope || "<unnamed>") + '"');
+        throw S.mode = g, S;
       }
       if (p.type === "end") {
-        const w = fe(p);
-        if (w !== Pe)
-          return w;
+        const S = fe(p);
+        if (S !== Pe)
+          return S;
       }
-      if (p.type === "illegal" && k === "")
+      if (p.type === "illegal" && E === "")
         return 1;
       if (ie > 1e5 && ie > 3 * p.index)
         throw Error("potential infinite loop, way more iterations than matches");
-      return S += k, k.length;
+      return w += E, E.length;
     }
     const V = P(c);
     if (!V)
@@ -776,7 +786,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`), _ = c, I = f), y === 
         p.scope && u.unshift(p.scope);
       u.forEach((p) => N.openNode(p));
     })();
-    let S = "", X = 0, z = 0, ie = 0, me = !1;
+    let w = "", X = 0, z = 0, ie = 0, me = !1;
     try {
       for (g.matcher.considerAll(); ; ) {
         ie++, me ? me = !1 : g.matcher.considerAll(), g.matcher.lastIndex = z;
@@ -825,35 +835,35 @@ https://github.com/highlightjs/highlight.js/issues/2277`), _ = c, I = f), y === 
   }
   function M(c, f) {
     f = f || a.languages || Object.keys(t);
-    const y = ((F) => {
-      const L = { value: ve(F), illegal: !1, relevance: 0, _top: l, _emitter: new a.__emitter(a) };
-      return L._emitter.addText(F), L;
-    })(c), I = f.filter(P).filter(te).map((F) => m(F, c, !1));
+    const y = ((_) => {
+      const L = { value: ve(_), illegal: !1, relevance: 0, _top: l, _emitter: new a.__emitter(a) };
+      return L._emitter.addText(_), L;
+    })(c), I = f.filter(P).filter(te).map((_) => m(_, c, !1));
     I.unshift(y);
-    const _ = I.sort((F, L) => {
-      if (F.relevance !== L.relevance)
-        return L.relevance - F.relevance;
-      if (F.language && L.language) {
-        if (P(F.language).supersetOf === L.language)
+    const F = I.sort((_, L) => {
+      if (_.relevance !== L.relevance)
+        return L.relevance - _.relevance;
+      if (_.language && L.language) {
+        if (P(_.language).supersetOf === L.language)
           return 1;
-        if (P(L.language).supersetOf === F.language)
+        if (P(L.language).supersetOf === _.language)
           return -1;
       }
       return 0;
-    }), [E, x] = _, T = E;
-    return T.secondBest = x, T;
+    }), [k, A] = F, T = k;
+    return T.secondBest = A, T;
   }
   function B(c) {
     let f = null;
-    const y = ((E) => {
-      let x = E.className + " ";
-      x += E.parentNode ? E.parentNode.className : "";
-      const T = a.languageDetectRe.exec(x);
+    const y = ((k) => {
+      let A = k.className + " ";
+      A += k.parentNode ? k.parentNode.className : "";
+      const T = a.languageDetectRe.exec(A);
       if (T) {
-        const F = P(T[1]);
-        return F || (Le(n.replace("{}", T[1])), Le("Falling back to no-highlight mode for this block.", E)), F ? T[1] : "no-highlight";
+        const _ = P(T[1]);
+        return _ || (Le(n.replace("{}", T[1])), Le("Falling back to no-highlight mode for this block.", k)), _ ? T[1] : "no-highlight";
       }
-      return x.split(/\s+/).find((F) => r(F) || P(F));
+      return A.split(/\s+/).find((_) => r(_) || P(_));
     })(c);
     if (r(y))
       return;
@@ -863,18 +873,18 @@ https://github.com/highlightjs/highlight.js/issues/2277`), _ = c, I = f), y === 
     }), c.children.length > 0 && (a.ignoreUnescapedHTML || (console.warn("One of your code blocks includes unescaped HTML. This is a potentially serious security risk."), console.warn("https://github.com/highlightjs/highlight.js/wiki/security"), console.warn("The element with unescaped HTML:"), console.warn(c)), a.throwUnescapedHTML))
       throw new Lt("One of your code blocks includes unescaped HTML.", c.innerHTML);
     f = c;
-    const I = f.textContent, _ = y ? v(I, { language: y, ignoreIllegals: !0 }) : M(I);
-    c.innerHTML = _.value, ((E, x, T) => {
-      const F = x && i[x] || T;
-      E.classList.add("hljs"), E.classList.add("language-" + F);
-    })(c, y, _.language), c.result = {
-      language: _.language,
-      re: _.relevance,
-      relevance: _.relevance
-    }, _.secondBest && (c.secondBest = {
-      language: _.secondBest.language,
-      relevance: _.secondBest.relevance
-    }), W("after:highlightElement", { el: c, result: _, text: I });
+    const I = f.textContent, F = y ? v(I, { language: y, ignoreIllegals: !0 }) : M(I);
+    c.innerHTML = F.value, ((k, A, T) => {
+      const _ = A && i[A] || T;
+      k.classList.add("hljs"), k.classList.add("language-" + _);
+    })(c, y, F.language), c.result = {
+      language: F.language,
+      re: F.relevance,
+      relevance: F.relevance
+    }, F.secondBest && (c.secondBest = {
+      language: F.secondBest.language,
+      relevance: F.secondBest.relevance
+    }), W("after:highlightElement", { el: c, result: F, text: I });
   }
   let U = !1;
   function Z() {
@@ -954,12 +964,12 @@ https://github.com/highlightjs/highlight.js/issues/2277`), _ = c, I = f), y === 
   }, e.versionString = "11.7.0", e.regex = {
     concat: J,
     lookahead: ze,
-    either: Fe,
+    either: _e,
     optional: ft,
     anyNumberOfTimes: pt
   };
   for (const c in le)
-    typeof le[c] == "object" && we.exports(le[c]);
+    typeof le[c] == "object" && Se.exports(le[c]);
   return Object.assign(e, le), e;
 })({});
 /*! `javascript` grammar compiled for Highlight.js 11.7.0 */
@@ -978,8 +988,8 @@ var Rt = (() => {
           const ie = "</" + X[0].slice(1);
           return X.input.indexOf(ie, z) !== -1;
         })(K, { after: g }) || G.ignoreMatch());
-        const S = K.input.substring(g);
-        ((N = S.match(/^\s*=/)) || (N = S.match(/^\s+extends\s+/)) && N.index === 0) && G.ignoreMatch();
+        const w = K.input.substring(g);
+        ((N = w.match(/^\s*=/)) || (N = w.match(/^\s+extends\s+/)) && N.index === 0) && G.ignoreMatch();
       }
     }, B = {
       $pattern: e,
@@ -1060,20 +1070,20 @@ var Rt = (() => {
       keywords: B,
       contains: ["self"].concat(y)
     });
-    const I = [].concat(f, D.contains), _ = I.concat([{
+    const I = [].concat(f, D.contains), F = I.concat([{
       begin: /\(/,
       end: /\)/,
       keywords: B,
       contains: ["self"].concat(I)
-    }]), E = {
+    }]), k = {
       className: "params",
       begin: /\(/,
       end: /\)/,
       excludeBegin: !0,
       excludeEnd: !0,
       keywords: B,
-      contains: _
-    }, x = { variants: [{
+      contains: F
+    }, A = { variants: [{
       match: [/class/, /\s+/, m, /\s+/, /extends/, /\s+/, v.concat(m, "(", v.concat(/\./, m), ")*")],
       scope: { 1: "keyword", 3: "title.class", 5: "keyword", 7: "title.class.inherited" }
     }, {
@@ -1084,13 +1094,13 @@ var Rt = (() => {
       match: v.either(/\bJSON/, /\b[A-Z][a-z]+([A-Z][a-z]*|\d)*/, /\b[A-Z]{2,}([A-Z][a-z]+|\d)+([A-Z][a-z]*)*/, /\b[A-Z]{2,}[a-z]+([A-Z][a-z]+|\d)*([A-Z][a-z]*)*/),
       className: "title.class",
       keywords: { _: [...o, ...s] }
-    }, F = {
+    }, _ = {
       variants: [{
         match: [/function/, /\s+/, m, /(?=\s*\()/]
       }, { match: [/function/, /\s*(?=\()/] }],
       className: { 1: "keyword", 3: "title.function" },
       label: "func.def",
-      contains: [E],
+      contains: [k],
       illegal: /%/
     }, L = {
       match: v.concat(/\b/, (oe = [...n, "super", "import"], v.concat("(?!", oe.join("|"), ")")), m, v.lookahead(/\(/)),
@@ -1108,19 +1118,19 @@ var Rt = (() => {
     }, Y = {
       match: [/get|set/, /\s+/, m, /(?=\()/],
       className: { 1: "keyword", 3: "title.function" },
-      contains: [{ begin: /\(\)/ }, E]
+      contains: [{ begin: /\(\)/ }, k]
     }, ne = "(\\([^()]*(\\([^()]*(\\([^()]*\\)[^()]*)*\\)[^()]*)*\\)|" + r.UNDERSCORE_IDENT_RE + ")\\s*=>", V = {
       match: [/const|var|let/, /\s+/, m, /\s*/, /=\s*/, /(async\s*)?/, v.lookahead(ne)],
       keywords: "async",
       className: { 1: "keyword", 3: "title.function" },
-      contains: [E]
+      contains: [k]
     };
     return {
       name: "Javascript",
       aliases: ["js", "jsx", "mjs", "cjs"],
       keywords: B,
       exports: {
-        PARAMS_CONTAINS: _,
+        PARAMS_CONTAINS: F,
         CLASS_REFERENCE: T
       },
       illegal: /#(?![$_A-z])/,
@@ -1154,7 +1164,7 @@ var Rt = (() => {
               excludeBegin: !0,
               excludeEnd: !0,
               keywords: B,
-              contains: _
+              contains: F
             }]
           }]
         }, { begin: /,/, relevance: 0 }, {
@@ -1172,13 +1182,13 @@ var Rt = (() => {
           skip: !0,
           contains: ["self"]
         }] }]
-      }, F, {
+      }, _, {
         beginKeywords: "while if switch catch for"
       }, {
         begin: "\\b(?!function)" + r.UNDERSCORE_IDENT_RE + "\\([^()]*(\\([^()]*(\\([^()]*\\)[^()]*)*\\)[^()]*)*\\)\\s*\\{",
         returnBegin: !0,
         label: "func.def",
-        contains: [E, r.inherit(r.TITLE_MODE, {
+        contains: [k, r.inherit(r.TITLE_MODE, {
           begin: m,
           className: "title.function"
         })]
@@ -1188,12 +1198,12 @@ var Rt = (() => {
       }, {
         match: [/\bconstructor(?=\s*\()/],
         className: { 1: "title.function" },
-        contains: [E]
+        contains: [k]
       }, L, {
         relevance: 0,
         match: /\b[A-Z][A-Z_0-9]+\b/,
         className: "variable.constant"
-      }, x, Y, { match: /\$[(.]/ }]
+      }, A, Y, { match: /\$[(.]/ }]
     };
   };
 })();
@@ -1202,7 +1212,7 @@ let be = {};
 const Ct = {
   name: "NodeComplex",
   inheritAttrs: !1,
-  emits: ["open", "toggle", "focus", "openParent", "forget"],
+  emits: ["show", "open", "toggle", "focus", "openParent", "forget"],
   props: {
     // ref
     root: void 0,
@@ -1259,10 +1269,20 @@ const Ct = {
       }
     };
   },
+  mounted() {
+    this.showEmit();
+  },
   created() {
     this.expanded = this.allowPreview, this.items = this.makeItems(), this.watch && (this.unwatch = this.watchModelValue(this.deep)), this.useOpenSpecific = this.openSpecific;
   },
   methods: {
+    showEmit() {
+      return this.emit("show", {
+        pointer: this.pointer,
+        focusElement: this.$refs.focusElement,
+        type: "complex"
+      }), !0;
+    },
     getAllPointer(e) {
       let t = "*";
       if (e = String(e), e in be)
@@ -1317,7 +1337,8 @@ const Ct = {
       this.open || this.toggleOpen(null, !0), this.expanded = !0;
     },
     toggleOpen(e, t) {
-      this.open = t === void 0 ? !this.open : t, this.expanded = this.allowPreview, this.open && this.$emit("openParent"), this.emit("toggle", {
+      const i = t === void 0 ? !this.open : t;
+      this.setOpen(i, { user: !0 }), this.expanded = this.allowPreview, this.open && this.$emit("openParent"), this.emit("toggle", {
         event: e,
         open: this.open,
         level: this.level,
@@ -1359,6 +1380,14 @@ const Ct = {
       this.emit("focus", {
         pointer: this.pointer,
         focusElement: this.$refs.focusElement
+      });
+    },
+    setOpen(e, { user: t }) {
+      this.open = e, this.emit("open", {
+        open: this.open,
+        level: this.level,
+        pointer: this.pointer,
+        user: t
       });
     }
   },
@@ -1487,9 +1516,9 @@ const Ct = {
     // opens levels
     openLevel: {
       handler(e) {
-        if (typeof this.openLevel == "number" && this.level < this.openLevel && (this.open = !0), this.getTypeFn(this.openLevel) === "array")
+        if (typeof this.openLevel == "number" && this.level < this.openLevel && this.setOpen(!0, { user: !1 }), this.getTypeFn(this.openLevel) === "array")
           for (let t = 0; t < this.openLevel.length; t++)
-            this.level === parseInt(this.openLevel[t]) && (this.open = !0);
+            this.level === parseInt(this.openLevel[t]) && this.setOpen(!0, { user: !1 });
       },
       immediate: !0
     },
@@ -1502,7 +1531,7 @@ const Ct = {
             if (this.pointer in this.shared.hiddenPointers)
               return;
             this.$nextTick(() => {
-              this.parentIsOpen() && (this.open = !0);
+              this.parentIsOpen() && this.setOpen(!0, { user: !1 });
             });
           }
         }
@@ -1520,17 +1549,12 @@ const Ct = {
           };
           this.hideTimes === 0 ? i() : setTimeout(() => i(), 1), this.hideTimes++;
         }
-        this.emit("open", {
-          open: this.open,
-          level: this.level,
-          pointer: this.pointer
-        });
       },
       immediate: !0
     },
     // expand previews
     preview(e) {
-      this.expanded = e, this.open = !!(this.open && e);
+      this.expanded = e, this.setOpen(!!(this.open && e), { user: !1 });
     }
   },
   components: {
@@ -1803,11 +1827,11 @@ function pn(e, t, i, o, s, n) {
   ], 10, Pt);
 }
 const fn = /* @__PURE__ */ ge(Ct, [["render", pn]]);
-let Se = {};
+let we = {};
 const mn = Ke({
   name: "VueDd",
   inheritAttrs: !1,
-  emits: ["open", "toggle", "focus"],
+  emits: ["open", "toggle", "focus", "show"],
   props: {
     // main options
     /**
@@ -1819,9 +1843,10 @@ const mn = Ke({
     openLevel: { type: [Number, String, Array], default: 0 },
     openSpecific: { type: Array, default: () => [] },
     focus: { type: [String, Number], default: null },
+    focusSticky: { type: Boolean, default: !1 },
     focusOffsetX: { type: Number, default: -35 },
     focusOffsetY: { type: Number, default: -15 },
-    focusDelay: { type: Number, default: 300 },
+    focusDelay: { type: Number, default: 30 },
     preview: { type: [Number, Boolean], default: 5 },
     previewInitial: { type: Boolean, default: !0 },
     escapeQuotes: { type: Boolean, default: !1 },
@@ -1856,7 +1881,11 @@ const mn = Ke({
       // if openLevel is string, convert to number int
       useOpenLevel: typeof this.openLevel == "string" ? parseInt(this.openLevel) : this.openLevel,
       memory: null,
-      shared: { hiddenPointers: {} },
+      shared: {
+        hiddenPointers: {}
+        // must be defined as empty
+      },
+      setFocusAlready: !1,
       useFocus: null
     };
   },
@@ -1864,7 +1893,6 @@ const mn = Ke({
     (this.save || this.saveFocus) && this.initMemory(), this.useFocus = this.getFocus(), this.useOpenSpecific = this.getOpenSpecific();
   },
   mounted() {
-    this.setFocus();
   },
   computed: {
     cssVars() {
@@ -1895,18 +1923,21 @@ const mn = Ke({
   },
   methods: {
     forget() {
-      this.save && (this.memory.open = {}, this.shared.hiddenPointers = {}, this.useOpenSpecific = this.baseOpenSpecific(), this.store().set(this.memory));
+      this.save && typeof this.memory == "object" && (this.memory.open = {}, this.shared.hiddenPointers = {}, this.useOpenSpecific = this.baseOpenSpecific(), this.store().set(this.memory));
     },
     setFocus() {
-      this.useFocus !== "" && setTimeout(() => {
-        const e = this.getElement(this.useFocus);
-        e && (this.$refs.root.scrollLeft = e.offsetLeft + this.focusOffsetX, setTimeout(() => {
-          this.$refs.root.scrollTop = e.offsetTop + this.focusOffsetY;
-        }, this.focusDelay), e.classList.add("vue-dd-highlight"));
-      }, 0);
+      if (this.saveFocus && this.useFocus !== null) {
+        let e = !0;
+        this.setFocusAlready && (e = !1), this.focusSticky && (e = !0), e && setTimeout(() => {
+          const t = this.getElement(this.useFocus);
+          t && (this.$refs.root.scrollLeft = t.offsetLeft + this.focusOffsetX, this.$refs.root.scrollTop = t.offsetTop + this.focusOffsetY, t.classList.add("vue-dd-highlight"), this.setFocusAlready = !0);
+        }, this.focusDelay);
+      }
     },
     getElement(e) {
-      return e = e === "" ? "" : `${this.delimiter}${e}`, document.getElementById(`_${this.rootId}${e}`);
+      e = e === "" ? "" : `${this.delimiter}${e}`;
+      const t = `_${this.rootId}${e}`;
+      return document.getElementById(t);
     },
     getFocus() {
       let e = this.focus;
@@ -1946,8 +1977,12 @@ const mn = Ke({
         this.memory.focus = t === null ? this.focus : t, this.store().set(this.memory), this.useFocus = this.memory.focus, this.emitFn(this, "focus", { focus: this.memory.focus, focusElement: i });
       }
     },
+    showEmit(e) {
+      let { type: t, pointer: i, focusElement: o } = e;
+      this.emitFn(this, "show", e), console.log("show", i), this.saveFocus && this.useFocus === i && this.setFocus();
+    },
     open(e) {
-      const { open: t, pointer: i, level: o } = e;
+      const { open: t, pointer: i, level: o, user: s } = e;
       o === 0 && (this.openClass = t), this.$emit("open", e);
     },
     toggle(e) {
@@ -1990,15 +2025,15 @@ const mn = Ke({
       let t = {};
       if (e.length) {
         const i = e;
-        if (i in Se)
-          return Se[i];
+        if (i in we)
+          return we[i];
         e.forEach((o) => {
           const s = String(o).split(this.delimiter);
           let n = "", l = 0;
           for (let a in s)
             n += (l > 0 ? this.delimiter : "") + s[a], t[n] = !0, l++;
           l > 0 && (t[""] = !0);
-        }), this.useFocus !== null && (t[this.useFocus] = !0), Se[i] = t;
+        }), this.useFocus !== null && (t[this.useFocus] = !0), we[i] = t;
       }
       return t;
     },
@@ -2007,6 +2042,13 @@ const mn = Ke({
     emitFn(e, t, ...i) {
       for (; e && !(e.$options.name !== "VueDd" && e.$options.name !== "NodeComplex" && e.$options.name !== "NodePrimitive"); )
         e.$emit(t, ...i), e = e.$parent;
+    }
+  },
+  watch: {
+    modelValue: {
+      handler(e, t) {
+        this.focusSticky && e !== t && this.setFocus();
+      }
     }
   },
   components: {
@@ -2044,8 +2086,9 @@ function vn(e, t, i, o, s, n) {
       parentType: "",
       escapeQuotesFn: e.escapeQuotesFn,
       emitFn: e.emitFn,
-      onFocus: e.focusEmit
-    }, null, 8, ["root", "rootId", "modelValue", "name", "focus", "escapeQuotes", "save", "saveFocus", "delimiter", "type", "escapeQuotesFn", "emitFn", "onFocus"])) : (d(), he(a, {
+      onFocus: e.focusEmit,
+      onShow: e.showEmit
+    }, null, 8, ["root", "rootId", "modelValue", "name", "focus", "escapeQuotes", "save", "saveFocus", "delimiter", "type", "escapeQuotesFn", "emitFn", "onFocus", "onShow"])) : (d(), he(a, {
       key: 1,
       root: e.$refs.root,
       rootId: e.rootId,
@@ -2075,23 +2118,24 @@ function vn(e, t, i, o, s, n) {
       escapeQuotesFn: e.escapeQuotesFn,
       unwrapSpecificFn: e.unwrapSpecificFn,
       emitFn: e.emitFn,
+      onShow: e.showEmit,
       onToggle: e.toggle,
       onOpen: e.open,
       onFocus: e.focusEmit,
       onForget: e.forget
-    }, null, 8, ["root", "rootId", "modelValue", "name", "openLevel", "openSpecific", "focus", "escapeQuotes", "longText", "preview", "previewInitial", "deep", "watch", "save", "saveFocus", "arrow", "delimiter", "more", "type", "shared", "getTypeFn", "isPrimitiveFn", "escapeQuotesFn", "unwrapSpecificFn", "emitFn", "onToggle", "onOpen", "onFocus", "onForget"]))
+    }, null, 8, ["root", "rootId", "modelValue", "name", "openLevel", "openSpecific", "focus", "escapeQuotes", "longText", "preview", "previewInitial", "deep", "watch", "save", "saveFocus", "arrow", "delimiter", "more", "type", "shared", "getTypeFn", "isPrimitiveFn", "escapeQuotesFn", "unwrapSpecificFn", "emitFn", "onShow", "onToggle", "onOpen", "onFocus", "onForget"]))
   ], 14, yn);
 }
-const bn = /* @__PURE__ */ ge(mn, [["render", vn]]), Sn = {};
-function wn(e, t) {
+const bn = /* @__PURE__ */ ge(mn, [["render", vn]]), wn = {};
+function Sn(e, t) {
   return d(), h("div", null, "Hello world");
 }
-const kn = /* @__PURE__ */ ge(Sn, [["render", wn]]);
+const En = /* @__PURE__ */ ge(wn, [["render", Sn]]);
 function On(e) {
-  e.component("VueDd", bn), e.component("XRay", kn);
+  e.component("VueDd", bn), e.component("XRay", En);
 }
 export {
   bn as VueDd,
-  kn as XRay,
+  En as XRay,
   On as install
 };

@@ -67,20 +67,20 @@ const set = reactive(new Set())
   <br />
   dark: <base-checkbox v-model="dark" /><br />
   <vue-dd name="setupState" :dark="dark" v-model="instance.setupState" :deep="false" max-height="300px" />
-<!--  <vue-dd name="test" delimiter="$" :dark="dark" v-model="bool" />-->
-<!--  <vue-dd name="ref" :dark="dark" v-model="text" />-->
-<!--  <vue-dd name="refObject" :dark="dark" v-model="refObject" />-->
-<!--  <vue-dd name="refBoolean" :dark="dark" v-model="refBoolean" />-->
-<!--  <vue-dd name="window" :dark="dark" v-model="w" :open-specific="['history.state']" />-->
-<!--  <vue-dd name="window" :dark="dark" :preview-initial="false" v-model="w" padding-left="25px" />-->
-<!--  <vue-dd name="symbols[preview-initial='false']" :dark="dark" v-model="symbols" :preview-initial="false" />-->
-<!--  <vue-dd name="symbols" :dark="dark" v-model="symbols" />-->
-<!--  <vue-dd name="arr" :dark="dark" v-model="arr" />-->
-<!--  <vue-dd name="arr2" :dark="dark" v-model="arr2" />-->
-<!--  <vue-dd name="arr3" :dark="dark" v-model="arr3" />-->
-<!--  <vue-dd name="reactive_arr" :dark="dark" v-model="reactive_arr" />-->
-<!--  <vue-dd name="openLevel[open-level='2']" :dark="dark" v-model="openLevel" open-level="2" />-->
-<!--  <vue-dd name="map" :dark="dark" v-model="map" />-->
-<!--  <vue-dd name="obj" :dark="dark" v-model="obj" />-->
-<!--  <vue-dd name="set" :dark="dark" v-model="set" />-->
+  <vue-dd name="test" delimiter="$" :dark="dark" v-model="bool" />
+  <vue-dd name="ref" :dark="dark" v-model="text" />
+  <vue-dd name="refObject" :dark="dark" v-model="refObject" />
+  <vue-dd name="refBoolean" :dark="dark" v-model="refBoolean" />
+  <vue-dd name="window" :dark="dark" v-model="w" :open-specific="['history.state']" />
+  <vue-dd name="window" :dark="dark" :preview-initial="false" v-model="w" padding-left="25px" />
+  <vue-dd name="symbols[preview-initial='false']" :dark="dark" v-model="symbols" :preview-initial="false" />
+  <vue-dd name="symbols" :dark="dark" v-model="symbols" />
+  <vue-dd name="arr" :dark="dark" v-model="arr" />
+  <vue-dd name="arr2" :dark="dark" v-model="arr2" />
+  <vue-dd name="arr3" :dark="dark" v-model="arr3" />
+  <vue-dd name="reactive_arr" :dark="dark" v-model="reactive_arr" />
+  <vue-dd name="openLevel[open-level='2']" :dark="dark" v-model="openLevel" open-level="2" />
+  <vue-dd name="map" :dark="dark" v-model="map" />
+  <vue-dd name="obj" :dark="dark" v-model="obj" />
+  <vue-dd name="set" :dark="dark" v-model="set" />
 </template>

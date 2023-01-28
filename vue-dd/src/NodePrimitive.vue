@@ -45,7 +45,7 @@
 export default {
   name: 'NodePrimitive',
   inheritAttrs: false,
-  emits: ['openParent', 'focus'],
+  emits: ['openParent', 'show', 'focus'],
   props: [
     // ref
     'root',
@@ -77,6 +77,14 @@ export default {
     }
   },
   methods: {
+    showEmit () {
+      this.emit('show', {
+        pointer: this.pointer,
+        pointerElement: this.$refs.focusElement,
+        type: 'primitive'
+      })
+      return true
+    },
     focusEmit () {
       this.emit('focus', {
         pointer: this.pointer,
@@ -90,6 +98,9 @@ export default {
       const pointer = this.pointer !== '' ? `${this.delimiter}${this.pointer}` : ``
       return `_${this.rootId}${pointer}`
     }
+  },
+  mounted () {
+    this.showEmit()
   },
   computed: {
     parentIsArray () {

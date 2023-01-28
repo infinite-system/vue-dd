@@ -1,6 +1,6 @@
 ## vue-dd &mdash; object viewer &nbsp; &nbsp; [![npm](https://img.shields.io/npm/v/vue-dd.svg)](https://www.npmjs.com/package/vue-dd) [![build status](https://github.com/infinite-system/vue-dd/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/infinite-system/vue-dd/actions/workflows/ci.yml)
 
-> **vue-dd** is a Vue 3 object viewer for displaying complex JavaScript objects, Vue reactive and ref objects, functions, maps, sets, symbols and primitives in order to monitor their changes **live** with full reactivity. Inspired by the Laravel's **dd()** function. 
+> **vue-dd** is a Vue 3 object viewer for displaying complex JavaScript objects, Vue reactive and ref objects, functions, maps, sets, symbols and primitives in order to monitor their changes **live** with full reactivity. Inspired by the Laravel's **dd()** function.
 
 https://user-images.githubusercontent.com/150185/213549880-e6b645bd-11f0-461a-b1a9-29c70c52f2ad.mov
 
@@ -66,10 +66,10 @@ The value to display is passed as `v-model` or `:model-value`:
 - modern reactive `Maps`, `Sets`, `Symbols` are supported
 
 ## Beautiful & Pixel Perfect
-  - dark and light modes are built in
-  - fully configurable & fully themeable via CSS
-  - functions code is highlighted with highlight.js 
-  - highlight.js is built in to retain 0 dependecy architecture
+- dark and light modes are built in
+- fully configurable & fully themeable via CSS
+- functions code is highlighted with highlight.js
+- highlight.js is built in to retain 0 dependecy architecture
 
 ## Zero dependencies
 This component does not depend on any other package, except Vue 3

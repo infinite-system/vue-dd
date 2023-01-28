@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import { VueDd } from 'vue-dd'
+// import { VueDd } from 'vue-dd'
 
-// import { VueDd } from '../../vue-dd/src/VueDd.vue'
+import VueDd from '../../vue-dd/src/VueDd.vue'
 //
 import App from './App.vue'
 import router from './router'

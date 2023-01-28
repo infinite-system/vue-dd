@@ -3427,12 +3427,10 @@ vitest@^0.25.6:
     tinyspy "^1.0.2"
     vite "^3.0.0 || ^4.0.0"
 
-vue-dd@^1.2.0-beta.7:
-  version "1.2.0-beta.7"
-  resolved "https://registry.yarnpkg.com/vue-dd/-/vue-dd-1.2.0-beta.7.tgz#db718909713c5efd1e48da52076e4440b4186b8e"
-  integrity sha512-fRYlbxSuV5balcBAGl9Rv6vJDJIkmnPpQVzAq2a5Fe0t5VdduXiKRRTiPXj9MS+3ojtA342sk0s8uzXZj5tn3Q==
-  dependencies:
-    vue ">2.7.5"
+vue-dd@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/vue-dd/-/vue-dd-1.2.2.tgz#6f9aa0bed2a5b29dd236140c8e8076c012b56367"
+  integrity sha512-ShQdvdRpIX1tu4M6G2ihaFVIQoHZO+8f4j3xzWvG3OZxbptGhUxNjIa1IMeH51V7JtnfL9Pvm5tPVzZuXci3OQ==
 
 vue-demi@*:
   version "0.13.11"
@@ -3475,7 +3473,7 @@ vue-tsc@^1.0.12:
     "@volar/vue-language-core" "1.0.24"
     "@volar/vue-typescript" "1.0.24"
 
-vue@>2.7.5, vue@^3.2.45:
+vue@^3.2.45:
   version "3.2.45"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.45.tgz#94a116784447eb7dbd892167784619fef379b3c8"
   integrity sha512-9Nx/Mg2b2xWlXykmCwiTUCWHbWIj53bnkizBxKai1g61f2Xit700A1ljowpTIM11e3uipOeiPcSqnmBg6gyiaA==

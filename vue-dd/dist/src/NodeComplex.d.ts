@@ -79,9 +79,13 @@ declare namespace _sfc_main {
         hover: boolean;
         unwatch: () => void;
     };
+    export function mounted(): void;
+    export function mounted(): void;
     export function created(): void;
     export function created(): void;
     export namespace methods {
+        function showEmit(): boolean;
+        function showEmit(): boolean;
         function getAllPointer(pointer: any): string;
         function getAllPointer(pointer: any): string;
         function forget(): void;
@@ -126,6 +130,12 @@ declare namespace _sfc_main {
         function parentIsOpen(): any;
         function focusEmit(): void;
         function focusEmit(): void;
+        function setOpen(value: any, { user }: {
+            user: any;
+        }): void;
+        function setOpen(value: any, { user }: {
+            user: any;
+        }): void;
     }
     export namespace computed {
         function parentIsArray(): any;

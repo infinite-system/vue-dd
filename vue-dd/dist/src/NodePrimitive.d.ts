@@ -7,6 +7,8 @@ declare namespace _sfc_main {
     function data(): any;
     function data(): any;
     namespace methods {
+        function showEmit(): boolean;
+        function showEmit(): boolean;
         function focusEmit(): void;
         function focusEmit(): void;
         function emit(name: any, ...args: any[]): void;
@@ -14,6 +16,8 @@ declare namespace _sfc_main {
         function makeId(): any;
         function makeId(): any;
     }
+    function mounted(): void;
+    function mounted(): void;
     namespace computed {
         function parentIsArray(): any;
         function parentIsArray(): any;
