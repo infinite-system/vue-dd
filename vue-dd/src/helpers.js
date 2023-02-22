@@ -60,3 +60,9 @@ function getLocationHash (window) {
 
   return hashCode(smartLocation).toString(16).replace('-', '_')
 }
+
+export function onFrame(callback, timeout = 0) {
+  setTimeout(() => {
+    window.requestAnimationFrame(() => window.requestAnimationFrame(callback))
+  }, timeout)
+}

@@ -1,9 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import { VueDd } from 'vue-dd'
 
-// import VueDd from '../../vue-dd/src/VueDd.vue'
-//
+
 import App from './App.vue'
 import router from './router'
 //
@@ -13,7 +11,12 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-// app.component('VueDdNpm', VueDdNpm)
-app.component('VueDd', VueDd)
+
+
+// const npm = false
+// let VueDd = await import(npm ? `../node_modules/vue-dd/dist/index.es.js` : `../../vue-dd/src/VueDd.vue`)
+// VueDd = npm ? VueDd.VueDd : VueDd.default
+//
+// app.component('VueDd', VueDd)
 
 app.mount('#app')

@@ -8,7 +8,7 @@
         :class="{
           'vue-dd-key': true,
           'vue-dd-key-of-array': parentIsArray,
-        }">{{ name }}<span class="vue-dd-colon">:</span></span><span
+        }">{{ name }}</span><span class="vue-dd-colon">:</span><span
       v-if="parentOpen && saveFocus"
       ref="focusElement"
       class="vue-dd-focus vue-dd-icon-eye"

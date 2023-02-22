@@ -53,17 +53,17 @@
   <br />
   <strong>vue-dd advanced example 2:</strong>
   You can pre-open levels with <strong>:open-level</strong> prop. Example below
-  will open 3 levels deep right away, and scroll to the latest
+  will open 2 levels deep right away, and scroll to the latest
   <strong>'results.9'</strong>,using <strong>focus="results.9"</strong> prop
   <pre class="pre">
-&lt;vue-dd v-model="api" name="api" focus="results.9" max-height="400px" :open-level="3" /&gt;</pre
+&lt;vue-dd v-model="api" name="api" focus="results.9" max-height="400px" :open-level="2" /&gt;</pre
   >
   <vue-dd
       name="api"
       v-model="api"
       focus="results.9"
       max-height="400px"
-      :open-level="3"
+      :open-level="2"
   />
   <br />
   <strong>vue-dd advanced example 3:</strong>
@@ -103,6 +103,11 @@ import { VueDd } from 'vue-dd'
 >
 
   <pre class="pre">&lt;vue-dd v-model="object" /&gt;</pre>
+  <div style="padding: 20px 0">
+    <a target="_blank" href="https://github.com/infinite-system/vue-dd"
+    >Read Documentation: https://github.com/infinite-system/vue-dd</a
+    >
+  </div>
 </template>
 
 <script>

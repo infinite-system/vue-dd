@@ -1,6 +1,26 @@
 <script setup lang="ts">
-import { ref, getCurrentInstance, reactive } from 'vue'
+import { ref, getCurrentInstance, reactive, defineAsyncComponent, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import BaseCheckbox from './BaseCheckbox.vue'
+
+const route = useRoute()
+
+const npm = ref('npm' in route.query && route.query.npm == 1)
+
+function getVueDd(){
+  if (npm.value){
+    return defineAsyncComponent(async (resolve) => (await import(`../../node_modules/vue-dd/dist/index.es.js`)).VueDd)
+  } else {
+    return defineAsyncComponent(() => import(`../../../vue-dd/src/VueDd.vue`))
+  }
+}
+
+let VueDd = getVueDd()
+
+watch(npm, () => VueDd = getVueDd())
+
+// VueDd = npm ? VueDd.VueDd : VueDd.default
+// console.log(VueDd.VueDd)
 const bool = true
 const text = { ref: ref('text') }
 const refObject = { ref: ref({hello:'hello',bye:'bye'}) }
@@ -30,7 +50,7 @@ setInterval(() => reactive_arr[1]++, 300 )
 setInterval(() => reactive_arr[2]++, 500 )
 setInterval(() => reactive_arr[3]--, 10 )
 setInterval(() => reactive_arr[4]--, 50 )
-
+const fromTest = [{ obj: { subobj: 'hello', obj:{ unreachable: true} } }, { obj: 2 }]
 const map = reactive(new Map([
     // ['a', 1]
     // ['test', openLevel],
@@ -63,7 +83,8 @@ const set = reactive(new Set())
 </script>
 
 <template>
-  Window object displayed:
+  NPM: <base-checkbox v-model="npm" /><br />
+
   <br />
   dark: <base-checkbox v-model="dark" /><br />
   <vue-dd name="setupState" :dark="dark" v-model="instance.setupState" :deep="false" max-height="300px" />
@@ -83,4 +104,5 @@ const set = reactive(new Set())
   <vue-dd name="map" :dark="dark" v-model="map" />
   <vue-dd name="obj" :dark="dark" v-model="obj" />
   <vue-dd name="set" :dark="dark" v-model="set" />
+  <vue-dd open-level="3" :preview="0" v-model="fromTest" />
 </template>
