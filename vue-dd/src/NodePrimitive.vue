@@ -2,7 +2,7 @@
   <span
       :id="id"
       class="vue-dd-primitive"
-      @click="$emit('openParent')">
+      @click.prevent="$emit('openParent')">
     <span
         v-if="showName"
         :class="{
@@ -12,7 +12,7 @@
       v-if="parentOpen && saveFocus"
       ref="focusElement"
       class="vue-dd-focus vue-dd-icon-eye"
-      @click="focusEmit"
+      @click.prevent="focusEmit"
       @mouseenter="hover=true"
       @mouseup="hover=false"
       @mouseleave="hover=false"

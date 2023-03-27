@@ -4,7 +4,7 @@
       <!--arrow-->
       <button
         v-if="arrow"
-        @click="toggleOpen"
+        @click.prevent="toggleOpen"
         class="vue-dd-arrow"
         :class="{'vue-dd-arrow-collapsed': !isOpen}"
         v-html="isOpen ? arrowOpen : arrowClosed"></button>
@@ -12,7 +12,7 @@
       <!--name-->
       <span
         v-if="showName"
-        @click="toggleOpen"
+        @click.prevent="toggleOpen"
         @mousedown="preventSelect($event)"
         class="vue-dd-name"
         :class="{
@@ -24,7 +24,7 @@
       <span v-if="isOpen && saveFocus"
             ref="focusElement"
             class="vue-dd-focus vue-dd-icon-eye"
-            @click="focusEmit"
+            @click.prevent="focusEmit"
             @mouseenter="hover=true"
             @mouseup="hover=false"
             @mouseleave="hover=false"
@@ -36,34 +36,34 @@
 
       <!--R-->
       <span v-if="isIterable && isReactive"
-            @click="toggleOpen"
+            @click.prevent="toggleOpen"
             @mousedown="preventSelect($event)"
             class="vue-dd-r"
             title="Reactive">R</span>
 
       <!--Ref-->
       <span v-else-if="isIterable && isRef"
-            @click="toggleOpen"
+            @click.prevent="toggleOpen"
             @mousedown="preventSelect($event)"
             class="vue-dd-ref"
             title="Ref">Ref</span>
 
       <!--f-->
       <span v-else-if="isFunction"
-            @click="toggleOpen"
+            @click.prevent="toggleOpen"
             @mousedown="preventSelect($event)"
             class="vue-dd-f"
             title="Function">f</span>
 
       <!--function start-->
       <pre v-if="isFunction && isOpen"
-           @click="toggleOpen"
+           @click.prevent="toggleOpen"
            class="vue-dd-f-start"><span v-html="functionName"></span><span class="vue-dd-comma"
                                                                            v-if="shouldComma && !isOpen">,</span></pre>
 
       <!--{ | [-->
       <span v-if="isIterable && isOpen"
-            @click="toggleOpen"
+            @click.prevent="toggleOpen"
             @mousedown="preventSelect($event)"
             :class="charClass"
             v-html="charOpen" />
@@ -74,20 +74,20 @@
 
       <!--size-->
       <span v-if="isIterable && isOpen && getSize"
-            @click="toggleOpen"
+            @click.prevent="toggleOpen"
             @mousedown="preventSelect($event)"
             class="vue-dd-size"><span class="vue-dd-size-bracket">[</span>{{ getSize }}<span
         class="vue-dd-size-bracket">]</span></span>
 
       <!--promise closed-->
       <span v-if="isIterable && isPromise && !isOpen"
-            @click="toggleOpen"
+            @click.prevent="toggleOpen"
             @mousedown="preventSelect($event)"
             class="vue-dd-instance vue-dd-promise-prototype">Promise</span>
 
       <!--forget-->
       <span v-if="isOpen && level === 0 && save && !cleared"
-            @click="askForget=true"
+            @click.prevent="askForget=true"
             class="vue-dd-forget vue-dd-forget-q"
             :class="{'vue-dd-forget-q-ask':askForget}">
         <span v-if="askForget">clear save?</span>
@@ -96,8 +96,8 @@
 
       <!--forget question-->
       <span v-if="askForget">
-        <span class="vue-dd-forget vue-dd-forget-yes" @click="forget">yes</span>
-        <span class="vue-dd-forget vue-dd-forget-no" @click="askForget=false">no</span>
+        <span class="vue-dd-forget vue-dd-forget-yes" @click.prevent="forget">yes</span>
+        <span class="vue-dd-forget vue-dd-forget-no" @click.prevent="askForget=false">no</span>
       </span>
 
       <!--forget cleared-->
@@ -119,7 +119,7 @@
 
         <!--size-->
 <!--        <span v-if="isIterable && !isOpen && getSize"-->
-<!--              @click="toggleOpen"-->
+<!--              @click.prevent="toggleOpen"-->
 <!--              @mousedown="preventSelect($event)"-->
 <!--              class="vue-dd-size"><span class="vue-dd-size-bracket">[</span>{{ getSize }}<span-->
 <!--          class="vue-dd-size-bracket">]</span></span>-->
@@ -130,7 +130,7 @@
         <!--expand button-->
         <button
           v-if="isIterable && !isOpen && !allowPreview"
-          @click="expand"
+          @click.prevent="expand"
           class="vue-dd-expand"><span class="vue-dd-size-bracket">(</span><span class="vue-dd-expand-more" v-html="more"></span><span class="vue-dd-size-bracket">)</span></button>
 
         <div v-if="isIterable && (isOpen || expanded)">
@@ -227,7 +227,7 @@
           <!--if isOpen and function content does not exist-->
           <span v-else-if="isOpen && !functionContent"></span>
           <!--if not isOpen, display inline-->
-          <span v-else @click="toggleOpen" class="vue-dd-f-inline"><span
+          <span v-else @click.prevent="toggleOpen" class="vue-dd-f-inline"><span
             v-html="allowPreview ? functionInlinePreview : functionInline"></span><span
             class="vue-dd-comma" v-if="shouldComma">,</span>
           </span>
@@ -242,7 +242,7 @@
         <!--expand button-->
         <button
           v-if="isIterable && !isOpen && allowPreview && preview < items.length"
-          @click="expand"
+          @click.prevent="expand"
           class="vue-dd-expand"
           v-html="more"></button>
 
@@ -432,7 +432,7 @@ export default {
       }
       this.expanded = true
       this.openSublevel = true
-      console.log('expand', this.pointer, this.isOpen, this.expanded)
+      // console.log('expand', this.pointer, this.isOpen, this.expanded)
     },
     toggleOpen (event, value) {
 

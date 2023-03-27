@@ -115,7 +115,7 @@ export default defineComponent({
     delimiter: { type: String, default: '.' },
     more: { type: String, default: '...' },
     // styling options
-    arrow: { type: Boolean, default: false },
+    arrow: { type: Boolean, default: true },
     arrowOpen: { type: String, default: '&#x25BC;' },
     arrowClosed: { type: String, default: '&#x25BC;' },
     inline: { type: Boolean, default: true },
