@@ -1,13 +1,28 @@
 <template>
   <div :id="id" :class="{'vue-dd-body':true, 'vue-dd-box-closed': !isOpen}">
     <div class="vue-dd-start">
+      <!--focus-->
+      <span v-if="saveFocus"
+            ref="focusElement"
+            class="vue-dd-focus vue-dd-icon-eye"
+            @click.prevent="focusEmit"
+            @mouseenter="hover=true"
+            @mouseup="hover=false"
+            @mouseleave="hover=false"
+            :class="{
+              'vue-dd-focus-hover':hover,
+              'vue-dd-focus-selected':isFocused
+            }"
+      ></span>
+
       <!--arrow-->
-      <button
+      <span
         v-if="arrow"
         @click.prevent="toggleOpen"
         class="vue-dd-arrow"
         :class="{'vue-dd-arrow-collapsed': !isOpen}"
-        v-html="isOpen ? arrowOpen : arrowClosed"></button>
+        v-html="isOpen ? arrowOpen : arrowClosed"></span>
+
 
       <!--name-->
       <span
@@ -20,19 +35,6 @@
             'vue-dd-key-of-array': parentIsArray
           }">{{ name }}</span><span class="vue-dd-colon" v-if="level !== 0">:</span>
 
-      <!--focus-->
-      <span v-if="isOpen && saveFocus"
-            ref="focusElement"
-            class="vue-dd-focus vue-dd-icon-eye"
-            @click.prevent="focusEmit"
-            @mouseenter="hover=true"
-            @mouseup="hover=false"
-            @mouseleave="hover=false"
-            :class="{
-              'vue-dd-focus-hover':hover,
-              'vue-dd-focus-selected':isFocused
-            }"
-      ></span>
 
       <!--R-->
       <span v-if="isIterable && isReactive"
@@ -128,10 +130,10 @@
         <span v-if="isIterable && isPromise" class="vue-dd-promise-content">&lt;pending&gt;</span>
 
         <!--expand button-->
-        <button
+        <span
           v-if="isIterable && !isOpen && !allowPreview"
           @click.prevent="expand"
-          class="vue-dd-expand"><span class="vue-dd-size-bracket">(</span><span class="vue-dd-expand-more" v-html="more"></span><span class="vue-dd-size-bracket">)</span></button>
+          class="vue-dd-expand"><span class="vue-dd-size-bracket">(</span><span class="vue-dd-expand-more" v-html="more"></span><span class="vue-dd-size-bracket">)</span></span>
 
         <div v-if="isIterable && (isOpen || expanded)">
 
@@ -240,11 +242,11 @@
         </div>
 
         <!--expand button-->
-        <button
+        <span
           v-if="isIterable && !isOpen && allowPreview && preview < items.length"
           @click.prevent="expand"
           class="vue-dd-expand"
-          v-html="more"></button>
+          v-html="more"></span>
 
         <!--} or ]-->
         <span v-if="isIterable" :class="charClass" v-html="charClose" />

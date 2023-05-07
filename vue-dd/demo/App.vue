@@ -1,10 +1,11 @@
+<script setup lang="ts">
+ const w = window
+</script>
 <template>
-
+Test
+  <vue-dd v-model="w" />
 </template>
 
-<script setup lang="ts">
-
-</script>
 
 <style>
 .rendererParent {

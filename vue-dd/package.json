@@ -15,6 +15,7 @@
   "types": "./dist/src/index.d.ts",
   "style": "./dist/style.css",
   "scripts": {
+    "dev": "vite dev --host",
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "cypress": "cypress run --component",

@@ -193,7 +193,7 @@ div.vue-dd-start {
   color: #116dea;
 }
 
-button.vue-dd-expand {
+span.vue-dd-expand {
   vertical-align: middle;
   background: none;
   border: 0;
@@ -209,16 +209,16 @@ button.vue-dd-expand {
   letter-spacing: -0px;
 }
 
-button.vue-dd-expand:hover {
+span.vue-dd-expand:hover {
   background: rgba(0, 0, 0, 0.05);
   color: #21BA45;
 }
 
-.vue-dd-dark button.vue-dd-expand {
+.vue-dd-dark span.vue-dd-expand {
   /*background: rgba(19, 19, 19, 0.97);*/
 }
 
-.vue-dd-dark button.vue-dd-expand:hover {
+.vue-dd-dark span.vue-dd-expand:hover {
   background: rgba(255, 255, 255, 0.05);
 }
 
@@ -232,7 +232,7 @@ button.vue-dd-expand:hover {
   margin: 0;
 }
 
-button.vue-dd-expand:active {
+span.vue-dd-expand:active {
   padding-top: 4px;
   padding-bottom: 2px !important;
 }
@@ -316,7 +316,7 @@ button.vue-dd-expand:active {
   color: #cbeaff;
 }
 
-button.vue-dd-arrow {
+span.vue-dd-arrow {
   border: none;
   display: inline-block;
   background: none;
@@ -330,11 +330,11 @@ button.vue-dd-arrow {
   vertical-align: middle;
 }
 
-button.vue-dd-arrow:hover {
+span.vue-dd-arrow:hover {
   color: slategray;
 }
 
-button.vue-dd-arrow-collapsed {
+span.vue-dd-arrow-collapsed {
   padding: 0 2px 0 2px;
   transform: rotate(-90deg);
 }
