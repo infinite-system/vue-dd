@@ -1,6 +1,6 @@
 {
   "name": "vue-dd",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Vue.js component for displaying JavaScript objects with circular references, forked and ported to Vue 3",
   "exports": {
     ".": {
