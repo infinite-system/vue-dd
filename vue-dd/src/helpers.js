@@ -25,16 +25,13 @@ export function isPromise (p) {
     typeof p.catch === 'function';
 }
 
-let uniqueId = 1
-
 export function makeId (id, name, window) {
   if (id !== '') {
     return id
   } else {
     // auto-generate id
     const locationHash = getLocationHash(window)
-
-    return `${name}_${uniqueId++}_${locationHash}`
+    return `${name}_${locationHash}`
   }
 }
 

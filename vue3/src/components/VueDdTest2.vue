@@ -52,9 +52,9 @@ setInterval(() => reactive_arr[3]--, 10 )
 setInterval(() => reactive_arr[4]--, 50 )
 const fromTest = [{ obj: { subobj: 'hello', obj:{ unreachable: true} } }, { obj: 2 }]
 const map = reactive(new Map([
-    // ['a', 1]
-    // ['test', openLevel],
-    // ['test2', reactive_arr]
+  // ['a', 1]
+  // ['test', openLevel],
+  // ['test2', reactive_arr]
 ]))
 let i = 0;
 setInterval(() => {
@@ -74,16 +74,16 @@ setInterval(() => {
 
 let k = 0;
 const set = reactive(new Set())
-  setInterval(() => {
-    if (k < 30){
-      set.add(['Harry '+k, ['Berry']])
-      k++
-    }
-  }, 1500)
+setInterval(() => {
+  if (k < 30){
+    set.add(['Harry '+k, ['Berry']])
+    k++
+  }
+}, 1500)
 </script>
 
 <template>
-  <h2>Test 1</h2>
+  <h2>Test 2</h2>
   NPM: <base-checkbox v-model="npm" /><br />
 
   <br />

@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import VueDdTest from '../components/VueDdTest.vue'
+import VueDdTest2 from '../components/VueDdTest2.vue'
 import VueDdApiTest from '../components/VueDdApiTest.vue'
 
 const router = createRouter({
@@ -8,7 +10,24 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      children: [
+        {
+          path: '',
+          name: 'vue-dd',
+          component: VueDdTest
+        },
+        {
+          path: 'test-2',
+          name: 'vue-dd-test-2',
+          component: VueDdTest2
+        },
+        {
+          path: 'api',
+          name: 'vue-dd-api',
+          component: VueDdApiTest
+        }
+      ]
     },
     {
       path: '/api',

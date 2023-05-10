@@ -20,7 +20,7 @@
       :focus="useFocus"
       :escapeQuotes="escapeQuotes"
       :save="save"
-      :saveFocus="saveFocus"
+      :saveFocus="useSaveFocus"
       :delimiter="delimiter"
 
       pointer=""
@@ -54,7 +54,7 @@
       :deep="isRef ? true : deep"
       :watch="watch"
       :save="save"
-      :saveFocus="saveFocus"
+      :saveFocus="useSaveFocus"
       :arrow="arrow"
       :arrowOpen="arrowOpen"
       :arrowClosed="arrowClosed"
@@ -129,7 +129,7 @@ export default defineComponent({
     // save
     save: { type: Boolean, default: false },
     saveFocus: { type: Boolean, default: true },
-    storage: { type: String, default: 'session' }, // session | local
+    storage: { type: String, default: 'local' }, // session | local
     // watch options
     watch: { type: Boolean, default: true },
     deep: { type: Boolean, default: true },
@@ -146,16 +146,16 @@ export default defineComponent({
         hiddenPointers: {} // must be defined as empty
       },
       setFocusAlready: false,
-      useFocus: null
+      useFocus: null,
+      // saveFocus only works, if you supply an id or a name for the object
+      useSaveFocus: !this.id && !this.name ? false : this.saveFocus
     }
   },
-
   created () {
-    if (this.save || this.saveFocus) {
+    if (this.save || this.useSaveFocus) {
       // this is very important for save functionality
       this.initMemory();
     }
-
     this.useFocus = this.getFocus()
     this.useOpenSpecific = this.getOpenSpecific()
   },
@@ -200,7 +200,8 @@ export default defineComponent({
       }
     },
     setFocus () {
-      if (this.saveFocus && this.useFocus !== null) {
+
+      if (this.useSaveFocus && this.useFocus !== null) {
 
         let focus = true;
         if (this.setFocusAlready) focus = false
@@ -236,8 +237,9 @@ export default defineComponent({
     },
     getFocus () {
       let focus = this.focus
-      if (this.saveFocus && 'focus' in this.memory && this.memory.focus !== null) {
+      if (this.useSaveFocus && 'focus' in this.memory && this.memory.focus !== null) {
         focus = String(this.memory.focus)
+
       }
 
       return focus
@@ -272,7 +274,7 @@ export default defineComponent({
           openSpecific.push(String(pointer))
         }
 
-        //console.log('memopen', this.memory, openSpecific, this.unwrapSpecific)
+        // console.log('memopen', this.memory, openSpecific, this.unwrapSpecific)
         return openSpecific
 
       } else {
@@ -289,7 +291,7 @@ export default defineComponent({
 
       let { pointer, focusElement } = setup
 
-      if (this.saveFocus) {
+      if (this.useSaveFocus) {
 
         const oldFocus = this.useFocus
 
@@ -361,7 +363,7 @@ export default defineComponent({
       this.emitFn(this, 'show', setup)
 
       // console.log('show', 'this.useFocus', this.useFocus, 'pointer', pointer)
-      if (this.saveFocus && this.useFocus === pointer) {
+      if (this.useSaveFocus && this.useFocus === pointer) {
         this.setFocus()
       }
     },
@@ -432,6 +434,7 @@ export default defineComponent({
 
     store () {
       const key = 'vue-dd.' + this.rootId
+
       return {
         get: () => {
           try {
