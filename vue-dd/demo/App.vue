@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import { reactive } from 'vue'
  const w = window
+ const test = reactive({ 'test': 'test' })
 </script>
 <template>
 Test
-  <vue-dd v-model="w" />
+  <vue-dd name="window" v-model="w" />
+  <br />
+  <vue-dd name="test" v-model="test" />
 </template>
 
 

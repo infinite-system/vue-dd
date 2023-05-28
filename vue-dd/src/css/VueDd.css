@@ -260,8 +260,13 @@ span.vue-dd-expand:active {
   font-style: italic;
   letter-spacing: -0.5px;
   display: inline-block;
-  padding: 0 3px 0 0;
+  padding: 0 3px 0 2px;
 }
+
+.vue-dd-name + .vue-dd-r {
+  padding-left: 2px;
+}
+
 
 .vue-dd-f {
   -webkit-user-select: none;
