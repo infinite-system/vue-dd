@@ -21,7 +21,7 @@
         :class="{
           'vue-dd-key': true,
           'vue-dd-key-of-array': parentIsArray,
-        }">{{ name }}</span><span class="vue-dd-colon">:</span>
+        }">{{ name }}</span><span v-if="showName" class="vue-dd-colon">:</span>
     <span v-if="type === 'null'"
           class="vue-dd-null">null</span>
     <span v-else-if="type === 'undefined'"

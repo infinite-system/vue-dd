@@ -260,7 +260,7 @@ span.vue-dd-expand:active {
   font-style: italic;
   letter-spacing: -0.5px;
   display: inline-block;
-  padding: 0 3px 0 2px;
+  padding: 0 2px 0 0;
 }
 
 .vue-dd-name + .vue-dd-r {
@@ -599,6 +599,9 @@ span.vue-dd-arrow-collapsed {
   color: #555;
 }
 
+.vue-dd-name + .vue-dd-obj-char {
+  padding-left: 2px;
+}
 
 .vue-dd-arr-char {
   color: #7490ab;

@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
  const w = window
  const test = reactive({ 'test': 'test' })
- const test2 = { 'test': ref({test: 'test'}) }
+ const test2 = { 'test': ref({test: 'test'}), 'array':['test','test2'] }
 </script>
 <template>
 Test
