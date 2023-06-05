@@ -479,6 +479,8 @@ export default {
 
                 // Get all object properties
                 const proto = Object.getPrototypeOf(this.modelValue)
+
+                // Converting to and from set, deduplicates the array
                 keys = Array.from(new Set(Object.getOwnPropertyNames(this.modelValue)
                   .concat(proto && proto.constructor.name !== 'Object' ? Object.getOwnPropertyNames(proto) : [])))
 
