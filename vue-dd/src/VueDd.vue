@@ -43,6 +43,7 @@
 
       :modelValue="modelValue"
       :name="name"
+      :getAllProperties="getAllProperties"
       :openLevel="useOpenLevel"
       :openSpecific="useOpenSpecific"
       :focus="useFocus"
@@ -100,6 +101,7 @@ export default defineComponent({
     modelValue: { type: undefined, required: true },
     id: { type: [String, Number], default: '' },
     name: { type: String, default: '' },
+    getAllProperties: { type: Boolean, default: false },
     openLevel: { type: [Number, String, Array], default: 0 },
     openSpecific: { type: Array, default: () => [] },
     startClosed: { type: Boolean, default: false },

@@ -1,16 +1,87 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
+import { action, computed, inject, makeObservable, observable } from "*";
  const w = window
  const test = reactive({ 'test': 'test' })
  const test2 = { 'test': ref({test: 'test'}), 'array':['test','test2'] }
+
+abstract class MessagesPresenter {
+
+
+  showValidationWarning = null
+
+
+  constructor() {
+  }
+
+  init = () => {
+  }
+
+  abstract reset(): void
+
+  get messages() {
+  }
+
+  unpackRepositoryPmToVm = (pm, userMessage) => {
+  }
+}
+
+class LoginRegisterPresenter extends MessagesPresenter {
+
+
+  email = null
+  password = null
+  option = null
+
+  getVm () {
+
+  }
+
+  constructor () {
+    super()
+  }
+
+  //
+  get viewTest () {
+
+  }
+
+  set viewTest (value) {
+
+  }
+
+  setAuthRepoTest () {
+
+  }
+
+  reset () {
+
+  }
+
+  async login () {
+
+  }
+
+  register = async () => {
+
+  }
+
+  logOut = async () => {
+
+  }
+}
+
+const presenter = new LoginRegisterPresenter()
 </script>
 <template>
-Test
+<h1>Basic Tests</h1>
   <vue-dd name="window" v-model="w" />
   <br />
-  <vue-dd name="test" v-model="test" />
+  <vue-dd name="test" :get-all-properties="true" v-model="test" />
   <br />
-  <vue-dd name="test2" v-model="test2" />
+  <vue-dd name="test2" :get-all-properties="true" v-model="test2" />
+  <br />
+  <vue-dd name="presenter" :get-all-properties="true" v-model="presenter" />
 </template>
 
 

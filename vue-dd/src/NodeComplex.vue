@@ -120,11 +120,11 @@
         <span v-if="isIterable && !isOpen" :class="charClass" v-html="charOpen" />
 
         <!--size-->
-<!--        <span v-if="isIterable && !isOpen && getSize"-->
-<!--              @click.prevent="toggleOpen"-->
-<!--              @mousedown="preventSelect($event)"-->
-<!--              class="vue-dd-size"><span class="vue-dd-size-bracket">[</span>{{ getSize }}<span-->
-<!--          class="vue-dd-size-bracket">]</span></span>-->
+        <!--        <span v-if="isIterable && !isOpen && getSize"-->
+        <!--              @click.prevent="toggleOpen"-->
+        <!--              @mousedown="preventSelect($event)"-->
+        <!--              class="vue-dd-size"><span class="vue-dd-size-bracket">[</span>{{ getSize }}<span-->
+        <!--          class="vue-dd-size-bracket">]</span></span>-->
 
         <!--promise isOpen-->
         <span v-if="isIterable && isPromise" class="vue-dd-promise-content">&lt;pending&gt;</span>
@@ -133,7 +133,9 @@
         <span
           v-if="isIterable && !isOpen && !allowPreview"
           @click.prevent="expand"
-          class="vue-dd-expand"><span class="vue-dd-size-bracket">(</span><span class="vue-dd-expand-more" v-html="more"></span><span class="vue-dd-size-bracket">)</span></span>
+          class="vue-dd-expand"><span class="vue-dd-size-bracket">(</span><span class="vue-dd-expand-more"
+                                                                                v-html="more"></span><span
+          class="vue-dd-size-bracket">)</span></span>
 
         <div v-if="isIterable && (isOpen || expanded)">
 
@@ -186,6 +188,7 @@
                 :deep="isRef ? false : deep"
                 :watch="watch"
                 :preview="isOpen ? preview : false"
+                :getAllProperties="getAllProperties"
                 :openLevel="useOpenLevel"
                 :openSpecific="useOpenSpecific"
                 :startClosed="startClosed"
@@ -280,6 +283,7 @@ export default {
     // options
     modelValue: undefined,
     name: [String, Number],
+    getAllProperties: Boolean,
     openLevel: [Number, Array],
     openSpecific: Array,
     startClosed: Boolean,
@@ -470,11 +474,50 @@ export default {
               this.getSize = i
               break;
             default:
-              for (let k in this.modelValue) {
-                keys[i] = k
-                i++
+
+              if (this.getAllProperties) {
+                const proto = Object.getPrototypeOf(this.modelValue)
+                // Get all object properties
+                const props = [
+                  ...Object.getOwnPropertyNames(this.modelValue),
+                  // Except those that belong to Object prototype itself
+                  ...(proto && proto.constructor.name !== 'Object' ? Object.getOwnPropertyNames(proto) : []),
+                ]
+                const propsLength = props.length;
+
+                if (this.isOpen) {
+                  for (i = 0; i < propsLength; i++) {
+                    if (props[i] ===)
+                    keys[i] = props[i]
+                  }
+                } else {
+                  const preview = parseInt(this.preview)
+                  for (i = 0; i < propsLength; i++) {
+                    if (i === preview) break;
+                    keys[i] = props[i]
+                  }
+                }
+                this.getSize = i
+              } else {
+                // show regular enumerable properties only
+                if (this.isOpen) {
+                  // opened items
+                  for (let prop in this.modelValue) {
+                    keys[i] = prop
+                    i++
+                  }
+                } else {
+                  // preview items
+                  const preview = parseInt(this.preview)
+                  for (let prop in this.modelValue) {
+                    // break out of a loop to speed up performance
+                    if (i === preview) break;
+                    keys[i] = prop
+                    i++
+                  }
+                }
+                this.getSize = i
               }
-              this.getSize = i
           }
           return keys;
         case this.isArray:
@@ -716,7 +759,7 @@ export default {
         // if parent changes to closed, we are in sublevel
         // we need to close the sublevel
         this.expanded = false
-        this.setOpen(false, { user: false});
+        this.setOpen(false, { user: false });
         // console.log('close expansion', this.pointer)
       }
     },
