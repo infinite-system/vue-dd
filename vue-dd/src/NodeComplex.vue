@@ -487,7 +487,6 @@ export default {
 
                 if (this.isOpen) {
                   for (i = 0; i < propsLength; i++) {
-                    if (props[i] ===)
                     keys[i] = props[i]
                   }
                 } else {
