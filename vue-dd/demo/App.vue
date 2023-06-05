@@ -43,7 +43,7 @@ class LoginRegisterPresenter extends MessagesPresenter {
 
   //
   get viewTest () {
-
+    return ''
   }
 
   set viewTest (value) {
@@ -75,7 +75,7 @@ const presenter = new LoginRegisterPresenter()
 </script>
 <template>
 <h1>Basic Tests</h1>
-  <vue-dd name="window" v-model="w" />
+  <vue-dd name="window" :get-all-properties="true" v-model="w" />
   <br />
   <vue-dd name="test" :get-all-properties="true" v-model="test" />
   <br />

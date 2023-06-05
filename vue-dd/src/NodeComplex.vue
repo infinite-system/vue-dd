@@ -476,27 +476,26 @@ export default {
             default:
 
               if (this.getAllProperties) {
-                const proto = Object.getPrototypeOf(this.modelValue)
-                // Get all object properties
-                const props = [
-                  ...Object.getOwnPropertyNames(this.modelValue),
-                  // Except those that belong to Object prototype itself
-                  ...(proto && proto.constructor.name !== 'Object' ? Object.getOwnPropertyNames(proto) : []),
-                ]
-                const propsLength = props.length;
 
-                if (this.isOpen) {
-                  for (i = 0; i < propsLength; i++) {
-                    keys[i] = props[i]
-                  }
-                } else {
+                // Get all object properties
+                const proto = Object.getPrototypeOf(this.modelValue)
+                keys = Array.from(new Set(Object.getOwnPropertyNames(this.modelValue)
+                  .concat(proto && proto.constructor.name !== 'Object' ? Object.getOwnPropertyNames(proto) : [])))
+
+                let keysLength = keys.length;
+
+                if (!this.isOpen) {
+                  // handle closed state
                   const preview = parseInt(this.preview)
-                  for (i = 0; i < propsLength; i++) {
+                  while (i < keysLength) {
                     if (i === preview) break;
-                    keys[i] = props[i]
+                    keys[i] = keys[i]
+                    i++
                   }
                 }
-                this.getSize = i
+
+                this.getSize = keysLength
+
               } else {
                 // show regular enumerable properties only
                 if (this.isOpen) {
