@@ -316,7 +316,7 @@ export default defineComponent({
 
         } else {
 
-            // console.log('this.useOpenSpecific', oldFocus, this.useOpenSpecific, this.openSpecific)
+          // console.log('this.useOpenSpecific', oldFocus, this.useOpenSpecific, this.openSpecific)
           if (this.openSpecific.indexOf(oldFocus) === -1){
             const index = this.useOpenSpecific.indexOf(oldFocus);
             if (index > -1) { // only splice array when item is found
@@ -464,10 +464,15 @@ export default defineComponent({
           _type = 'longtext'
         }
       }
+      if (_type === 'function') {
+        if (this.getAllProperties && value.toString()[0] === 'c') {
+          _type = 'class'
+        }
+      }
       return _type;
     },
     isPrimitiveFn (type) {
-      return !(type === 'array' || type === 'object' || type === 'function' || type === 'longtext');
+      return !(type === 'array' || type === 'object' || type === 'function' || type === 'longtext' || type === 'class');
     },
     escapeQuotesFn (text) {
       return this.escapeQuotes ? text.replaceAll('"', '\\"') : text
@@ -539,10 +544,7 @@ export default defineComponent({
     },
     toggle() {
       this.$refs.nodeComplex.toggle()
-    },
-    // isOpen() {
-    //   return this.$refs.nodeComplex.isOpen
-    // }
+    }
   },
   watch: {
     modelValue: {
@@ -561,7 +563,6 @@ export default defineComponent({
       this.useOpenSpecific = this.getOpenSpecific()
     }
   },
-  // expose: ['$options', 'open', 'toggle', 'close', 'isOpen', 'root'],
   components: {
     NodeComplex,
     NodePrimitive

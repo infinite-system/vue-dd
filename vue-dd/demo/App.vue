@@ -1,49 +1,64 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { action, computed, inject, makeObservable, observable } from "*";
- const w = window
- const test = reactive({ 'test': 'test' })
- const test2 = { 'test': ref({test: 'test'}), 'array':['test','test2'] }
 
-abstract class MessagesPresenter {
+const w = window
+const test = reactive({ 'test': 'test' })
+const test2 = { 'test': ref({ test: 'test' }), 'array': ['test', 'test2'] }
 
+abstract class GrandParent {
+  grandParent = 'test'
 
-  showValidationWarning = null
-
-
-  constructor() {
-  }
-
-  init = () => {
-  }
-
-  abstract reset(): void
-
-  get messages() {
-  }
-
-  unpackRepositoryPmToVm = (pm, userMessage) => {
+  get grandParentGetter () {
+    return 'fun'
   }
 }
 
+abstract class MessagesPresenter extends GrandParent {
+
+  showValidationWarning = null
+
+  static _name = 'hi'
+
+  constructor () {
+    super()
+
+  }
+
+  init = () => {}
+
+  abstract reset (): void
+
+  get messages () {
+    return 'yes'
+  }
+
+  unpackRepositoryPmToVm = (pm, userMessage) => {}
+}
+class Auth {
+  test = 1
+}
 class LoginRegisterPresenter extends MessagesPresenter {
 
+  static test = 2
+  static test2 = 2
+
+  static testF () {
+    return 1
+  }
 
   email = null
   password = null
   option = null
 
-  getVm () {
-
-  }
-
   constructor () {
     super()
+    this.auth = new Auth()
   }
 
   //
   get viewTest () {
-    return ''
+    return 'test'
   }
 
   set viewTest (value) {
@@ -72,16 +87,23 @@ class LoginRegisterPresenter extends MessagesPresenter {
 }
 
 const presenter = new LoginRegisterPresenter()
+
+const proto = Object.getPrototypeOf(presenter)
+
 </script>
 <template>
-<h1>Basic Tests</h1>
-  <vue-dd name="window" :get-all-properties="true" v-model="w" />
+  <h1>vue-dd integration tests</h1>
+  <vue-dd name="window" :save-focus="false" :get-all-properties="false" v-model="w" />
   <br />
-  <vue-dd name="test" :get-all-properties="true" v-model="test" />
+  <vue-dd name="test" get-all-properties v-model="test" />
   <br />
-  <vue-dd name="test2" :get-all-properties="true" v-model="test2" />
+  <vue-dd name="test2" get-all-properties v-model="test2" />
   <br />
   <vue-dd name="presenter" :get-all-properties="true" v-model="presenter" />
+  <vue-dd name="LoginRegisterPresenter" :get-all-properties="true" v-model="LoginRegisterPresenter" />
+
+
+
 </template>
 
 

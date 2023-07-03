@@ -455,10 +455,43 @@ export default {
     emit (name, ...args) {
       this.emitFn(this, name, ...args)
     },
+    makeClassItems (modelValue) {
+
+      // Get all object properties as well as prototype properties
+      let proto = Object.getPrototypeOf(modelValue)
+
+      let props = []
+      while(proto && proto.constructor.name !== 'Object') {
+        props.push.apply(props, Object.getOwnPropertyNames(proto).filter(el => !['caller', 'callee', 'arguments'].includes(el)))
+        proto = Object.getPrototypeOf(proto.constructor.prototype)
+      }
+
+      let keys = Array.from(
+        new Set(
+          Object.getOwnPropertyNames(modelValue).concat(props)
+        )
+      )
+
+      let keysLength = keys.length;
+
+      if (!this.isOpen) {
+        // handle closed state
+        const preview = parseInt(this.preview)
+        let i = 0;
+        while (i < keysLength) {
+          if (i === preview) break;
+          keys[i] = keys[i]
+          i++
+        }
+      }
+      return { keys, keysLength }
+    },
     makeItems () {
+      let keys = [], i = 0
       switch (true) {
+
         case this.isObject:
-          let keys = [], i = 0;
+
           switch (true) {
             case this.isSet:
               this.getMapSet = Array.from(this.modelValue)
@@ -477,26 +510,9 @@ export default {
 
               if (this.getAllProperties) {
 
-                // Get all object properties
-                const proto = Object.getPrototypeOf(this.modelValue)
-
-                // Converting to and from set, deduplicates the array
-                keys = Array.from(new Set(Object.getOwnPropertyNames(this.modelValue)
-                  .concat(proto && proto.constructor.name !== 'Object' ? Object.getOwnPropertyNames(proto) : [])))
-
-                let keysLength = keys.length;
-
-                if (!this.isOpen) {
-                  // handle closed state
-                  const preview = parseInt(this.preview)
-                  while (i < keysLength) {
-                    if (i === preview) break;
-                    keys[i] = keys[i]
-                    i++
-                  }
-                }
-
-                this.getSize = keysLength
+                const classItems = this.makeClassItems(this.modelValue)
+                keys = classItems.keys
+                this.getSize = classItems.keysLength
 
               } else {
                 // show regular enumerable properties only
@@ -523,6 +539,11 @@ export default {
         case this.isArray:
           this.getSize = this.modelValue.length
           return [...Array(this.modelValue.length).keys()]
+        case this.isClass:
+          const classItems = this.makeClassItems(this.modelValue)
+          keys = classItems.keys
+          this.getSize = classItems.keysLength
+          return keys
         default:
           return this.modelValue
       }
@@ -625,18 +646,18 @@ export default {
       return this.isObject ? 'vue-dd-obj-char' : 'vue-dd-arr-char'
     },
     charOpen () {
-      return this.isObject ? "{" : "["
+      return this.isArray ? "[" : "{"
     },
     charClose () {
-      return this.isObject ? "}" : "]"
+      return this.isArray ? "]" : "}"
     },
     functionInlinePreview () {
-      const length = this.items.toString().length
+      const f = this.items.toString()
       const maxLength = 100
-      if (length > maxLength) {
-        return this.items.toString().substring(0, maxLength) + '...}'
+      if (f.length > maxLength) {
+        return f.substring(0, maxLength) + '...}'
       } else {
-        return this.items.toString()
+        return f
       }
     },
     functionInline () {
@@ -720,7 +741,7 @@ export default {
       return this.isRef || this.isReactive
     },
     isIterable () {
-      return this.isArray || this.isObject
+      return this.isArray || this.isObject || this.isClass
     },
     isArray () {
       return this.type === 'array'
@@ -730,6 +751,9 @@ export default {
     },
     isFunction () {
       return this.type === 'function'
+    },
+    isClass () {
+      return this.type === 'class'
     },
     isPromise () {
       return isPromise(this.modelValue)
@@ -767,7 +791,7 @@ export default {
     // make reactive to startClose prop change
     startClosed () {
       if (this.level === 0) {
-        console.log('start closed changed to', !this.startClosed)
+        // console.log('start closed changed to', !this.startClosed)
         this.setOpen(!this.startClosed, { user: false })
       }
     },
@@ -893,7 +917,6 @@ export default {
       this.useOpenSpecific = this.openSpecific
     }
   },
-  // expose: ['$options', 'open', 'toggle', 'close', 'isOpen'],
   components: {
     NodePrimitive
   }
