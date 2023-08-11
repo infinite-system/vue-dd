@@ -43,6 +43,8 @@ class LoginRegisterPresenter extends MessagesPresenter {
   static test = 2
   static test2 = 2
 
+  auth = new Auth()
+
   static testF () {
     return 1
   }
@@ -58,6 +60,8 @@ class LoginRegisterPresenter extends MessagesPresenter {
 
   //
   get viewTest () {
+    this.auth.test = 2
+    console.log('yo')
     return 'test'
   }
 

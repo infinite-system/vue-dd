@@ -461,14 +461,17 @@ export default {
       let proto = Object.getPrototypeOf(modelValue)
 
       let props = []
+      // Exclude these properties from parent prototypes properties list
+      const excludeProto = ['caller', 'callee', 'arguments', 'prototype','constructor']
       while(proto && proto.constructor.name !== 'Object') {
-        props.push.apply(props, Object.getOwnPropertyNames(proto).filter(el => !['caller', 'callee', 'arguments'].includes(el)))
+        props.push.apply(props, Object.getOwnPropertyNames(proto).filter(el => !excludeProto.includes(el)))
         proto = Object.getPrototypeOf(proto.constructor.prototype)
       }
 
+      const exclude = ['prototype'] // Exclude prototype from the root level
       let keys = Array.from(
         new Set(
-          Object.getOwnPropertyNames(modelValue).concat(props)
+          Object.getOwnPropertyNames(modelValue).filter(el => !exclude.includes(el)).concat(props)
         )
       )
 
