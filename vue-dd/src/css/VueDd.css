@@ -263,6 +263,18 @@ span.vue-dd-expand:active {
   padding: 0 2px 0 0;
 }
 
+.vue-dd-getter {
+  color: grey;
+  font-style: italic;
+  padding: 0 2px 0 0;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.vue-dd-getter:hover {
+  background: rgba(200,200,200,0.2)
+}
+
 .vue-dd-name + .vue-dd-r {
   padding-left: 2px;
 }

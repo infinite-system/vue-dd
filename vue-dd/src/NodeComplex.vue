@@ -17,24 +17,28 @@
 
       <!--arrow-->
       <span
-        v-if="arrow"
-        @click.prevent="toggleOpen"
-        class="vue-dd-arrow"
-        :class="{'vue-dd-arrow-collapsed': !isOpen}"
-        v-html="isOpen ? arrowOpen : arrowClosed"></span>
-
+          v-if="arrow && !isGetter"
+          @click.prevent="toggleOpen"
+          class="vue-dd-arrow"
+          :class="{'vue-dd-arrow-collapsed': !isOpen}"
+          v-html="isOpen ? arrowOpen : arrowClosed"></span>
 
       <!--name-->
       <span
-        v-if="showName"
-        @click.prevent="toggleOpen"
-        @mousedown="preventSelect($event)"
-        class="vue-dd-name"
-        :class="{
+          v-if="showName"
+          @click.prevent="toggleOpen"
+          @mousedown="preventSelect($event)"
+          class="vue-dd-name"
+          :class="{
             'vue-dd-f-name': isFunction,
             'vue-dd-key-of-array': parentIsArray
           }">{{ name }}</span><span class="vue-dd-colon" v-if="level !== 0">:</span>
 
+      <!--getter-->
+      <span
+          v-if="isGetter"
+          @click="emitOpenGetter(name)"
+          class="vue-dd-getter">(...)</span>
 
       <!--R-->
       <span v-if="isIterable && isReactive"
@@ -68,7 +72,7 @@
             @click.prevent="toggleOpen"
             @mousedown="preventSelect($event)"
             :class="charClass"
-            v-html="charOpen" />
+            v-html="charOpen"/>
 
       <!--instanceof-->
       <span v-if="isIterable && isOpen && instanceOf"
@@ -79,7 +83,7 @@
             @click.prevent="toggleOpen"
             @mousedown="preventSelect($event)"
             class="vue-dd-size"><span class="vue-dd-size-bracket">[</span>{{ getSize }}<span
-        class="vue-dd-size-bracket">]</span></span>
+          class="vue-dd-size-bracket">]</span></span>
 
       <!--promise closed-->
       <span v-if="isIterable && isPromise && !isOpen"
@@ -109,7 +113,8 @@
 
     </div>
     <div
-      :class="{
+        v-if="!isGetter"
+        :class="{
       'vue-dd-box': isOpen,
       'vue-dd-box-closed': !isOpen,
       'vue-dd-box-complex': true
@@ -117,7 +122,7 @@
       <div>
 
         <!--{-->
-        <span v-if="isIterable && !isOpen" :class="charClass" v-html="charOpen" />
+        <span v-if="isIterable && !isOpen" :class="charClass" v-html="charOpen"/>
 
         <!--size-->
         <!--        <span v-if="isIterable && !isOpen && getSize"-->
@@ -131,11 +136,11 @@
 
         <!--expand button-->
         <span
-          v-if="isIterable && !isOpen && !allowPreview"
-          @click.prevent="expand"
-          class="vue-dd-expand"><span class="vue-dd-size-bracket">(</span><span class="vue-dd-expand-more"
-                                                                                v-html="more"></span><span
-          class="vue-dd-size-bracket">)</span></span>
+            v-if="isIterable && !isOpen && !allowPreview"
+            @click.prevent="expand"
+            class="vue-dd-expand"><span class="vue-dd-size-bracket">(</span><span class="vue-dd-expand-more"
+                                                                                  v-html="more"></span><span
+            class="vue-dd-size-bracket">)</span></span>
 
         <div v-if="isIterable && (isOpen || expanded)">
 
@@ -150,74 +155,76 @@
             <div>
               <!-- string | number | bigint | boolean | null | undefined | symbol -->
               <node-primitive
-                v-if="isPrimitiveFn(getSpecialType(items[index-1]))"
+                  v-if="isPrimitiveFn(getSpecialType(items[index-1]))"
 
-                :root="root"
-                :rootId="rootId"
+                  :root="root"
+                  :rootId="rootId"
 
-                :modelValue="getModelValue(items[index-1])"
-                :name="items[index-1]"
-                :escapeQuotes="escapeQuotes"
-                :focus="focus"
-                :save="save"
-                :saveFocus="saveFocus"
-                :delimiter="delimiter"
+                  :modelValue="getModelValue(items[index-1])"
+                  :name="items[index-1]"
+                  :escapeQuotes="escapeQuotes"
+                  :focus="focus"
+                  :save="save"
+                  :saveFocus="saveFocus"
+                  :delimiter="delimiter"
 
-                :pointer="getPointer(items[index-1])"
-                :parentOpen="isOpen"
-                :type="getSpecialType(items[index-1])"
-                :parentType="type"
-                :size="getSize"
-                :position="index"
-                :expanded="expanded"
+                  :pointer="getPointer(items[index-1])"
+                  :parentOpen="isOpen"
+                  :type="getSpecialType(items[index-1])"
+                  :parentType="type"
+                  :size="getSize"
+                  :position="index"
+                  :expanded="expanded"
 
-                :escapeQuotesFn="escapeQuotesFn"
-                :emitFn="emitFn"
+                  :escapeQuotesFn="escapeQuotesFn"
+                  :emitFn="emitFn"
 
-                @openParent="openParent"
+                  @openParent="openParent"
               />
-              <!-- object, array, map, set, function, longtext -->
+              <!-- object, array, map, set, function, longtext, class, getter -->
               <node-complex
-                v-else
+                  v-else
 
-                :root="root"
-                :rootId="rootId"
+                  :root="root"
+                  :rootId="rootId"
 
-                :modelValue="getModelValue(items[index-1])"
-                :name="items[index-1]"
-                :deep="isRef ? false : deep"
-                :watch="watch"
-                :preview="isOpen ? preview : false"
-                :getAllProperties="getAllProperties"
-                :openLevel="useOpenLevel"
-                :openSpecific="useOpenSpecific"
-                :startClosed="startClosed"
-                :longText="longText"
-                :escapeQuotes="escapeQuotes"
-                :focus="focus"
-                :save="save"
-                :saveFocus="saveFocus"
-                :delimiter="delimiter"
-                :more="more"
+                  :modelValue="getModelValue(items[index-1])"
+                  :name="items[index-1]"
+                  :deep="isRef ? false : deep"
+                  :watch="watch"
+                  :preview="isOpen ? preview : false"
+                  :getAllProperties="getAllProperties"
+                  :openLevel="useOpenLevel"
+                  :openSpecific="useOpenSpecific"
+                  :startClosed="startClosed"
+                  :longText="longText"
+                  :escapeQuotes="escapeQuotes"
+                  :focus="focus"
+                  :save="save"
+                  :saveFocus="saveFocus"
+                  :delimiter="delimiter"
+                  :more="more"
 
-                :arrow="arrow"
-                :arrowOpen="arrowOpen"
-                :arrowClosed="arrowClosed"
-                :pointer="getPointer(items[index-1])"
-                :parentType="type"
-                :parentOpen="isOpen"
-                :type="getSpecialType(items[index-1])"
-                :shared="shared"
-                :level="level+1"
-                :size="getSize"
-                :position="index"
+                  :arrow="arrow"
+                  :arrowOpen="arrowOpen"
+                  :arrowClosed="arrowClosed"
+                  :pointer="getPointer(items[index-1])"
+                  :parentType="type"
+                  :parentOpen="isOpen"
+                  :type="getSpecialType(items[index-1])"
+                  :shared="shared"
+                  :level="level+1"
+                  :size="getSize"
+                  :position="index"
 
-                :escapeQuotesFn="escapeQuotesFn"
-                :getTypeFn="getTypeFn"
-                :isPrimitiveFn="isPrimitiveFn"
-                :unwrapSpecificFn="unwrapSpecificFn"
-                :emitFn="emitFn"
-                @openParent="openParent"
+                  :escapeQuotesFn="escapeQuotesFn"
+                  :getTypeFn="getTypeFn"
+                  :isPrimitiveFn="isPrimitiveFn"
+                  :unwrapSpecificFn="unwrapSpecificFn"
+                  :emitFn="emitFn"
+
+                  @openGetter="openGetter"
+                  @openParent="openParent"
               />
             </div>
           </div>
@@ -233,8 +240,8 @@
           <span v-else-if="isOpen && !functionContent"></span>
           <!--if not isOpen, display inline-->
           <span v-else @click.prevent="toggleOpen" class="vue-dd-f-inline"><span
-            v-html="allowPreview ? functionInlinePreview : functionInline"></span><span
-            class="vue-dd-comma" v-if="shouldComma">,</span>
+              v-html="allowPreview ? functionInlinePreview : functionInline"></span><span
+              class="vue-dd-comma" v-if="shouldComma">,</span>
           </span>
         </div>
 
@@ -246,13 +253,13 @@
 
         <!--expand button-->
         <span
-          v-if="isIterable && !isOpen && allowPreview && preview < items.length"
-          @click.prevent="expand"
-          class="vue-dd-expand"
-          v-html="more"></span>
+            v-if="isIterable && !isOpen && allowPreview && preview < items.length"
+            @click.prevent="expand"
+            class="vue-dd-expand"
+            v-html="more"></span>
 
         <!--} or ]-->
-        <span v-if="isIterable" :class="charClass" v-html="charClose" />
+        <span v-if="isIterable" :class="charClass" v-html="charClose"/>
         <span v-if="isIterable && shouldComma" class="vue-dd-comma">,</span>
       </div>
     </div>
@@ -261,8 +268,8 @@
 
 <script>
 import NodePrimitive from "./NodePrimitive.vue";
-import { isReactive, isRef } from 'vue';
-import { isPromise, onFrame } from './helpers.js';
+import {isReactive, isRef} from 'vue';
+import {isPromise, onFrame} from './helpers.js';
 
 import hljs from './highlight.js/core.min.js';
 import javascript from './highlight.js/javascript.min.js';
@@ -275,7 +282,7 @@ let allPointerCache = {}
 export default {
   name: 'NodeComplex',
   inheritAttrs: false,
-  emits: ['show', 'open', 'toggle', 'focus', 'openParent', 'forget'],
+  emits: ['show', 'open', 'toggle', 'focus', 'openParent', 'openGetter', 'forget'],
   props: {
     // ref
     root: undefined,
@@ -306,8 +313,8 @@ export default {
     type: String,
     parentType: String,
     parentOpen: Boolean,
-    pointer: { type: [String, Number], default: '' },
-    level: { type: Number, default: 0 },
+    pointer: {type: [String, Number], default: ''},
+    level: {type: Number, default: 0},
     size: Number,
     position: Number,
     // functions
@@ -334,10 +341,13 @@ export default {
       cleared: false,
       hover: false,
       unwatch: () => {},
-      initializedClosed: false
+      initializedClosed: false,
+      getters: {values: {}, length: 0},
+      wasGetter: this.type === 'getter'
     }
   },
   mounted () {
+
     this.showEmit()
   },
   created () {
@@ -377,7 +387,7 @@ export default {
       return allPointer
     },
     forget () {
-      this.emitFn(this, 'forget', { askForget: this.askForget })
+      this.emitFn(this, 'forget', {askForget: this.askForget})
 
       this.askForget = false
       this.cleared = true
@@ -391,14 +401,16 @@ export default {
     },
     getId () {
       return this.level === 0
-        ? `_${this.rootId}`
-        : `_${this.rootId}${this.delimiter}${this.pointer}`
+          ? `_${this.rootId}`
+          : `_${this.rootId}${this.delimiter}${this.pointer}`
     },
     watchModelValue (deep) {
+      let timeout
       return this.$watch('modelValue', () => {
-          this.items = this.makeItems()
-        },
-        { deep: deep })
+            this.items = this.makeItems()
+            // console.log('make new items', this.items)
+          },
+          {deep: deep})
     },
     getPointer (index) {
       return this.pointer ? this.pointer + this.delimiter + index : String(index)
@@ -407,6 +419,9 @@ export default {
       if (this.isMapSet) {
         return this.getTypeFn(this.getMapSet[index])
       } else {
+        if (index in this.getters.values) {
+          return 'getter'
+        }
         return this.getTypeFn(this.modelValue[index])
       }
     },
@@ -414,6 +429,9 @@ export default {
       if (this.isMapSet) {
         return this.getMapSet[index]
       } else {
+        if (index in this.getters.values) {
+          return ''
+        }
         return this.modelValue[index]
       }
     },
@@ -443,7 +461,7 @@ export default {
     toggleOpen (event, value) {
 
       const openValue = value === undefined ? !this.isOpen : value
-      this.setOpen(openValue, { user: true })
+      this.setOpen(openValue, {user: true})
 
       this.emit('toggle', {
         event: event,
@@ -455,24 +473,50 @@ export default {
     emit (name, ...args) {
       this.emitFn(this, name, ...args)
     },
+    getGetters (proto) {
+
+      const props = []
+      while (proto && proto.constructor.name !== 'Object') {
+        const protoProps = Object.entries(
+            Object.getOwnPropertyDescriptors(proto)
+        )
+        // eslint-disable-next-line prefer-spread
+        props.push.apply(props, protoProps)
+        proto = Object.getPrototypeOf(proto.constructor.prototype)
+      }
+
+      const getters = {values: {}, length: 0}
+
+      for (let i = 0; i < props.length; i++) {
+        if (props[i][0] !== '__proto__') {
+          if (typeof props[i][1].get === 'function') {
+            getters.values[props[i][0]] = true
+            getters.length++
+          }
+        }
+      }
+      return getters
+    },
     makeClassItems (modelValue) {
 
       // Get all object properties as well as prototype properties
       let proto = Object.getPrototypeOf(modelValue)
 
+      this.getters = this.getGetters(proto)
+
       let props = []
       // Exclude these properties from parent prototypes properties list
-      const excludeProto = ['caller', 'callee', 'arguments', 'prototype','constructor']
-      while(proto && proto.constructor.name !== 'Object') {
+      const excludeProto = ['caller', 'callee', 'arguments', 'prototype', 'constructor']
+      while (proto && proto.constructor.name !== 'Object') {
         props.push.apply(props, Object.getOwnPropertyNames(proto).filter(el => !excludeProto.includes(el)))
         proto = Object.getPrototypeOf(proto.constructor.prototype)
       }
 
       const exclude = ['prototype'] // Exclude prototype from the root level
       let keys = Array.from(
-        new Set(
-          Object.getOwnPropertyNames(modelValue).filter(el => !exclude.includes(el)).concat(props)
-        )
+          new Set(
+              Object.getOwnPropertyNames(modelValue).filter(el => !exclude.includes(el)).concat(props)
+          )
       )
 
       let keysLength = keys.length;
@@ -487,7 +531,7 @@ export default {
           i++
         }
       }
-      return { keys, keysLength }
+      return {keys, keysLength}
     },
     makeItems () {
       let keys = [], i = 0
@@ -556,8 +600,8 @@ export default {
       // this function is necessary for proper functioning of 'save' mode
       // together with open-specific option
       return (this.$parent.$options.name === 'NodeComplex' && this.$parent.isOpen)
-        // VueDd is the root so no open parent check for it
-        || this.$parent.$options.name === 'VueDd'
+          // VueDd is the root so no open parent check for it
+          || this.$parent.$options.name === 'VueDd'
     },
 
     focusEmit () {
@@ -567,7 +611,7 @@ export default {
       })
     },
 
-    setOpen (value, { user }) {
+    setOpen (value, {user}) {
 
       this.isOpen = value
 
@@ -585,10 +629,21 @@ export default {
         this.$emit('openParent')
       }
     },
+    emitOpenGetter (key) {
+      console.log('open getter', key)
+      console.log('this.wasGetter', this.wasGetter)
+      this.$emit('openGetter', key)
+    },
+    openGetter (index) {
+      // this.wasGetter[index] = true
+      // console.log('this.wasGetter', this.wasGetter, index)
+      delete this.getters.values[index]
+      this.getters.length--
+    },
     openPointer (open) {
       if (open) {
         // onFrame is important here to catch re-renders
-        onFrame(() => this.setOpen(true, { user: false }))
+        onFrame(() => this.setOpen(true, {user: false}))
         this.openSublevel = false
       } else {
         this.closePointer()
@@ -601,7 +656,7 @@ export default {
       // this.openSublevel = false; by default
       // so it will set this.setOpen(false...) or close
       const parentIsOpenOrIsRootNode = this.parentIsOpen() || this.openLevel === 0
-      this.setOpen(this.openSublevel && parentIsOpenOrIsRootNode, { user: false })
+      this.setOpen(this.openSublevel && parentIsOpenOrIsRootNode, {user: false})
       // openSublevel should be reset back to false
       this.openSublevel = false
     },
@@ -638,8 +693,8 @@ export default {
       const name = this.isObject
       && 'constructor' in this.modelValue
       && 'name' in this.modelValue.constructor
-        ? this.modelValue.constructor.name
-        : ''
+          ? this.modelValue.constructor.name
+          : ''
       return name === 'Object' ? '' : name
     },
     nextLevel () {
@@ -692,7 +747,7 @@ export default {
       if (newLinePosition >= 0) {
         code = code.substring(0, newLinePosition)
       }
-      const highlight = hljs.highlight(code, { language: 'javascript' }).value
+      const highlight = hljs.highlight(code, {language: 'javascript'}).value
 
       return highlight
     },
@@ -712,7 +767,7 @@ export default {
 
         const code = lines.join('\n')
 
-        const highlight = hljs.highlight(code, { language: 'javascript' }).value
+        const highlight = hljs.highlight(code, {language: 'javascript'}).value
 
         return highlight
       }
@@ -752,6 +807,9 @@ export default {
     isObject () {
       return this.type === 'object'
     },
+    isGetter () {
+      return this.type === 'getter'
+    },
     isFunction () {
       return this.type === 'function'
     },
@@ -772,8 +830,8 @@ export default {
     },
     showName () {
       return (!this.parentIsArray && this.nameString)
-        // show array index when the arrays are open
-        || (this.parentIsArray && this.parentOpen)
+          // show array index when the arrays are open
+          || (this.parentIsArray && this.parentOpen)
     },
     nameString () {
       return String(this.name)
@@ -786,7 +844,7 @@ export default {
         // if parent changes to closed, we are in sublevel
         // we need to close the sublevel
         this.expanded = false
-        this.setOpen(false, { user: false });
+        this.setOpen(false, {user: false});
         // console.log('close expansion', this.pointer)
       }
     },
@@ -795,7 +853,7 @@ export default {
     startClosed () {
       if (this.level === 0) {
         // console.log('start closed changed to', !this.startClosed)
-        this.setOpen(!this.startClosed, { user: false })
+        this.setOpen(!this.startClosed, {user: false})
       }
     },
 
@@ -832,8 +890,8 @@ export default {
       handler (value) {
 
         if (this.openSpecific.length
-          && typeof this.pointer !== 'undefined'
-          && this.pointer !== null) {
+            && typeof this.pointer !== 'undefined'
+            && this.pointer !== null) {
 
 
           let allPointer = this.getAllPointer(this.pointer)
@@ -859,7 +917,7 @@ export default {
             onFrame(() => {
               this.$nextTick(() => {
                 if (this.parentIsOpen()) {
-                  this.setOpen(true, { user: false })
+                  this.setOpen(true, {user: false})
                 }
               })
             })
@@ -902,8 +960,6 @@ export default {
           this.useOpenLevel = this.openLevel
           this.useOpenSpecific = this.openSpecific
         }
-
-
       },
       immediate: true
     },
@@ -911,7 +967,7 @@ export default {
     // expand previews
     preview (preview) {
       this.expanded = preview;
-      this.setOpen(!!(this.isOpen && preview), { user: false });
+      this.setOpen(!!(this.isOpen && preview), {user: false});
     },
     previewInitial () {
       this.expanded = this.allowPreview

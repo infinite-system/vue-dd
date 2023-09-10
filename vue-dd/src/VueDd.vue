@@ -472,7 +472,7 @@ export default defineComponent({
       return _type;
     },
     isPrimitiveFn (type) {
-      return !(type === 'array' || type === 'object' || type === 'function' || type === 'longtext' || type === 'class');
+      return !(type === 'array' || type === 'object' || type === 'function' || type === 'longtext' || type === 'class' || type === 'getter');
     },
     escapeQuotesFn (text) {
       return this.escapeQuotes ? text.replaceAll('"', '\\"') : text

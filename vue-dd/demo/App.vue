@@ -62,7 +62,7 @@ class LoginRegisterPresenter extends MessagesPresenter {
   get viewTest () {
     this.auth.test = 2
     console.log('yo')
-    return 'test'
+    return 'yes'
   }
 
   set viewTest (value) {
@@ -81,11 +81,11 @@ class LoginRegisterPresenter extends MessagesPresenter {
 
   }
 
-  register = async () => {
+  register () {
 
   }
 
-  logOut = async () => {
+  logOut () {
 
   }
 }
@@ -94,9 +94,18 @@ const presenter = new LoginRegisterPresenter()
 
 const proto = Object.getPrototypeOf(presenter)
 
+let val = ref({  })
+setTimeout(() => {
+  val.value = reactive({
+    test: 1
+  })
+}, 1000)
+
 </script>
 <template>
   <h1>vue-dd integration tests</h1>
+  <vue-dd name="val" v-model="val" />
+  <br />
   <vue-dd name="window" :save-focus="false" :get-all-properties="false" v-model="w" />
   <br />
   <vue-dd name="test" get-all-properties v-model="test" />

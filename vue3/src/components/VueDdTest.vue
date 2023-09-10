@@ -45,6 +45,23 @@ const arr3 = ['a','b','c','d','e','f']
 const reactive_arr = reactive([0,100,200,300,500,1000,2000])
 const openLevel = reactive([0, { test: 'open' },200,300,500,1000,2000])
 
+
+const multilevel = reactive({
+  test: {
+    test: [1],
+    prop: {
+      hey: reactive_arr
+    }
+  }
+})
+watch(() => multilevel.test.prop, () => {
+
+  }, {deep: true})
+
+watch(() => multilevel.test, () => {
+
+}, {deep: true})
+
 setInterval(() => reactive_arr[0]--, 200 )
 setInterval(() => reactive_arr[1]++, 300 )
 setInterval(() => reactive_arr[2]++, 500 )
@@ -80,6 +97,16 @@ const set = reactive(new Set())
       k++
     }
   }, 1500)
+
+const darkObj = reactive({ dark: dark})
+setInterval(() => {
+  if (k < 30){
+    darkObj[k] = 1
+    k++
+  }
+}, 1500)
+
+
 </script>
 
 <template>
@@ -91,6 +118,7 @@ const set = reactive(new Set())
   <vue-dd name="setupState" :dark="dark" v-model="instance.setupState" :deep="false" max-height="300px" />
   <vue-dd name="test" delimiter="$" :dark="dark" v-model="bool" />
   <vue-dd name="ref" :dark="dark" v-model="text" />
+  <vue-dd name="dark" :dark="dark" v-model="darkObj" />
   <vue-dd name="refObject" :dark="dark" v-model="refObject" />
   <vue-dd name="refBoolean" :dark="dark" v-model="refBoolean" />
   <vue-dd name="window" :dark="dark" v-model="w" :open-specific="['history.state']" />
@@ -106,4 +134,7 @@ const set = reactive(new Set())
   <vue-dd name="obj" :dark="dark" v-model="obj" />
   <vue-dd name="set" :dark="dark" v-model="set" />
   <vue-dd open-level="3" :preview="0" v-model="fromTest" />
+  <br />
+  <br />
+  <vue-dd v-model="multilevel" />
 </template>
