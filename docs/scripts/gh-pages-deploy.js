@@ -21,6 +21,7 @@ import { execa } from 'execa'
 
     await execa("git", ["push", "origin", "HEAD:gh-pages", "--force"])
     await execa("rm", ["-r", folderName])
+    await execa("git", ["fetch"])
     await execa("git", ["checkout", "-f", "main"])
     await execa("git", ["branch", "-D", "gh-pages"])
 
